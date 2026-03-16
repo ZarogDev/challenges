@@ -4,7 +4,9 @@
   "description": "",
   "main": "gamerchallenges.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db:seed": "tsx ./db/seed/seeding.ts",
+    "db:reset": "tsx ./db/reset/reset.ts"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +15,7 @@
   "dependencies": {
     "@prisma/adapter-pg": "^7.5.0",
     "@prisma/client": "^7.5.0",
+    "argon2": "^0.44.0",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "json-web-token": "^3.2.0",
@@ -26,6 +29,7 @@
     "eslint": "^10.0.3",
     "globals": "^17.4.0",
     "prisma": "^7.5.0",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.57.0"
   }
