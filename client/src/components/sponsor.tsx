@@ -11,3 +11,6 @@ function Sponsor() {
         </section>
     )
 }
+
+
+export default Sponsor
