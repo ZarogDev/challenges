@@ -11,7 +11,7 @@ import "./App.css"
 function App() {
   return(
     <>
-    <header />
+    <Header />
     <Hero />
     <main className="main-content">
       <ChallengeList />
