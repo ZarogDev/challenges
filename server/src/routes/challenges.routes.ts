@@ -1,19 +1,15 @@
 import { Router } from "express";
+import {
+  getAllChallenges,
+  getChallengeById
+} from "../controllers/challenges.controller.js";
 
 const router = Router();
 
 // voir tous les challenges
-router.get("/", (req, res) => {
-  res.json({
-    message: "liste des challenges"
-  });
-});
+router.get("/", getAllChallenges);
 
-// voir un challenge par id
-router.get("/:id", (req, res) => {
-  res.json({
-    message: `challenge ${req.params.id}`
-  });
-});
+// voir un challenge avec son id
+router.get("/:id", getChallengeById);
 
 export default router;

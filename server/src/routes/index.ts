@@ -1,5 +1,5 @@
 import { Router } from "express";
-import challengeRoutes from "./challenge.routes.js";
+import challengeRoutes from "./challenges.routes.js";
 import leaderboardRoutes from "./leaderboard.routes.js";
 
 const router = Router();
