@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ChallengeCard from "./ChallengeCard";
-
+import styles from './ChallengeList.module.css'
 type Challenge = {
     id: number
     game: string

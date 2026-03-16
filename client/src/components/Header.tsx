@@ -1,17 +1,19 @@
+import styles from './Header.module.css'
+
+
 function Header(){
     return(
-        <header className="header">
-            <div className="logo">GamerChallenges</div>
+        <header className={styles.header}>
+            <div className={styles.logo}>GamerChallenges</div>
         <nav>
-            <h2>GamerChallenges</h2>
-            <ul>
-                <li>Accueil</li>
-                <li>Liste des Challenges</li>
-                <li>Classement</li> 
-                
+            <h2 className={styles.navTitle}>GamerChallenges</h2>
+            <ul className={styles.navlist}>
+                <li className={styles.navItem}>Accueil</li>
+                <li className={styles.navItem}>Liste des Challenges</li>
+                <li className={styles.navItem}>Classement</li>     
             </ul>
         </nav>
-        <button className="login-btn">Connexion</button>
+        <button className={styles.loginBtn}>Connexion</button>
         </header>
     )
 }
