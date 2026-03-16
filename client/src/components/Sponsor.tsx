@@ -1,4 +1,4 @@
-import styles from './sponsor.module.css'
+import styles from './Sponsor.module.css'
 function Sponsor() {
     return(
         <section className={styles.sponsors}>

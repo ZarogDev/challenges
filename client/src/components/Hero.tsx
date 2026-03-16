@@ -8,7 +8,7 @@ function Hero(){
             <p>GamerChallenges : la plateforme ultime pour transformer vos skills en gloire. Challenges exclusifs. Votre voyage vers le sommet commence ici
             </p>
             <div className={styles.heroButtons}>
-                <button className={styles.btnRlue}>Voir les Challenges</button>
+                <button className={styles.btnBlue}>Voir les Challenges</button>
                 <button className={styles.btnRed}>Inscription</button>
             </div>
         </section>
