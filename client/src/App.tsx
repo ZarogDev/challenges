@@ -2,7 +2,7 @@ import Header from "./components/Header"
 import Hero from "./components/Hero"
 import ChallengeList from "./components/ChallengeList"
 import Leaderboard from "./components/LeaderBord"
-import Sponsors from "./components/sponsor"
+import Sponsors from "./components/Sponsor"
 import Footer from "./components/Footer"
 
 
