@@ -1,14 +1,15 @@
+import styles from './Hero.module.css'
 function Hero(){
     return(
-        <section className="hero">
+        <section className={styles.hero}>
             <h1>Relevez les Challenges</h1>
             <h2>Devenez une légende</h2>
 
             <p>GamerChallenges : la plateforme ultime pour transformer vos skills en gloire. Challenges exclusifs. Votre voyage vers le sommet commence ici
             </p>
-            <div className="hero-buttons">
-                <button className="btn-blue">Voir les Challenges</button>
-                <button className="btn-red">Inscription</button>
+            <div className={styles.heroButtons}>
+                <button className={styles.btnRlue}>Voir les Challenges</button>
+                <button className={styles.btnRed}>Inscription</button>
             </div>
         </section>
     )

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import styles from './Leaderboard.module.css';
 type Player = {
     id: number
     username: string
@@ -16,7 +16,7 @@ function Leaderboard() {
   }, []) 
   
   return(
-    <aside className="leaderboard">
+    <aside className={styles.leaderboard}>
         <h3>Les 5 meilleurs joueurs</h3>
         <ol>
             {players.map((player)=>(

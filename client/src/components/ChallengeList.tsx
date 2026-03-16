@@ -17,9 +17,9 @@ function ChallengeList() {
   }, [])
 
   return (
-    <section className="challenge-section">
+    <section className={styles.challengeSection}>
         <h2>Challenges populaires</h2>
-        <div className="challenge-grid">
+        <div className={styles.challengeGrid}>
             {challenges.map((challenge)=>(
                 <ChallengeCard
                 key={challenge.id}
