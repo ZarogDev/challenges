@@ -19,6 +19,8 @@ model User {
   participations Participation[]
   voteChallenges VoteChallenge[]
   voteParticipations VoteParticipation[]
+
+  @@map("user")
 }
 
 model Challenge {
@@ -33,6 +35,8 @@ model Challenge {
   creator      User?              @relation("UserChallenges", fields: [userId], references: [id])
   participations Participation[]
   voteChallenges VoteChallenge[]
+
+   @@map("challenge")
 }
 
 model Participation {
@@ -46,6 +50,8 @@ model Participation {
   user        User?             @relation(fields: [userId], references: [id])
   challenge   Challenge?        @relation(fields: [challengeId], references: [id])
   voteParticipations VoteParticipation[]
+
+   @@map("participation")
 }
 
 model VoteChallenge {
@@ -59,6 +65,7 @@ model VoteChallenge {
   challenge   Challenge? @relation(fields: [challengeId], references: [id])
   
   @@unique([userId, challengeId])
+  @@map("vote_challenge")
 }
 
 model VoteParticipation {
@@ -72,4 +79,5 @@ model VoteParticipation {
   participation  Participation? @relation(fields: [participationId], references: [id])
   
   @@unique([userId, participationId])
+  @@map("vote_participation")
 }
