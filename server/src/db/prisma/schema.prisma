@@ -24,19 +24,21 @@ model User {
 }
 
 model Challenge {
-  id           Int                @id @default(autoincrement())
-  title        String
-  description  String
-  conditions   String?
-  gameId       Int
-  createdAt    DateTime           @default(now())
-  userId       Int?
+  id            Int                @id @default(autoincrement())
+  title         String
+  description   String
+  conditions    String?
+  gameId        Int
+  gameTitle     String
+  gameThumbnail String
+  createdAt     DateTime           @default(now())
+  userId        Int?
   
-  creator      User?              @relation("UserChallenges", fields: [userId], references: [id])
+  creator        User?              @relation("UserChallenges", fields: [userId], references: [id])
   participations Participation[]
   voteChallenges VoteChallenge[]
 
-   @@map("challenge")
+  @@map("challenge")
 }
 
 model Participation {
@@ -51,7 +53,7 @@ model Participation {
   challenge   Challenge?        @relation(fields: [challengeId], references: [id])
   voteParticipations VoteParticipation[]
 
-   @@map("participation")
+  @@map("participation")
 }
 
 model VoteChallenge {
