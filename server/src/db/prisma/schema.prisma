@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            Int                @id @default(autoincrement())
+  email         String             @unique
+  username      String
+  password      String
+  birthdate     DateTime
+  createdAt     DateTime           @default(now())
+  
+  challenges    Challenge[]        @relation("UserChallenges")
+  participations Participation[]
+  voteChallenges VoteChallenge[]
+  voteParticipations VoteParticipation[]
+
+  @@map("user")
+}
+
+model Challenge {
+  id            Int                @id @default(autoincrement())
+  title         String
+  description   String
+  conditions    String?
+  gameId        Int
+  gameTitle     String
+  gameThumbnail String
+  createdAt     DateTime           @default(now())
+  userId        Int?
+  
+  creator        User?              @relation("UserChallenges", fields: [userId], references: [id])
+  participations Participation[]
+  voteChallenges VoteChallenge[]
+
+  @@map("challenge")
+}
+
+model Participation {
+  id          Int               @id @default(autoincrement())
+  description String
+  videoLink   String
+  createdAt   DateTime          @default(now())
+  userId      Int?
+  challengeId Int?
+  
+  user        User?             @relation(fields: [userId], references: [id])
+  challenge   Challenge?        @relation(fields: [challengeId], references: [id])
+  voteParticipations VoteParticipation[]
+
+  @@map("participation")
+}
+
+model VoteChallenge {
+  id          Int       @id @default(autoincrement())
+  rating      Int
+  createdAt   DateTime  @default(now())
+  userId      Int?
+  challengeId Int?
+  
+  user        User?     @relation(fields: [userId], references: [id])
+  challenge   Challenge? @relation(fields: [challengeId], references: [id])
+  
+  @@unique([userId, challengeId])
+  @@map("vote_challenge")
+}
+
+model VoteParticipation {
+  id             Int           @id @default(autoincrement())
+  rating         Int
+  createdAt      DateTime      @default(now())
+  userId         Int?
+  participationId Int?
+  
+  user           User?          @relation(fields: [userId], references: [id])
+  participation  Participation? @relation(fields: [participationId], references: [id])
+  
+  @@unique([userId, participationId])
+  @@map("vote_participation")
+}
