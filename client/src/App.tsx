@@ -1,9 +1,8 @@
-import React from 'react';
 import './App.css';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import ChallengeList from './components/ChallengeList';
-import LeaderBord from './components/LeaderBord';
+import Leaderboard from './components/Leaderboard';
 import Footer from './components/Footer';
 import Sponsor from './components/Sponsor';
 import { Routes, Route } from "react-router-dom"
@@ -27,7 +26,7 @@ function App() {
               <ChallengeList />
             </div>
             <div className="right-panel">
-             <LeaderBord />
+             <Leaderboard />
             </div>
           </div>
               </>
@@ -58,8 +57,9 @@ function App() {
           />
         </Routes>
       </main>
-      <Sponsors />
+      <Sponsor />
       <Footer />
+    </div>
     </>
   );
 };
