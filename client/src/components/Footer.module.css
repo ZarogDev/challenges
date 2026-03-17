@@ -1,0 +1,28 @@
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2.5rem;
+    background-color: #08111A;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer p {
+    color: #a0aec0;
+    font-size: 0.8rem;
+    margin: 0;
+}
+
+.footer p:hover {
+    color: #a0aec0;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .footer {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+        padding: 1rem;
+    }
+}
