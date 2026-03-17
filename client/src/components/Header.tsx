@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Header.module.css';
+import { Link } from "react-router-dom"
 
 const Header: React.FC = () => {
   return (
@@ -10,9 +11,9 @@ const Header: React.FC = () => {
         </div>
 
         <nav className={styles.nav}>
-          <a href="#" className={`${styles.navLink} ${styles.active}`}>Accueil</a>
-          <a href="#" className={styles.navLink}>Liste des challenges</a>
-          <a href="#" className={styles.navLink}>Classement</a>
+          <Link to="/" className={`${styles.navLink} ${styles.active}`}>Accueil</Link>
+          <Link to="/challenges" className={styles.navLink}>Liste des challenges</Link>
+          <Link to="/leaderboard" className={styles.navLink}>Classement</Link>
         </nav>
 
         <button className={styles.btnConnexion}>
