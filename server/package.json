@@ -5,8 +5,8 @@
   "main": "gamerchallenges.js",
   "scripts": {
     "dev": "nodemon --watch src --ext ts --exec tsx src/server.ts",
-        "db:seed": "tsx ./db/seed/seeding.ts",
-    "db:reset": "tsx ./db/reset/reset.ts" ,
+    "db:seed": "tsx ./src/db/seed/seeding.ts",
+    "db:reset": "tsx ./src/db/reset/reset.ts",
     "build": "tsc",
     "start": "node dist/server.js"
   },
@@ -22,6 +22,7 @@
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
+    "nodemon": "^3.1.14",
     "pg": "^8.20.0",
     "zod": "^4.3.6"
   },
