@@ -6,6 +6,7 @@ import Leaderboard from './components/Leaderboard';
 import Footer from './components/Footer';
 import Sponsor from './components/Sponsor';
 import { Routes, Route } from "react-router-dom"
+import NotFound from "./components/NotFound"
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
             path="*"
             element={<p>Page introuvable</p>}
           />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       <Sponsor />

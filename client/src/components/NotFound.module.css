@@ -1,0 +1,27 @@
+.notFound {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+}
+
+.title {
+    font-size: 2.5rem;
+}
+
+.text {
+    font-size: 1.1rem;
+    max-width: 500px;
+}
+
+.link {
+    margin-top: 1rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
+    background-color: #7b61ff;
+    color: #ffffff;
+    text-decoration: none;
+}
