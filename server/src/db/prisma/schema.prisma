@@ -32,9 +32,9 @@ model Challenge {
   gameTitle     String
   gameThumbnail String
   createdAt     DateTime           @default(now())
-  userId        Int?
+  userId        Int
   
-  creator        User?              @relation("UserChallenges", fields: [userId], references: [id])
+  creator        User              @relation("UserChallenges", fields: [userId], references: [id])
   participations Participation[]
   voteChallenges VoteChallenge[]
 
@@ -46,11 +46,11 @@ model Participation {
   description String
   videoLink   String
   createdAt   DateTime          @default(now())
-  userId      Int?
-  challengeId Int?
+  userId      Int
+  challengeId Int
   
-  user        User?             @relation(fields: [userId], references: [id])
-  challenge   Challenge?        @relation(fields: [challengeId], references: [id])
+  user        User             @relation(fields: [userId], references: [id])
+  challenge   Challenge        @relation(fields: [challengeId], references: [id])
   voteParticipations VoteParticipation[]
 
   @@map("participation")
@@ -60,11 +60,11 @@ model VoteChallenge {
   id          Int       @id @default(autoincrement())
   rating      Int
   createdAt   DateTime  @default(now())
-  userId      Int?
-  challengeId Int?
+  userId      Int
+  challengeId Int
   
-  user        User?     @relation(fields: [userId], references: [id])
-  challenge   Challenge? @relation(fields: [challengeId], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
+  challenge   Challenge @relation(fields: [challengeId], references: [id])
   
   @@unique([userId, challengeId])
   @@map("vote_challenge")
@@ -74,11 +74,11 @@ model VoteParticipation {
   id             Int           @id @default(autoincrement())
   rating         Int
   createdAt      DateTime      @default(now())
-  userId         Int?
-  participationId Int?
+  userId         Int
+  participationId Int
   
-  user           User?          @relation(fields: [userId], references: [id])
-  participation  Participation? @relation(fields: [participationId], references: [id])
+  user           User          @relation(fields: [userId], references: [id])
+  participation  Participation @relation(fields: [participationId], references: [id])
   
   @@unique([userId, participationId])
   @@map("vote_participation")

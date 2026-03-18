@@ -8,6 +8,7 @@ import Ranking from './components/Ranking';
 import Footer from './components/Footer';
 import Sponsor from './components/Sponsor';
 import { Routes, Route } from "react-router-dom"
+import NotFound from "./components/NotFound"
 
 function App() {
   return (
@@ -60,15 +61,15 @@ function App() {
               element={<Ranking />}
             />
 
-            {/* 404 */}
-            <Route
-              path="*"
-              element={<p>Page introuvable</p>}
-            />
-          </Routes>
-        </main>
-        <Sponsor />
-      </div>
+          {/* 404 */}
+          <Route
+            path="*"
+            element={<p>Page introuvable</p>}
+          />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </main>
+      <Sponsor />
       <Footer />
     </>
   );
