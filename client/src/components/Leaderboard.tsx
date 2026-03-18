@@ -9,7 +9,7 @@ const players = [
   { rank: 5, name: 'ActraGamer', gp: '31,500 GP', avatar: '/avatar5.png' },
 ];
 
-const LeaderBord: React.FC = () => {
+const Leaderboard: React.FC = () => {
   return (
     <div className={`${styles.leaderboard} neon-border-dual`}>
       <h3 className={styles.title}>Les 5 meilleurs joueurs</h3>
@@ -36,4 +36,4 @@ const LeaderBord: React.FC = () => {
   );
 };
 
-export default LeaderBord;
+export default Leaderboard;

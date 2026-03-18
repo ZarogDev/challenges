@@ -2,7 +2,9 @@ import './App.css';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import ChallengeList from './components/ChallengeList';
+import ChallengeDetail from './components/ChallengeDetail';
 import Leaderboard from './components/Leaderboard';
+import Ranking from './components/Ranking';
 import Footer from './components/Footer';
 import Sponsor from './components/Sponsor';
 import { Routes, Route } from "react-router-dom"
@@ -38,8 +40,16 @@ function App() {
               path="/challenges"
               element={
                 <>
-                  <Hero />
                   <ChallengeList />
+                </>
+              }
+            />
+              {/* page Détail d'un challenge */}
+            <Route
+              path="/challenges/:id"
+              element={
+                <>
+                  <ChallengeDetail />
                 </>
               }
             />
@@ -47,7 +57,7 @@ function App() {
             {/* page leaderboard */}
             <Route
               path="/leaderboard"
-              element={<Leaderboard />}
+              element={<Ranking />}
             />
 
             {/* 404 */}
