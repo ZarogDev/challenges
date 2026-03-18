@@ -24,16 +24,16 @@ async function main() {
   // Création des challenges
   const challenges = await Promise.all([
     prisma.challenge.create({
-      data: { title: 'Challenge 1', description: 'Description du challenge 1', conditions: 'Aucune', gameId: 101, userId: users[0].id },
+      data: { title: 'Challenge 1', description: 'Description du challenge 1', conditions: 'Aucune', gameId: 101, gameTitle: "Vikings - Wolves of Midgard", gameThumbnail: "https://media.rawg.io/media/screenshots/d96/d968719f37eaba04920ba2cfe2b7813a.jpg", userId: users[0].id },
     }),
     prisma.challenge.create({
-      data: { title: 'Challenge 2', description: 'Description du challenge 2', conditions: 'Règles strictes', gameId: 102, userId: users[1].id },
+      data: { title: 'Challenge 2', description: 'Description du challenge 2', conditions: 'Règles strictes', gameId: 102, gameTitle: "Subway Surfers", gameThumbnail: "https://media.rawg.io/media/screenshots/fb5/fb554f480b9896b031d68ef5ef9937fa.jpeg", userId: users[1].id },
     }),
     prisma.challenge.create({
-      data: { title: 'Challenge 3', description: 'Description du challenge 3', conditions: null, gameId: 103, userId: users[2].id },
+      data: { title: 'Challenge 3', description: 'Description du challenge 3', conditions: null, gameId: 103, gameTitle: "Trigger Fist", gameThumbnail: "https://media.rawg.io/media/screenshots/097/097898d5a9795ce259af94f8e5add71d_jBo7XvC.jpg", userId: users[2].id },
     }),
     prisma.challenge.create({
-      data: { title: 'Challenge 4', description: 'Description du challenge 4', conditions: 'Doit être créatif', gameId: 104, userId: users[3].id },
+      data: { title: 'Challenge 4', description: 'Description du challenge 4', conditions: 'Doit être créatif', gameId: 104, gameTitle: "We Are The Dwarves", gameThumbnail: "https://media.rawg.io/media/screenshots/d2c/d2c7c465091722d1c13f8a5ae8f54bcf.jpg", userId: users[3].id },
     }),
   ]);
 
