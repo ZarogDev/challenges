@@ -1,12 +1,10 @@
 import { Router } from "express";
+import { getLeaderboard } from "../controllers/leaderboard.controller.js";
 
 const router = Router();
 
-// voir le leaderboard
-router.get("/", (req, res) => {
-  res.json({
-    message: "leaderboard"
-  });
-});
+// route pour récupérer le leaderboard
+// quand quelqu’un appelle GET /api/leaderboard
+router.get("/", getLeaderboard);
 
 export default router;
