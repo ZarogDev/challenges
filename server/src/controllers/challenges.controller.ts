@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 import { prisma } from '../db/prisma';
+import { fetchGame } from "../services/rawgio";
 
-// pour voir tous les challenges
-export const getAllChallenges = async (req: Request, res: Response) => {
+// voir tous les challenges
+export async function getAllChallenges(req: Request, res: Response) {
   try {
     const challenges = await prisma.challenge.findMany();
     res.json(challenges);
@@ -12,8 +13,8 @@ export const getAllChallenges = async (req: Request, res: Response) => {
   }
 };
 
-// TODO pour voir un challenge avec son id
-export const getChallengeById = async (req: Request, res: Response) => {
+// voir un challenge avec son id
+export async function getChallengeById(req: Request, res: Response) {
   const { id } = req.params;
   if(typeof id !== "string") {
     return res.status(400).json({ error: "Invalid challenge ID" });
@@ -39,3 +40,19 @@ export const getChallengeById = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+export async function createChallenge(req: Request, res: Response) {
+  const userId = req.user.id;
+
+  const game = await fetchGame(req.body.gameId);
+
+  if (!game.ok) {
+    return res.status(400).json({ error: game.message });
+  }
+
+  const newChallenge = await prisma.challenge.create({
+    data: { ...req.body, userId, gameTitle: game.data.name, gameThumbnail: game.data.background_image }
+  });
+
+  return res.status(201).json(newChallenge);
+}
