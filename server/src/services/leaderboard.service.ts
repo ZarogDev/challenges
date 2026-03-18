@@ -1,11 +1,10 @@
-import prisma from "../db/prisma.js";
+import { prisma } from "../db/prisma";
 
 // je récupère les votes sur les participations
 // puis je fais le classement des joueurs
 export const getLeaderboardService = async () => {
-  const votes = await prisma.vote_participation.findMany({
+  const votes = await prisma.voteParticipation.findMany({
     include: {
-      user: true,
       participation: {
         include: {
           user: true
@@ -50,6 +49,9 @@ export const getLeaderboardService = async () => {
     userId: player.userId,
     username: player.username,
     totalScore: player.totalScore,
-    voteCount: player.voteCount
+    voteCount: player.voteCount,
+    averageScore: player.voteCount === 0
+    ? 0
+    : player.totalScore / player.voteCount
   }));
 };
