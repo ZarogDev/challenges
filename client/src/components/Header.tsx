@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Header.module.css';
-import { Link } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 
 const Header: React.FC = () => {
   return (
@@ -11,9 +11,9 @@ const Header: React.FC = () => {
         </div>
 
         <nav className={styles.nav}>
-          <Link to="/" className={`${styles.navLink} ${styles.active}`}>Accueil</Link>
-          <Link to="/challenges" className={styles.navLink}>Liste des challenges</Link>
-          <Link to="/leaderboard" className={styles.navLink}>Classement</Link>
+          <NavLink to="/" className={`${styles.navLink} `}>Accueil</NavLink>
+          <NavLink to="/challenges" className={styles.navLink}>Liste des challenges</NavLink>
+          <NavLink to="/leaderboard" className={styles.navLink}>Classement</NavLink>
         </nav>
 
         <button className={styles.btnConnexion}>

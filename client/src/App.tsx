@@ -12,54 +12,54 @@ function App() {
     <>
       <Header />
       <div className="app-container">
-      <main className="main-content">
-        <Routes>
-          {/* page d'accueil */}
-          <Route
-            path="/"
-            element={
-              
-              <>
-                <Hero />
-            <div className="dashboard-layout">
-            <div className="left-panel">
-              <ChallengeList />
-            </div>
-            <div className="right-panel">
-             <Leaderboard />
-            </div>
-          </div>
-              </>
-            }
-          />
-
-          {/* page liste de challenges */}
-          <Route
-            path="/challenges"
-            element={
-              <>
-                <Hero />
+        <main className="main-content">
+          <Routes>
+            {/* page d'accueil */}
+            <Route
+              path="/"
+              element={
+                
+                <>
+                  <Hero />
+              <div className="dashboard-layout">
+              <div className="left-panel">
                 <ChallengeList />
-              </>
-            }
-          />
+              </div>
+              <div className="right-panel">
+               <Leaderboard />
+              </div>
+            </div>
+                </>
+              }
+            />
 
-          {/* page leaderboard */}
-          <Route
-            path="/leaderboard"
-            element={<Leaderboard />}
-          />
+            {/* page liste de challenges */}
+            <Route
+              path="/challenges"
+              element={
+                <>
+                  <Hero />
+                  <ChallengeList />
+                </>
+              }
+            />
 
-          {/* 404 */}
-          <Route
-            path="*"
-            element={<p>Page introuvable</p>}
-          />
-        </Routes>
-      </main>
-      <Sponsor />
+            {/* page leaderboard */}
+            <Route
+              path="/leaderboard"
+              element={<Leaderboard />}
+            />
+
+            {/* 404 */}
+            <Route
+              path="*"
+              element={<p>Page introuvable</p>}
+            />
+          </Routes>
+        </main>
+        <Sponsor />
+      </div>
       <Footer />
-    </div>
     </>
   );
 };

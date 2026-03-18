@@ -30,3 +30,18 @@
   width: 320px;
   flex-shrink: 0;
 }
+
+.active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--neon-blue);
+  box-shadow: 0 0 8px var(--neon-blue);
+}
+
+.active {
+  color: var(--text-light);
+}
