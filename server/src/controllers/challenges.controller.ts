@@ -4,8 +4,13 @@ import { fetchGame } from "../services/rawgio";
 
 // voir tous les challenges
 export async function getAllChallenges(req: Request, res: Response) {
+  const { limit } = req.query;
+  
   try {
-    const challenges = await prisma.challenge.findMany();
+    const challenges = await prisma.challenge.findMany({
+      orderBy: { createdAt: "desc" },
+      take: limit ? parseInt((limit as string), 10) : undefined
+    });
     res.json(challenges);
   } catch (error) {
     console.error("❌ Error fetching challenges :", error);
