@@ -3,17 +3,48 @@ import styles from './ChallengeList.module.css';
 import ChallengeCard from './ChallengeCard';
 
 const mockChallenges = [
-  { id: 1, image: '/apex.jpg', title: 'Dominante Suprême :\nGagnez 3 Matchs de Suite', creator: 'GamerOne' },
-  { id: 2, image: '/valorant.jpg', title: "L'As Tactique : Éliminez\nl'Équipe Adverse 1 fois", creator: 'GamerOne' },
-  { id: 3, image: '/csgo.jpg', title: 'Le Gardien du Site :\nDésamorcez 3 Bombes', creator: 'GamerOne' },
-  { id: 4, image: '/lol.jpg', title: 'League of Legende :\n ', creator: 'GamerOne' },
-  { id: 5, image: '/fortnite.jpg', title: 'Le Dernier Survivant: Top 1\n ', creator: 'GamerOne' },
-  { id: 6, image: '/rocket.jpg', title: 'Rocket League : Priothor\n ', creator: 'GamerOne' },
+  {
+    id: 1,
+    image: '/minecraft.jpg',
+    title: 'Speed Run Minecraft :\nTerminez le mode Survie',
+    creator: 'Gameone',
+  },
+  {
+    id: 2,
+    image: '/apex.jpg',
+    title: 'Dominante Suprême :\nGagnez 3 Matchs de Suite',
+    creator: 'GamerOne',
+  },
+  {
+    id: 3,
+    image: '/valorant.jpg',
+    title: "L'As Tactique :\nÉliminez l'Équipe Adverse",
+    creator: 'GamerOne',
+  },
+  {
+    id: 4,
+    image: '/csgo.jpg',
+    title: 'Le Gardien du Site :\nDésamorcez 3 Bombes',
+    creator: 'GamerOne',
+  },
+  {
+    id: 5,
+    image: '/fortnite.jpg',
+    title: 'Le Dernier Survivant :\nTop 1 sans élimination',
+    creator: 'GamerOne',
+  },
+  {
+    id: 6,
+    image: '/rocket.jpg',
+    title: 'Rocket League :\nMarquez 5 buts en ranked',
+    creator: 'GamerOne',
+  },
 ];
 
 const ChallengeList: React.FC = () => {
   return (
     <section className={styles.section}>
+
       <h2 className={styles.sectionTitle}>
         Relève le défi, prouve ta valeur !
       </h2>

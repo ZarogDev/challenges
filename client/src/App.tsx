@@ -2,7 +2,6 @@ import './App.css';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import ChallengeList from './components/ChallengeList';
-
 import Leaderboard from './components/Leaderboard';
 import Ranking from './components/Ranking';
 import Footer from './components/Footer';
@@ -23,17 +22,16 @@ function App() {
             <Route
               path="/"
               element={
-                
                 <>
                   <Hero />
-              <div className="dashboard-layout">
-              <div className="left-panel">
-                <ChallengeList />
-              </div>
-              <div className="right-panel">
-               <Leaderboard />
-              </div>
-            </div>
+                  <div className="dashboard-layout">
+                    <div className="left-panel">
+                      <ChallengeList />
+                    </div>
+                    <div className="right-panel">
+                      <Leaderboard />
+                    </div>
+                  </div>
                 </>
               }
             />
