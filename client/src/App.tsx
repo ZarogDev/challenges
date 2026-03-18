@@ -21,17 +21,16 @@ function App() {
             <Route
               path="/"
               element={
-                
                 <>
                   <Hero />
-              <div className="dashboard-layout">
-              <div className="left-panel">
-                <ChallengeList />
-              </div>
-              <div className="right-panel">
-               <Leaderboard />
-              </div>
-            </div>
+                  <div className="dashboard-layout">
+                    <div className="left-panel">
+                      <ChallengeList />
+                    </div>
+                    <div className="right-panel">
+                      <Leaderboard />
+                    </div>
+                  </div>
                 </>
               }
             />
@@ -61,16 +60,16 @@ function App() {
               element={<Ranking />}
             />
 
-          {/* 404 */}
-          <Route
-            path="*"
-            element={<p>Page introuvable</p>}
-          />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </main>
-      <Sponsor />
-      <Footer />
+            {/* 404 */}
+            <Route
+              path="*"
+              element={<NotFound />}
+            />
+          </Routes>
+        </main>
+        <Sponsor />
+        <Footer />
+      </div>
     </>
   );
 };
