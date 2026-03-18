@@ -6,6 +6,7 @@ function Register() {
         email:"",
         password:"",
         confirmPassword:"",
+        birthday:"",
     });
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value});
@@ -65,6 +66,18 @@ function Register() {
                     required
                     />
                     </div>
+
+                <div>
+                    <label htmlFor="birthday">Date de naissance</label>
+                    <input 
+                    type="date"
+                    id="birthday"
+                    name="birthday"
+                    value={formData.birthday}
+                    onChange={handleChange}
+                    required
+                    />
+                </div>
                         <button type="submit">S'inscrire</button>   
             </form>
             <p>
