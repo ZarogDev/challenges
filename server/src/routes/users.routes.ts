@@ -3,7 +3,8 @@ import { getUserById } from "../controllers/users.controller";
 
 const router = Router();
 
-// récupérer un utilisateur par son id
+// note : route pour récupérer un user par son id
+// ex : /users/3
 router.get("/:id", getUserById);
 
 export default router;
