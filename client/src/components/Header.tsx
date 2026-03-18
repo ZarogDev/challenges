@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Header.module.css';
-import { NavLink } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 
 const Header: React.FC = () => {
   return (
@@ -16,9 +16,9 @@ const Header: React.FC = () => {
           <NavLink to="/leaderboard" className={styles.navLink}>Classement</NavLink>
         </nav>
 
-        <button className={styles.btnConnexion}>
+        <Link className={styles.btnConnexion} to="/login">
           Connexion
-        </button>
+        </Link>
       </header>
 
       <svg className={styles.bottomBorderSvg} preserveAspectRatio="none" viewBox="0 0 1500 35" xmlns="http://www.w3.org/2000/svg">

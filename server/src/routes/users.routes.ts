@@ -1,19 +1,10 @@
 import { Router } from "express";
+import { getUserById } from "../controllers/users.controller";
 
 const router = Router();
 
-// voir le profil d'un user
-router.get("/:id", (req, res) => {
-  res.json({
-    message: `user profile ${req.params.id}`
-  });
-});
-
-// voir les participations d'un user
-router.get("/:id/participations", (req, res) => {
-  res.json({
-    message: `participations of user ${req.params.id}`
-  });
-});
+// note : route pour récupérer un user par son id
+// ex : /users/3
+router.get("/:id", getUserById);
 
 export default router;
