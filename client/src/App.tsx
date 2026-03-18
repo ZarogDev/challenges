@@ -2,7 +2,7 @@ import './App.css';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import ChallengeList from './components/ChallengeList';
-import ChallengeDetail from './components/ChallengeDetail';
+
 import Leaderboard from './components/Leaderboard';
 import Ranking from './components/Ranking';
 import Footer from './components/Footer';
@@ -47,15 +47,7 @@ function App() {
                 </>
               }
             />
-              {/* page Détail d'un challenge */}
-            <Route
-              path="/challenges/:id"
-              element={
-                <>
-                  <ChallengeDetail />
-                </>
-              }
-            />
+           
 
             {/* page leaderboard */}
             <Route
@@ -77,6 +69,7 @@ function App() {
         
         </Routes>
       </main>
+      </div>
       <Sponsor />
       <Footer />
     </>
