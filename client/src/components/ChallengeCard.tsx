@@ -1,7 +1,9 @@
 import React from 'react';
 import styles from './ChallengeCard.module.css';
+import { Link } from 'react-router';
 
 interface ChallengeCardProps {
+  id: string;
   image: string;
   title: string;
   creator: string;
@@ -12,6 +14,7 @@ interface ChallengeCardProps {
 }
 
 const ChallengeCard: React.FC<ChallengeCardProps> = ({
+  id,
   image,
   title,
   creator,
@@ -21,7 +24,7 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({
   avatarColor,
 }) => {
   return (
-    <div className={`${styles.cardWrapper} neon-border-dual`}>
+    <Link to={`/challenges/${id}`} className={`${styles.cardWrapper} neon-border-dual`}>
       <img src={image} alt={title} className={styles.cardImage} />
       <div className={styles.cardTitle}>{title}</div>
       <div className={styles.cardFooter}>
@@ -43,7 +46,7 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({
 
         <button className={styles.btnInscrire}>S'inscrire</button>
       </div>
-    </div>
+    </Link>
   );
 };
 
