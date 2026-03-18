@@ -13,26 +13,33 @@ const mockChallenges = [
 
 const ChallengeList: React.FC = () => {
   return (
-    <div className={`${styles.listContainer} neon-border-dual`}>
+    <section className={styles.section}>
+      <h2 className={styles.sectionTitle}>
+        Relève le défi, prouve ta valeur !
+      </h2>
 
-      <div className={styles.headerRow}>
-        <div className={styles.title}>Challenges populaires / Challenges récents</div>
-        <div className={styles.searchBarContainer}>
-          <input type="text" placeholder="Recherche" className={styles.searchBar} />
-          <span className={styles.searchIcon}>🔍</span>
-        </div>
-      </div>
+      <div className={`${styles.listContainer} neon-border-dual`}>
 
-      <div className={styles.carouselWrapper}>
-        <button className={styles.arrow}>&lt;</button>
-        <div className={styles.grid}>
-          {mockChallenges.map(c => (
-            <ChallengeCard key={c.id} image={c.image} title={c.title} creator={c.creator} />
-          ))}
+        <div className={styles.headerRow}>
+          <div className={styles.title}>Challenges populaires / Challenges récents</div>
+          <div className={styles.searchBarContainer}>
+            <input type="text" placeholder="Recherche" className={styles.searchBar} />
+            <span className={styles.searchIcon}>🔍</span>
+          </div>
         </div>
-        <button className={styles.arrow}>&gt;</button>
+
+        <div className={styles.carouselWrapper}>
+          <button className={styles.arrow}>&lt;</button>
+          <div className={styles.grid}>
+            {mockChallenges.map(c => (
+              <ChallengeCard key={c.id} image={c.image} title={c.title} creator={c.creator} />
+            ))}
+          </div>
+          <button className={styles.arrow}>&gt;</button>
+        </div>
+
       </div>
-    </div>
+    </section>
   );
 };
 

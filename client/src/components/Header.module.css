@@ -1,5 +1,5 @@
 .headerContainer {
-  position: relative;
+  position: sticky;
   width: 100%;
   margin-top: 0;
   top: 0;
@@ -7,8 +7,8 @@
 }
 
 .headerContent {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 280px 1fr 200px;
   align-items: center;
   background-color: var(--panel-bg);
   padding: 1rem 2rem 0 2rem; 
@@ -19,21 +19,22 @@
 .logoContainer {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   width: 280px; 
 }
 
 .logoImage {
-  height: 200px; 
+  height: 100px; 
   width: auto;
   filter: drop-shadow(0 0 10px rgba(255, 58, 58, 0.5));
-  margin-left: -80px;
-  margin-bottom: -45px;
+  margin-left: 115px;
+  margin-top: 10px;
 }
 
 .nav {
   display: flex;
   gap: 3rem;
-  margin-left: 2rem;
+  justify-content: center;
 }
 
 .navLink {
@@ -47,19 +48,8 @@
   transition: color 0.3s ease;
 }
 
-.navLink:hover, .navLink.active {
+.navLink:hover {
   color: var(--text-light);
-}
-
-.navLink.active::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: var(--neon-blue);
-  box-shadow: 0 0 8px var(--neon-blue);
 }
 
 .btnConnexion {
@@ -80,6 +70,7 @@
     0 0 20px rgba(255, 58, 58, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
+  justify-self: flex-end;
 }
 
 .btnConnexion:hover {
