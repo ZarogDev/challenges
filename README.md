@@ -92,6 +92,71 @@ GamerChallenges est conçu dans le respect des normes **WCAG** afin d'être acce
  
 ---
  
+## 🏗️ Architecture
+ 
+Le projet repose sur une architecture **Client-Serveur découplée** au sein d'un **Monorepo Git** unique, orchestré par Docker.
+ 
+```
+GamerChallenges/
+├── frontend/   # React + TypeScript
+├── backend/    # Express + Prisma
+└── docker-compose.yml
+```
+ 
+Ce choix garantit :
+- une **cohérence parfaite** de l'historique (une fonctionnalité = un seul PR front + back + BDD)
+- le **partage de types TypeScript** entre le frontend et le backend (via Prisma)
+- une **expérience développeur unifiée** : un seul `git clone` + `docker-compose up` pour lancer toute la stack
+ 
+---
+ 
+## 🛠️ Stack technique
+ 
+### Frontend
+| Technologie | Rôle |
+|-------------|------|
+| **React** | Interface réactive (SPA), sans rechargement de page |
+| **React Router** | Routage côté client, navigation fluide entre les vues |
+| **TypeScript** | Typage statique, fiabilité et autocomplétion améliorées |
+ 
+### Backend
+| Technologie | Rôle |
+|-------------|------|
+| **Node.js / Express** | Serveur HTTP, API REST simple et flexible |
+| **Prisma (ORM)** | Accès à la base de données type-safe, requêtes lisibles |
+| **PostgreSQL** | Base de données relationnelle, performante pour les classements |
+ 
+### Sécurité & Validation
+| Technologie | Rôle |
+|-------------|------|
+| **JSONWebToken** | Authentification stateless via tokens signés |
+| **Zod** | Validation et cohérence des données entrantes |
+| **DOMPurify** | Sanitisation HTML pour prévenir les attaques XSS |
+ 
+### Outillage
+| Technologie | Rôle |
+|-------------|------|
+| **Docker** | Conteneurisation, environnements standardisés, déploiement simplifié |
+| **ESLint** | Linting, qualité et cohérence du code |
+| **VS Code** | Éditeur recommandé, intégration Git native |
+ 
+---
+ 
+## ⚡ Lancer le projet
+ 
+> Prérequis : [Docker](https://www.docker.com/) installé sur votre machine.
+ 
+```bash
+# Cloner le dépôt
+git clone https://github.com/votre-org/gamer-challenges.git
+cd gamer-challenges
+ 
+# Lancer toute la stack (BDD + backend + frontend)
+docker-compose up
+```
+ 
+---
+ 
 ## 📄 Licence
  
 Ce projet est actuellement en cours de développement. La licence sera précisée ultérieurement.
