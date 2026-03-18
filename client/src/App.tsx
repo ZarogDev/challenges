@@ -9,6 +9,8 @@ import Footer from './components/Footer';
 import Sponsor from './components/Sponsor';
 import { Routes, Route } from "react-router-dom"
 import NotFound from "./components/NotFound"
+import Login from './components/Login';
+import Register from './components/Register';
 
 function App() {
   return (
@@ -67,6 +69,12 @@ function App() {
             element={<p>Page introuvable</p>}
           />
           <Route path="*" element={<NotFound />} />
+        
+
+        {/* Login & Register*/}
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
+        
         </Routes>
       </main>
       <Sponsor />
