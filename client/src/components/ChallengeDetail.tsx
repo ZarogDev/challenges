@@ -1,17 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './ChallengeDetail.module.css';
 import { Star } from 'lucide-react';
-
-const challenge = {
-  title: 'Challenge 4',
-  description: 'Régies du challenge : Terminez le jeu en mode Survie le plus rapidement possible. Aucune triche autorisée, semence aléatoire. Chronomètre en temps réel. Le défi est chronométré de la première frappe de bloc à l\'ouverture du portail de l\'End. Bonne chance !',
-  conditions: 'Doit être créatif',
-  gameId: 104,
-  gameTitle: 'We Are The Dwarves',
-  gameThumbnail: 'https://images-ext-1.discordapp.net/external/tCXU7NFx0VOe784ZxaeUDwxx_Gp6tvZlWsFwZ6qzw4o/https/media.rawg.io/media/games/b4e/b4e4c73d5aa4ec66bbf75375c4847a2b.jpg?format=webp&width=2063&height=1160',
-  creator: 'Gameone',
-  rating: 4,
-};
+import { getAvatarBorder, getAvatarColor, getInitialColor, getInitials } from '../lib/utils';
+import { useParams } from 'react-router-dom';
+import type { ChallengeWithParticipations } from '../@types';
 
 const completions = [
   {
@@ -40,51 +32,6 @@ const completions = [
   },
 ];
 
-// ✅ Récupère les deux premières lettres du username
-const getInitials = (username: string): string => {
-  return username.charAt(0).toUpperCase();
-};
-
-// ✅ Couleur unique par username pour différencier les avatars
-const getAvatarColor = (username: string): string => {
-  const colors = [
-    'rgba(0, 212, 255, 0.15)',   // cyan
-    'rgba(255, 58, 58, 0.15)',   // rouge
-    'rgba(168, 85, 247, 0.15)',  // violet
-    'rgba(255, 215, 0, 0.15)',   // or
-  ];
-  const borderColors = [
-    '#00d4ff',
-    '#ff3a3a',
-    '#a855f7',
-    '#FFD700',
-  ];
-  const index = username.charCodeAt(0) % colors.length;
-  return colors[index];
-};
-
-const getAvatarBorder = (username: string): string => {
-  const borderColors = [
-    '#00d4ff',
-    '#ff3a3a',
-    '#a855f7',
-    '#FFD700',
-  ];
-  const index = username.charCodeAt(0) % borderColors.length;
-  return borderColors[index];
-};
-
-const getInitialColor = (username: string): string => {
-  const textColors = [
-    '#00d4ff',
-    '#ff3a3a',
-    '#a855f7',
-    '#FFD700',
-  ];
-  const index = username.charCodeAt(0) % textColors.length;
-  return textColors[index];
-};
-
 const StarRating: React.FC<{ rating: number; max?: number }> = ({ rating, max = 5 }) => (
   <div className={styles.stars}>
     {Array.from({ length: max }, (_, i) => (
@@ -99,7 +46,26 @@ const StarRating: React.FC<{ rating: number; max?: number }> = ({ rating, max = 
 );
 
 const ChallengeDetail: React.FC = () => {
-  return (
+  const [challenge, setChallenge] = useState<ChallengeWithParticipations | undefined>(undefined);
+  const { id } = useParams();
+
+  useEffect(() => {
+    async function fetchChallenge() {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/challenges/${id}/participations`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch challenge');
+        }
+        const data: ChallengeWithParticipations = await response.json();
+        setChallenge(data);
+      } catch (error) {
+        console.error('Error fetching challenge:', error);
+      }
+    }
+    fetchChallenge();
+  }, [id]);
+
+  return challenge && (
     <section className={styles.section}>
 
       {/* ── Bloc principal : image + infos ── */}
@@ -115,7 +81,7 @@ const ChallengeDetail: React.FC = () => {
 
           <div className={styles.titleRow}>
             <h1 className={styles.title}>{challenge.title}</h1>
-            <StarRating rating={challenge.rating} />
+            <StarRating rating={challenge.averageChallengeScore} />
           </div>
 
           <p className={styles.game}>{challenge.gameTitle}</p>
