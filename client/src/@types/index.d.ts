@@ -8,6 +8,11 @@ export interface Challenge {
   gameThumbnail: string;
   createdAt: string;
   userId: number;
+  creator: Creator;
+}
+
+export interface Creator {
+  username: string;
 }
 
 export interface ChallengeWithParticipations {
