@@ -1,3 +1,15 @@
+export interface Challenge {
+  id: number;
+  title: string; 
+  description: string;
+  conditions: string;
+  gameId: number;
+  gameTitle: string;
+  gameThumbnail: string;
+  createdAt: string;
+  userId: number;
+}
+
 export interface ChallengeWithParticipations {
   id: number;
   title: string;
