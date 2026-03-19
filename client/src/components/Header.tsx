@@ -1,8 +1,11 @@
 import React from 'react';
 import styles from './Header.module.css';
 import { Link, NavLink } from "react-router-dom"
+import { useAuth } from '../context/AuthContext';
 
 const Header: React.FC = () => {
+  const { isLoggedIn, logout } = useAuth();
+
   return (
     <div className={styles.headerContainer}>
       <header className={styles.headerContent}>
@@ -13,14 +16,21 @@ const Header: React.FC = () => {
         </div>
 
         <nav className={styles.nav}>
-          <NavLink to="/" className={`${styles.navLink} `}>Accueil</NavLink>
+          <NavLink to="/" className={`${styles.navLink}`}>Accueil</NavLink>
           <NavLink to="/challenges" className={styles.navLink}>Liste des challenges</NavLink>
           <NavLink to="/leaderboard" className={styles.navLink}>Classement</NavLink>
+          {isLoggedIn && <NavLink to="/profile" className={styles.navLink}>Mon profil</NavLink>}
         </nav>
 
-        <Link className={styles.btnConnexion} to="/login">
-          Connexion
-        </Link>
+        {isLoggedIn ? (
+            <button className={styles.btnConnexion} onClick={logout}>
+              Déconnexion
+            </button>
+        ) : (
+          <Link className={styles.btnConnexion} to="/login">
+            Connexion
+          </Link>
+        )}
       </header>
 
       <svg className={styles.bottomBorderSvg} preserveAspectRatio="none" viewBox="0 0 1500 35" xmlns="http://www.w3.org/2000/svg">

@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import { Navigate } from "react-router-dom";
 
 function Login() {
     const[formData, setFormData] = useState({
@@ -6,47 +8,58 @@ function Login() {
         password:"",
     });
 
+    const { login, isLoggedIn, error } = useAuth();
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value});
     };
     
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        console.log("Connexion:", formData);
+    const handleSubmit = async (formData: FormData) => {
+        const email = formData.get("email") as string;
+        const password = formData.get("password") as string;
+
+        await login(email, password);
     };
 
-    return (
+    return isLoggedIn ? <Navigate to="/" /> : (
         <div>
             <h1>Connexion</h1>
-            <form onSubmit={handleSubmit}>
-        <div>
+
+            <form action={handleSubmit}>
+                <div>
                     <label htmlFor="email">Email</label>
                     <input 
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
                     />
                 </div>
+
                 <div>
                     <label htmlFor="password">Mot de passe</label>
                     <input 
-                    type="password"
-                    id="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
+                        type="password"
+                        id="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        required
                     />
                 </div>
+
                 <button type="submit">Se connecter</button>
-                </form>
-                <p>
-                    Pas encore de compte ? <a href="/register">S'inscrire</a>
-                </p>
-                </div>
+
+            </form>
+                
+            <p>
+                Pas encore de compte ? <a href="/register">S'inscrire</a>
+            </p>
+                
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+            </div>
     );
 }
 
