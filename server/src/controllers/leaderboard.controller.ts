@@ -4,10 +4,10 @@ import { getLeaderboardService } from "../services/leaderboard.service.js";
 // controller pour récupérer le classement
 export const getLeaderboard = async (req: Request, res: Response) => {
   try {
-    // je vais chercher le classement
+    // je récupère le classement (calcul déjà fait dans le service)
     const leaderboard = await getLeaderboardService();
 
-    // j'envoie la réponse au front
+    // j'envoie au front
     return res.status(200).json({
       message: "leaderboard loaded",
       data: leaderboard
