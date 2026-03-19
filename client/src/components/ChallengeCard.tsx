@@ -1,33 +1,22 @@
 import React from 'react';
 import styles from './ChallengeCard.module.css';
 import { Link } from 'react-router';
+import type { Challenge } from '../@types';
 
 interface ChallengeCardProps {
-  image: string;
-  title: string;
-  creator: string;
-  avatarInitial: string;
-  avatarBg: string;
-  avatarBorder: string;
-  avatarColor: string;
+  challenge: Challenge;
 }
 
 const ChallengeCard: React.FC<ChallengeCardProps> = ({
-  image,
-  title,
-  creator,
-  avatarInitial,
-  avatarBg,
-  avatarBorder,
-  avatarColor,
+  challenge
 }) => {
   return (
-    <Link to={`/challenges/14`} className={`${styles.cardWrapper} neon-border-dual`}>
-      <img src={image} alt={title} className={styles.cardImage} />
-      <div className={styles.cardTitle}>{title}</div>
+    <Link to={`/challenges/${challenge.id}`} className={`${styles.cardWrapper} neon-border-dual`}>
+      <img src={challenge.gameThumbnail} alt={challenge.title} className={styles.cardImage} />
+      <div className={styles.cardTitle}>{challenge.title}</div>
       <div className={styles.cardFooter}>
 
-        {/* ✅ Avatar initiale + nom créateur */}
+        {/* ✅ Avatar initiale + nom créateur
         <div className={styles.creatorRow}>
           <div
             className={styles.avatarInitial}
@@ -37,10 +26,10 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({
               color: avatarColor,
             }}
           >
-            {avatarInitial}
+            {getInitials(challenge.)}
           </div>
           <span className={styles.creator}>Créé par {creator}</span>
-        </div>
+        </div> */}
 
         <button className={styles.btnInscrire}>S'inscrire</button>
       </div>
