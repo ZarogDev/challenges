@@ -1,28 +1,17 @@
 import { Request, Response } from "express";
 import { prisma } from '../db/prisma';
 import { fetchGame } from "../services/rawgio";
+import { create, getChallenges, getChallengeWithParticipations, getFormattedChallenge } from "../services/challenges.service";
 
 // voir tous les challenges
 export async function getAllChallenges(req: Request, res: Response) {
   const { limit } = req.query;
   
-  try {
-    const challenges = await prisma.challenge.findMany({
-      orderBy: { createdAt: "desc" },
-      take: limit ? parseInt((limit as string), 10) : undefined,
-      include: {
-        creator: {
-          select: {
-            username: true
-          }
-        }
-      }
-    });
-    res.json(challenges);
-  } catch (error) {
-    console.error("❌ Error fetching challenges :", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
+  const parsedLimit = typeof limit === "string" ? parseInt(limit, 10) : undefined;
+
+  const challenges = await getChallenges(parsedLimit);
+
+  res.json(challenges);
 };
 
 // voir un challenge avec son id
@@ -62,7 +51,7 @@ export async function getChallengeById(req: Request, res: Response) {
 
 // créer un challenge
 export async function createChallenge(req: Request, res: Response) {
-  const userId = req.user.id;
+  const userId = parseInt(req.user.id, 10);
 
   const game = await fetchGame(req.body.gameId);
 
@@ -70,9 +59,7 @@ export async function createChallenge(req: Request, res: Response) {
     return res.status(400).json({ error: game.message });
   }
 
-  const newChallenge = await prisma.challenge.create({
-    data: { ...req.body, userId, gameTitle: game.data.name, gameThumbnail: game.data.background_image }
-  });
+  const newChallenge = await create(req.body, userId, game.data.name, game.data.background_image);
 
   return res.status(201).json(newChallenge);
 }
@@ -91,69 +78,13 @@ export async function getChallengeParticipations(req: Request, res: Response) {
     return res.status(400).json({ error: "Challenge ID must be a number" });
   }
 
-  try {
-    const challengeWithParticipations = await prisma.challenge.findUnique({
-      where: { id: parsedId },
-      include: {
-        participations: {
-          include: {
-            user: {
-              select: { 
-                id: true, 
-                username: true
-              }
-            },
-            voteParticipations: true
-          },
-        },
-        voteChallenges: true,
-        creator: { 
-          select: { 
-            id: true, 
-            username: true 
-          }
-        },
-      }
-    });
+  const challengeWithParticipations = await getChallengeWithParticipations(parsedId);
 
-    if(!challengeWithParticipations) {
-      return res.status(404).json({ error: "Challenge not found" });
-    }
-
-    const averageChallengeScore = challengeWithParticipations.voteChallenges.length > 0
-      ? challengeWithParticipations.voteChallenges.reduce((sum, vote) => sum + vote.rating, 0) / challengeWithParticipations.voteChallenges.length
-      : null;
-
-    const participations = challengeWithParticipations.participations.map(participation => {
-      const averageParticipationScore = participation.voteParticipations.length > 0
-        ? participation.voteParticipations.reduce((sum, vote) => sum + vote.rating, 0) / participation.voteParticipations.length
-        : null;
-      return {
-        id: participation.id,
-        description: participation.description,
-        videoLink: participation.videoLink,
-        participant: participation.user.username,
-        createdAt: participation.createdAt,
-        averageParticipationScore
-      };
-    });
-
-    const formatedChallenge = {
-      id: challengeWithParticipations.id,
-      title: challengeWithParticipations.title,
-      description: challengeWithParticipations.description,
-      conditions: challengeWithParticipations.conditions,
-      gameTitle: challengeWithParticipations.gameTitle,
-      gameThumbnail: challengeWithParticipations.gameThumbnail,
-      creator: challengeWithParticipations.creator.username,
-      createdAt: challengeWithParticipations.createdAt,
-      averageChallengeScore,
-      participations
-    };
-
-    res.json(formatedChallenge);
-  } catch (error) {
-    console.error("❌ Error fetching challenge participations :", error);
-    res.status(500).json({ error: "Internal server error" });
+  if(!challengeWithParticipations) {
+    return res.status(404).json({ error: "Challenge not found" });
   }
+
+  const formatedChallenge = await getFormattedChallenge(challengeWithParticipations);
+
+  res.json(formatedChallenge);
 };
