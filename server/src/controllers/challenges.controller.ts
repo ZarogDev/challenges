@@ -9,7 +9,14 @@ export async function getAllChallenges(req: Request, res: Response) {
   try {
     const challenges = await prisma.challenge.findMany({
       orderBy: { createdAt: "desc" },
-      take: limit ? parseInt((limit as string), 10) : undefined
+      take: limit ? parseInt((limit as string), 10) : undefined,
+      include: {
+        creator: {
+          select: {
+            username: true
+          }
+        }
+      }
     });
     res.json(challenges);
   } catch (error) {
@@ -33,6 +40,13 @@ export async function getChallengeById(req: Request, res: Response) {
   try {
     const challenge = await prisma.challenge.findUnique({
       where: { id: parseId },
+      include: {
+        creator: {
+          select: {
+            username: true
+          }
+        }
+      }
     });
 
     if (!challenge) {
