@@ -89,13 +89,6 @@
   font-weight: 600;
 }
 
-/* ── Étoiles ── */
-.stars {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-}
-
 /* ── Bloc completions ── */
 .completionsBlock {
   padding: 24px;
