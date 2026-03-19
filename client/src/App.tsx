@@ -11,6 +11,7 @@ import { Routes, Route } from "react-router-dom"
 import NotFound from "./components/NotFound"
 import Login from './components/Login';
 import Register from './components/Register';
+import RecentChallenges from './components/RecentChallenges';
 
 function App() {
   return (
@@ -27,7 +28,7 @@ function App() {
                   <Hero />
                   <div className="dashboard-layout">
                     <div className="left-panel">
-                      <ChallengeList />
+                      <RecentChallenges />
                     </div>
                     <div className="right-panel">
                       <Leaderboard />

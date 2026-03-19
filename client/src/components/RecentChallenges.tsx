@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react"
-import styles from "./ChallengeList.module.css"
+import styles from "./RecentChallenges.module.css"
 import ChallengeCard from "./ChallengeCard"
 import type { Challenge } from "../@types"
 
-const ChallengeList: React.FC = () => {
+const RecentChallenges: React.FC = () => {
   const [challenges, setChallenges] = useState<Challenge[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -11,7 +11,7 @@ const ChallengeList: React.FC = () => {
   useEffect(() => {
     const fetchChallenges = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/challenges`)
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/challenges?limit=6`)
         if (!res.ok) {
           throw new Error("Erreur lors du chargement des challenges")
         }
@@ -36,12 +36,6 @@ const ChallengeList: React.FC = () => {
   }
 
   return (
-    <section className={styles.section}>
-
-      <h2 className={styles.sectionTitle}>
-        Relève le défi, prouve ta valeur !
-      </h2>
-
       <div className={`${styles.listContainer} neon-border-dual`}>
         <div className={styles.headerRow}>
           <div className={styles.title}>Challenges populaires / Challenges récents</div>
@@ -56,7 +50,7 @@ const ChallengeList: React.FC = () => {
         </div>
 
         <div className={styles.carouselWrapper}>
-          <button className={styles.arrow}>&lt;</button>
+          {/* <button className={styles.arrow}>&lt;</button> */}
           <div className={styles.grid}>
             {challenges.map((c) => (
               <ChallengeCard
@@ -65,11 +59,10 @@ const ChallengeList: React.FC = () => {
               />
             ))}
           </div>
-          <button className={styles.arrow}>&gt;</button>
+          {/* <button className={styles.arrow}>&gt;</button> */}
         </div>
       </div>
-    </section>
   )
 }
 
-export default ChallengeList
+export default RecentChallenges
