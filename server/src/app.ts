@@ -4,7 +4,9 @@ import routes from "./routes/index.js";
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173", // Remplacez par l'URL de votre frontend
+}));
 app.use(express.json());
 
 // route test

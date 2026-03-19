@@ -4,8 +4,13 @@ import { fetchGame } from "../services/rawgio";
 
 // voir tous les challenges
 export async function getAllChallenges(req: Request, res: Response) {
+  const { limit } = req.query;
+  
   try {
-    const challenges = await prisma.challenge.findMany();
+    const challenges = await prisma.challenge.findMany({
+      orderBy: { createdAt: "desc" },
+      take: limit ? parseInt((limit as string), 10) : undefined
+    });
     res.json(challenges);
   } catch (error) {
     console.error("❌ Error fetching challenges :", error);
@@ -41,6 +46,7 @@ export async function getChallengeById(req: Request, res: Response) {
   }
 };
 
+// créer un challenge
 export async function createChallenge(req: Request, res: Response) {
   const userId = req.user.id;
 
@@ -56,3 +62,84 @@ export async function createChallenge(req: Request, res: Response) {
 
   return res.status(201).json(newChallenge);
 }
+
+// voir les participations d'un challenge avec son id
+export async function getChallengeParticipations(req: Request, res: Response) {
+  const { id } = req.params;
+
+  if(typeof id !== "string") {
+    return res.status(400).json({ error: "Invalid challenge ID" });
+  }
+
+  const parsedId = parseInt(id, 10);
+
+  if (isNaN(parsedId)) {
+    return res.status(400).json({ error: "Challenge ID must be a number" });
+  }
+
+  try {
+    const challengeWithParticipations = await prisma.challenge.findUnique({
+      where: { id: parsedId },
+      include: {
+        participations: {
+          include: {
+            user: {
+              select: { 
+                id: true, 
+                username: true
+              }
+            },
+            voteParticipations: true
+          },
+        },
+        voteChallenges: true,
+        creator: { 
+          select: { 
+            id: true, 
+            username: true 
+          }
+        },
+      }
+    });
+
+    if(!challengeWithParticipations) {
+      return res.status(404).json({ error: "Challenge not found" });
+    }
+
+    const averageChallengeScore = challengeWithParticipations.voteChallenges.length > 0
+      ? challengeWithParticipations.voteChallenges.reduce((sum, vote) => sum + vote.rating, 0) / challengeWithParticipations.voteChallenges.length
+      : null;
+
+    const participations = challengeWithParticipations.participations.map(participation => {
+      const averageParticipationScore = participation.voteParticipations.length > 0
+        ? participation.voteParticipations.reduce((sum, vote) => sum + vote.rating, 0) / participation.voteParticipations.length
+        : null;
+      return {
+        id: participation.id,
+        description: participation.description,
+        videoLink: participation.videoLink,
+        participant: participation.user.username,
+        createdAt: participation.createdAt,
+        averageParticipationScore
+      };
+    });
+
+    const formatedChallenge = {
+      id: challengeWithParticipations.id,
+      title: challengeWithParticipations.title,
+      description: challengeWithParticipations.description,
+      conditions: challengeWithParticipations.conditions,
+      gameTitle: challengeWithParticipations.gameTitle,
+      gameThumbnail: challengeWithParticipations.gameThumbnail,
+      creator: challengeWithParticipations.creator.username,
+      createdAt: challengeWithParticipations.createdAt,
+      averageChallengeScore,
+      participations
+    };
+
+    res.json(formatedChallenge);
+  } catch (error) {
+    console.error("❌ Error fetching challenge participations :", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
