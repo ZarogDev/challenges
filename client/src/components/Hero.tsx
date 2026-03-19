@@ -1,4 +1,5 @@
 import styles from './Hero.module.css';
+import { Link } from "react-router-dom"
 
 const Hero = () => {
   return (
@@ -17,8 +18,8 @@ const Hero = () => {
           Challenges exclusifs. Votre voyage vers le sommet commence ici
         </p>
         <div className={styles.actions}>
-          <button className={styles.btnPrimary}>Voir les challenges</button>
-          <button className={styles.btnSecondary}>Inscription</button>
+          <Link to="/challenges" className={styles.btnPrimary} >Voir les challenges</Link>
+          <Link to="/register" className={styles.btnSecondary}>Inscription</Link>
         </div>
       </div>
     </section>
