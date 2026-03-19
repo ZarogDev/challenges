@@ -7,6 +7,9 @@ import ChallengeDetail from "./components/ChallengeDetail";
 import Ranking from './components/Ranking';
 import Footer from './components/Footer';
 import Sponsor from './components/Sponsor';
+import LegalPage from './components/LegalPage';
+import PrivacyPolicyPage from './components/PrivacyPolicyPage';
+import CGUPage from './components/CGUPage';
 import { Routes, Route } from "react-router-dom"
 import NotFound from "./components/NotFound"
 import Login from './components/Login';
@@ -65,16 +68,21 @@ function App() {
             />
 
           {/* 404 */}
-          <Route
-            path="*"
-            element={<p>Page introuvable</p>}
-          />
           <Route path="*" element={<NotFound />} />
         
 
-        {/* Login & Register*/}
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
+          {/* Login & Register*/}
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+
+          {/* mentions légales */}
+          <Route path='/mentions-legales' element={<LegalPage />}/>
+
+          {/* politique de confidentialité */}
+          <Route path='/confidentialite' element={<PrivacyPolicyPage />}/>
+
+          {/* conditions générales d'utilisation */}
+          <Route path='/cgu' element={<CGUPage />}/>
         
         </Routes>
       </main>
