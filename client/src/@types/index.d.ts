@@ -36,3 +36,12 @@ export interface Participation {
   createdAt: string;
   averageParticipationScore: number;
 }
+
+export interface Authcontext {
+  isLoggedIn: boolean;
+  token: string | null;
+  username: string | null;
+  error: string | null;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => void;
+}
