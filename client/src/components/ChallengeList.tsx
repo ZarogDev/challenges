@@ -44,7 +44,7 @@ const ChallengeList: React.FC = () => {
 
       <div className={`${styles.listContainer} neon-border-dual`}>
         <div className={styles.headerRow}>
-          <div className={styles.title}>Challenges populaires / Challenges récents</div>
+           {/* <div className={styles.title}>Challenges populaires / Challenges récents</div> */}
           <div className={styles.searchBarContainer}>
             <input
               type="text"

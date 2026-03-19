@@ -4,7 +4,7 @@
 
 .headerRow {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-bottom: 20px;
 }
@@ -25,7 +25,7 @@
   border-radius: 8px;
   padding: 8px 30px 8px 12px;
   color: white;
-  width: 250px;
+  width: 450px;
   outline: none;
   font-family: 'Inter', sans-serif;
 }
