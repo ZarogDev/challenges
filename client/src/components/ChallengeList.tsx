@@ -1,17 +1,46 @@
-import React from 'react';
-import styles from './ChallengeList.module.css';
-import ChallengeCard from './ChallengeCard';
+import React, { useState, useEffect } from "react"
+import styles from "./ChallengeList.module.css"
+import ChallengeCard from "./ChallengeCard"
 
-const mockChallenges = [
-  { id: 1, image: '/apex.jpg', title: 'Dominante Suprême :\nGagnez 3 Matchs de Suite', creator: 'GamerOne' },
-  { id: 2, image: '/valorant.jpg', title: "L'As Tactique : Éliminez\nl'Équipe Adverse 1 fois", creator: 'GamerOne' },
-  { id: 3, image: '/csgo.jpg', title: 'Le Gardien du Site :\nDésamorcez 3 Bombes', creator: 'GamerOne' },
-  { id: 4, image: '/lol.jpg', title: 'League of Legende :\n ', creator: 'GamerOne' },
-  { id: 5, image: '/fortnite.jpg', title: 'Le Dernier Survivant: Top 1\n ', creator: 'GamerOne' },
-  { id: 6, image: '/rocket.jpg', title: 'Rocket League : Priothor\n ', creator: 'GamerOne' },
-];
+type Challenge = {
+  id: number
+  image: string
+  title: string
+  creator: string
+}
 
 const ChallengeList: React.FC = () => {
+  const [challenges, setChallenges] = useState<Challenge[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchChallenges = async () => {
+      try {
+        const res = await fetch("http://localhost:3000/api/challenges")
+        if (!res.ok) {
+          throw new Error("Erreur lors du chargement des challenges")
+        }
+        const data: Challenge[] = await res.json()
+        setChallenges(data)
+      } catch (err) {
+        setError((err as Error).message)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchChallenges()
+  }, [])
+
+  if (loading) {
+    return <p>Chargement des Challenges...</p>
+  }
+
+  if (error) {
+    return <p>Erreur : {error}</p>
+  }
+
   return (
     <section className={styles.section}>
       <h2 className={styles.sectionTitle}>
@@ -19,11 +48,14 @@ const ChallengeList: React.FC = () => {
       </h2>
 
       <div className={`${styles.listContainer} neon-border-dual`}>
-
         <div className={styles.headerRow}>
           <div className={styles.title}>Challenges populaires / Challenges récents</div>
           <div className={styles.searchBarContainer}>
-            <input type="text" placeholder="Recherche" className={styles.searchBar} />
+            <input
+              type="text"
+              placeholder="Recherche"
+              className={styles.searchBar}
+            />
             <span className={styles.searchIcon}>🔍</span>
           </div>
         </div>
@@ -31,16 +63,20 @@ const ChallengeList: React.FC = () => {
         <div className={styles.carouselWrapper}>
           <button className={styles.arrow}>&lt;</button>
           <div className={styles.grid}>
-            {mockChallenges.map(c => (
-              <ChallengeCard key={c.id} image={c.image} title={c.title} creator={c.creator} />
+            {challenges.map((c) => (
+              <ChallengeCard
+                key={c.id}
+                image={c.image}
+                title={c.title}
+                creator={c.creator}
+              />
             ))}
           </div>
           <button className={styles.arrow}>&gt;</button>
         </div>
-
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default ChallengeList;
+export default ChallengeList
