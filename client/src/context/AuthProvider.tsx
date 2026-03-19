@@ -24,7 +24,7 @@ export default function AuthProvider({
 
   const login = async (email: string, password: string) => {
     if(!localUser || !localToken) {
-      const response = await fetch('http://localhost:3000/api/login', {
+      const response = await fetch('http://localhost:3000/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -34,10 +34,10 @@ export default function AuthProvider({
         const data = await response.json();
         setIsLoggedIn(true);
         setToken(data.token);
-        setUsername(data.pseudo);
-        setError(null); // pour supprimer du state une éventuelle erreur précédente
+        setUsername(data.username);
+        setError(null);
 
-        localStorage.setItem('user', data.pseudo);
+        localStorage.setItem('user', data.username);
         localStorage.setItem('token', data.token);
       } else {
         setError('Erreur de connexion ! Vérifiez vos identifiants.');
