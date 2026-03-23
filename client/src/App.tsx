@@ -46,21 +46,13 @@ function App() {
             {/* page liste de challenges */}
             <Route
               path="/challenges"
-              element={
-                <>
-                  <ChallengeList />
-                </>
-              }
+              element={<ChallengeList />}
             />
 
             {/* page détail d'un challenges */}
             <Route
               path="/challenges/:id"
-              element={
-                <>
-                  <ChallengeDetail />
-                </>
-              }
+              element={<ChallengeDetail />}
             />
 
             {/* page leaderboard */}
@@ -78,13 +70,13 @@ function App() {
           <Route path='/register' element={<Register />} />
 
           {/* mentions légales */}
-          <Route path='/mentions-legales' element={<LegalPage />}/>
+          <Route path='/mentions-legales' element={<LegalPage />} />
 
           {/* politique de confidentialité */}
-          <Route path='/confidentialite' element={<PrivacyPolicyPage />}/>
+          <Route path='/confidentialite' element={<PrivacyPolicyPage />} />
 
           {/* conditions générales d'utilisation */}
-          <Route path='/cgu' element={<CGUPage />}/>
+          <Route path='/cgu' element={<CGUPage />} />
         
         </Routes>
       </main>

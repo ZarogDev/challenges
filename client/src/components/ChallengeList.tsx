@@ -7,9 +7,9 @@ const ChallengeList: React.FC = () => {
   const [challenges, setChallenges] = useState<Challenge[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
-    const fetchChallenges = async () => {
+  const fetchChallenges = async () => {
       try {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/challenges`)
         if (!res.ok) {
@@ -22,10 +22,25 @@ const ChallengeList: React.FC = () => {
       } finally {
         setLoading(false)
       }
+  }
+
+  useEffect(() => {
+    fetchChallenges()
+  }, []);
+
+  useEffect(() => {
+    if(!searchTerm.trim()) {
+      fetchChallenges();
+      return;
     }
 
-    fetchChallenges()
-  }, [])
+    const filteredChallenges = challenges.filter(challenge =>
+        challenge.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        challenge.gameTitle.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+  
+    setChallenges(filteredChallenges);
+  }, [searchTerm, challenges]);
 
   if (loading) {
     return <p>Chargement des Challenges...</p>
@@ -48,7 +63,9 @@ const ChallengeList: React.FC = () => {
           <div className={styles.searchBarContainer}>
             <input
               type="text"
-              placeholder="Recherche"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Recherche par titre ou jeu"
               className={styles.searchBar}
             />
             <span className={styles.searchIcon}>🔍</span>
