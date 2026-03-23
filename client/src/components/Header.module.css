@@ -11,7 +11,7 @@
   grid-template-columns: 280px 1fr 200px;
   align-items: center;
   background-color: var(--panel-bg);
-  padding: 1rem 2rem 0 2rem; 
+  padding: 1rem 2rem 0 2rem;
   position: relative;
   z-index: 21;
 }
@@ -20,11 +20,11 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  width: 280px; 
+  width: 280px;
 }
 
 .logoImage {
-  height: 100px; 
+  height: 100px;
   width: auto;
   filter: drop-shadow(0 0 10px rgba(255, 58, 58, 0.5));
   margin-left: 115px;
@@ -48,8 +48,25 @@
   transition: color 0.3s ease;
 }
 
-.navLink:hover {
+.navLink:hover,
+.navLink.active {
   color: var(--text-light);
+}
+
+.navLink.active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--neon-blue);
+  box-shadow: 0 0 8px var(--neon-blue);
+}
+
+.authDesktop {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .btnConnexion {
@@ -65,12 +82,12 @@
   border: 1.5px solid;
   border-image: linear-gradient(135deg, var(--neon-red), var(--neon-blue)) 1;
   z-index: 1;
-  box-shadow: 
+  box-shadow:
     0 0 20px rgba(0, 210, 255, 0.15),
     0 0 20px rgba(255, 58, 58, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
-  justify-self: flex-end;
+  text-decoration: none;
 }
 
 .btnConnexion:hover {
@@ -82,8 +99,195 @@
   transform: translateY(-2px);
 }
 
-.btnConnexion::before {
+/* ================================
+   BURGER
+   ================================ */
+.burger {
   display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 22;
+}
+
+.burger span {
+  display: block;
+  height: 2px;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.burger span:nth-child(1) {
+  width: 26px;
+  background: #FF3A3A;
+  box-shadow: 0 0 6px rgba(255, 58, 58, 0.7);
+}
+
+.burger span:nth-child(2) {
+  width: 20px;
+  background: linear-gradient(to right, #FF3A3A, #00D2FF);
+}
+
+.burger span:nth-child(3) {
+  width: 26px;
+  background: #00D2FF;
+  box-shadow: 0 0 6px rgba(0, 210, 255, 0.7);
+}
+
+/* Croix en rouge */
+.burgerOpen span:nth-child(1) {
+  width: 26px;
+  transform: translateY(7px) rotate(45deg);
+  background: #FF3A3A;
+  box-shadow: 0 0 8px rgba(255, 58, 58, 0.9);
+}
+
+.burgerOpen span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.burgerOpen span:nth-child(3) {
+  width: 26px;
+  transform: translateY(-7px) rotate(-45deg);
+  background: #FF3A3A;
+  box-shadow: 0 0 8px rgba(255, 58, 58, 0.9);
+}
+
+/* ================================
+   OVERLAY FERMETURE
+   ================================ */
+.menuOverlay {
+  display: none;
+}
+
+/* ================================
+   MENU MOBILE
+   ================================ */
+.mobileMenu {
+  display: none;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 75%;
+  max-width: 320px;
+  height: 100vh;
+  z-index: 18;
+  overflow: hidden;
+  background-image: url('/circuit-bg.png');
+  background-size: cover;
+  background-position: center;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobileMenu::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 14, 30, 0.88);
+  z-index: 0;
+}
+
+.mobileMenu::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    var(--neon-red, #ff3a3a),
+    var(--neon-blue, #00d2ff)
+  );
+  box-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
+  z-index: 1;
+}
+
+.mobileMenuOpen {
+  transform: translateX(0);
+}
+
+.mobileMenu > * {
+  position: relative;
+  z-index: 2;
+}
+
+.mobileLink {
+  padding: 1rem 2rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border-left: 3px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.mobileLink:first-child {
+  margin-top: 80px;
+}
+
+.mobileLink:hover,
+.mobileLink.active {
+  color: #ffffff;
+  border-left-color: var(--neon-blue, #00d2ff);
+  background: rgba(0, 210, 255, 0.07);
+}
+
+.mobileDivider {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    rgba(255, 58, 58, 0.4),
+    rgba(0, 210, 255, 0.4)
+  );
+  margin: 0.5rem 2rem;
+}
+
+.mobileBtnConnexion {
+  margin: 0.75rem 2rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 58, 58, 0.15) 0%,
+    rgba(0, 210, 255, 0.15) 100%
+  );
+  border: 1.5px solid;
+  border-image: linear-gradient(
+    135deg,
+    var(--neon-red, #ff3a3a),
+    var(--neon-blue, #00d2ff)
+  ) 1;
+  color: #ffffff;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.mobileBtnConnexion:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 58, 58, 0.28) 0%,
+    rgba(0, 210, 255, 0.28) 100%
+  );
 }
 
 .bottomBorderSvg {
@@ -94,4 +298,54 @@
   width: 100%;
   height: 35px;
   pointer-events: none;
+}
+
+@media (max-width: 768px) {
+
+  .headerContent {
+    grid-template-columns: 1fr auto;
+    padding: 0.5rem 1rem;
+    align-items: center;
+  }
+
+  .logoContainer {
+    width: auto;
+  }
+
+  .logoImage {
+    height: 60px;
+    margin-left: 0;
+    margin-top: 0;
+  }
+
+  /* Cache nav et bouton desktop */
+  .nav,
+  .authDesktop {
+    display: none;
+  }
+
+  /* Affiche le burger */
+  .burger {
+    display: flex;
+  }
+
+  /* Affiche le menu mobile */
+  .mobileMenu {
+    display: flex;
+  }
+
+  /* Affiche l'overlay de fermeture */
+  .menuOverlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 17;
+  }
+
+  /* SVG visible sur mobile mais adapté */
+  .bottomBorderSvg {
+    display: block; /* ← on le remet visible */
+    height: 20px;   /* ← plus petit sur mobile */
+  }
 }

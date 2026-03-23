@@ -17,6 +17,7 @@
 
 .searchBarContainer {
   position: relative;
+  width: 100%;
 }
 
 .searchBar {
@@ -60,7 +61,6 @@
   flex: 1;
 }
 
-/* ✅ Nouveaux styles */
 .section {
   display: flex;
   flex-direction: column;
@@ -75,4 +75,170 @@
   color: #ffffff;
   margin: 0;
   letter-spacing: 0.5px;
+}
+
+@media (max-width: 768px) {
+  .section {
+    margin-top: 30px;
+    gap: 16px;
+  }
+
+  .sectionTitle {
+    font-size: 1.2rem;
+    padding: 0 1rem;
+  }
+
+  .listContainer {
+    padding: 12px;
+  }
+
+  .headerRow {
+    margin-bottom: 14px;
+  }
+
+  .searchBar {
+    width: 100%;
+    max-width: 100%;
+    font-size: 0.85rem;
+  }
+
+  .searchBarContainer {
+    width: 100%;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .carouselWrapper {
+    gap: 6px;
+  }
+
+  .arrow {
+    font-size: 1.2rem;
+    padding: 3px;
+  }
+}
+.listContainer {
+  padding: 20px;
+}
+
+.headerRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.searchBarContainer {
+  position: relative;
+  width: 100%;
+}
+
+.searchBar {
+  background-color: transparent;
+  border: 1px solid rgba(255, 58, 58, 0.4);
+  border-radius: 8px;
+  padding: 8px 30px 8px 12px;
+  color: white;
+  width: 450px;
+  outline: none;
+  font-family: 'Inter', sans-serif;
+}
+
+.searchIcon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+}
+
+.carouselWrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.arrow {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  flex: 1;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 60px;
+}
+
+.sectionTitle {
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 768px) {
+  .section {
+    margin-top: 30px;
+    gap: 16px;
+  }
+
+  .sectionTitle {
+    font-size: 1.2rem;
+    padding: 0 1rem;
+  }
+
+  .listContainer {
+    padding: 12px;
+  }
+
+  .headerRow {
+    margin-bottom: 14px;
+  }
+
+  .searchBar {
+    width: 100%;
+    max-width: 100%;
+    font-size: 0.85rem;
+  }
+
+  .searchBarContainer {
+    width: 100%;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .carouselWrapper {
+    gap: 6px;
+  }
+
+  .arrow {
+    font-size: 1.2rem;
+    padding: 3px;
+  }
 }
