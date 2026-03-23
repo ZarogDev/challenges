@@ -1,0 +1,245 @@
+.pageWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 200px);
+  padding: 3rem 2rem;
+}
+
+/* Carte centrale */
+.card {
+  position: relative;
+  width: 100%;
+  max-width: 480px; 
+  background: var(--panel-bg, rgba(10, 16, 35, 0.95));
+  border: 1px solid rgba(0, 210, 255, 0.2);
+  border-radius: 12px;
+  padding: 2.5rem;
+  box-shadow:
+    0 0 40px rgba(0, 210, 255, 0.08),
+    0 0 40px rgba(255, 58, 58, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* Ligne décorative néon en haut de la carte */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--neon-blue, #00d2ff) 40%,
+    var(--neon-red, #ff3a3a) 60%,
+    transparent
+  );
+  border-radius: 2px;
+  box-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
+}
+
+/* En-tête */
+.cardHeader {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 0.4rem;
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted, #8a9baa);
+  margin: 0;
+}
+
+/* Formulaire */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  flex: 1;
+}
+
+/* Grille pour la page Register (2 mots de passe côte à côte) */
+.gridRow {
+  display: flex;
+  gap: 1rem;
+}
+
+@media (max-width: 480px) {
+  .gridRow {
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+}
+
+.label {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted, #8a9baa);
+}
+
+.input {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(0, 210, 255, 0.2);
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 0.92rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+/* Hack calendrier pour la page Register */
+.input::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.input:focus {
+  border-color: var(--neon-blue, #00d2ff);
+  box-shadow: 0 0 12px rgba(0, 210, 255, 0.2);
+  background: rgba(0, 210, 255, 0.04);
+}
+
+/* Message d'erreur */
+.errorBox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1rem;
+  background: rgba(255, 58, 58, 0.1);
+  border: 1px solid rgba(255, 58, 58, 0.35);
+  border-radius: 6px;
+  color: #ff8a80;
+  font-size: 0.85rem;
+}
+
+/* --- BOUTON PRINCIPAL (Se connecter / S'inscrire) --- */
+.btnSubmit {
+  width: 100%;
+  padding: 0.8rem;
+  margin-top: 0.5rem;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 58, 58, 0.15) 0%,
+    rgba(0, 210, 255, 0.15) 100%
+  );
+  border: 1.5px solid;
+  border-image: linear-gradient(135deg, var(--neon-red, #ff3a3a), var(--neon-blue, #00d2ff)) 1;
+  color: #ffffff;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 0 20px rgba(0, 210, 255, 0.1),
+    0 0 20px rgba(255, 58, 58, 0.1);
+}
+
+.btnSubmit:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 58, 58, 0.28) 0%,
+    rgba(0, 210, 255, 0.28) 100%
+  );
+  box-shadow:
+    0 0 30px rgba(0, 210, 255, 0.25),
+    0 0 30px rgba(255, 58, 58, 0.2);
+  transform: translateY(-2px);
+}
+
+/* --- SECTION DE REDIRECTION (Bas de carte) --- */
+.registerSection {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.registerText {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-muted, #8a9baa);
+}
+
+/* Bouton Secondaire fantôme (CTA de redirection) */
+.btnSecondary {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0.75rem;
+  background: transparent;
+  border: 1px solid var(--neon-blue, #00d2ff);
+  color: var(--neon-blue, #00d2ff);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btnSecondary:hover {
+  background: rgba(0, 210, 255, 0.1);
+  color: #ffffff;
+  box-shadow: 0 0 15px rgba(0, 210, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Simple lien texte (utilisé potentiellement ailleurs ou pour Register) */
+.registerLink {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--text-muted, #8a9baa);
+}
+
+.link {
+  color: var(--neon-blue, #00d2ff);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.link:hover {
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(0, 210, 255, 0.6);
+}

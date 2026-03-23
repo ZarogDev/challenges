@@ -1,131 +1,143 @@
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import { isValidRegister } from "../lib/utils";
+import { Link } from "react-router-dom";
+import styles from "./Login.module.css";
+
 
 function Register() {
-    const [formData, setFormData] = useState({
-        username:"",
-        email:"",
-        password:"",
-        password_confirm:"",
-        birthdate:"",
-    });
-    const [registerError, setRegisterError] = useState<string | string[] | null>(null);
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    birthday: "",
+  });
+  const [error, setError] = useState("");
 
-    const navigate = useNavigate();
-    const { isLoggedIn } = useAuth();
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError(""); // Efface l'erreur quand on tape
+  };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({ ...formData, [e.currentTarget.name]: e.currentTarget.value});
-    };
-
-    async function registerUser() {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/register`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(formData)
-        });
-
-        if(!response.ok) {
-            setRegisterError("Erreur lors de l'inscription");
-            return;
-        }
-
-        navigate("/login");
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formData.password !== formData.confirmPassword) {
+      setError("Les mots de passe ne sont pas identiques.");
+      return;
     }
+    console.log("Inscription :", formData);
+    // Logique d'inscription ici
+  };
 
-    const handleSubmit = async () => {
-        const isValid = await isValidRegister(formData.username, formData.email, formData.password, formData.password_confirm, formData.birthdate);
+  return (
+    <>
 
-        if (!isValid.valid) {
-            setRegisterError(isValid.messages || "Données invalides");
-            console.log(isValid.messages);
-            return;
-        }
 
-        await registerUser();
-    };
+      <div className={styles.pageWrapper}>
+        <div className={styles.card}>
 
-    return isLoggedIn ? <Navigate to="/" /> : (
-        <div>
-            <h1>Inscription</h1>
-            <form action={handleSubmit}>
-                <div>
-                    <label htmlFor="username">Nom d'utilisateur</label>
-                    <input 
-                    type="text"
-                    id="username"
-                    name="username"
-                    value={formData.username}
-                    onChange={handleChange}
-                    required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="email">Email</label>
-                    <input 
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="password">Mot de passe</label>
-                    <input 
-                    type="password"
-                    id="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                    />
-                </div>
-                <div>
-                <label htmlFor="confirmPassword">Confirmez le mot de passe</label>
-                    <input 
-                    type="password"
-                    id="confirmPassword"
-                    name="password_confirm"
-                    value={formData.password_confirm}
-                    onChange={handleChange}
-                    required
-                    />
-                    </div>
+          {/* En-tête carte */}
+          <div className={styles.cardHeader}>
+            <h1 className={styles.title}>Inscription</h1>
+            <p className={styles.subtitle}>Rejoins l'arène GamerChallenges</p>
+          </div>
 
-                <div>
-                    <label htmlFor="birthdate">Date de naissance</label>
-                    <input 
-                    type="date"
-                    id="birthdate"
-                    name="birthdate"
-                    value={formData.birthdate}
-                    onChange={handleChange}
-                    required
-                    />
-                </div>
+          {/* Formulaire */}
+          <form onSubmit={handleSubmit} className={styles.form}>
 
-                {registerError && 
-                registerError instanceof Array ? (
-                    <ul>
-                        {registerError.map((err, index) => (<li key={index}>{err}</li>))}
-                    </ul>
-                ) : (
-                    <p>{registerError}</p>
-                )}
+            <div className={styles.fieldGroup}>
+              <label htmlFor="username" className={styles.label}>Nom d'utilisateur</label>
+              <input
+                type="text"
+                id="username"
+                name="username" // Ajout de name pour que handleChange fonctionne
+                value={formData.username}
+                onChange={handleChange}
+                placeholder="Ton pseudo (ex: Cybersniper)"
+                className={styles.input}
+                required
+              />
+            </div>
 
-                <button type="submit">S'inscrire</button>   
-            </form>
-            <p>
-                Déja un compte ? <a href="/login">Se connecter</a>
-            </p>
+            <div className={styles.fieldGroup}>
+              <label htmlFor="email" className={styles.label}>Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="votre@email.com"
+                className={styles.input}
+                required
+              />
+            </div>
+
+            {/* Grid pour mettre les deux mots de passe côte à côte sur PC */}
+            <div className={styles.gridRow}>
+              <div className={styles.fieldGroup}>
+                <label htmlFor="password" className={styles.label}>Mot de passe</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="••••••••"
+                  className={styles.input}
+                  required
+                />
+              </div>
+
+              <div className={styles.fieldGroup}>
+                <label htmlFor="confirmPassword" className={styles.label}>Confirmation</label>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  placeholder="••••••••"
+                  className={styles.input}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className={styles.fieldGroup}>
+              <label htmlFor="birthday" className={styles.label}>Date de naissance</label>
+              <input
+                type="date"
+                id="birthday"
+                name="birthday"
+                value={formData.birthday}
+                onChange={handleChange}
+                className={styles.input}
+                required
+              />
+            </div>
+
+            {error && (
+              <div className={styles.errorBox}>
+                <span>⚠</span> {error}
+              </div>
+            )}
+
+            <button type="submit" className={styles.btnSubmit}>
+              S'inscrire
+            </button>
+
+          </form>
+
+          {/* Lien connexion */}
+          <p className={styles.registerLink}>
+            Déjà un compte ?{" "}
+            <Link to="/login" className={styles.link}>Se connecter</Link>
+          </p>
+
         </div>
-    );
+      </div>
+    </>
+  );
 }
 
 export default Register;
