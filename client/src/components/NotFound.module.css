@@ -1,27 +1,155 @@
-.notFound {
-    min-height: 60vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    gap: 1rem;
+.pageWrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: calc(100vh - 200px);
+  padding: 2rem 0;
+}
+
+/* Carte centrale */
+.card {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  background: var(--panel-bg, rgba(10, 16, 35, 0.95));
+  border: 1px solid rgba(0, 210, 255, 0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow:
+    0 0 50px rgba(0, 210, 255, 0.07),
+    0 0 50px rgba(255, 58, 58, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* Ligne décorative néon en haut */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--neon-blue, #00d2ff) 40%,
+    var(--neon-red, #ff3a3a) 60%,
+    transparent
+  );
+  box-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
+  z-index: 2;
+}
+
+/* Image */
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  object-position: center center;
+  display: block;
+}
+
+/* Fondu bas de l'image vers la carte */
+.imageFadeBottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--panel-bg, rgba(10, 16, 35, 0.95))
+  );
+}
+
+/* Contenu texte */
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.5rem 2.5rem 2.5rem;
+  gap: 1rem;
+}
+
+/* Badge erreur */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 1rem;
+  border: 1px solid rgba(255, 58, 58, 0.4);
+  border-radius: 20px;
+  background: rgba(255, 58, 58, 0.08);
+  color: var(--neon-red, #ff3a3a);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 .title {
-    font-size: 2.5rem;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0;
 }
 
 .text {
-    font-size: 1.1rem;
-    max-width: 500px;
+  color: var(--text-muted, #8a9baa);
+  font-size: 0.92rem;
+  line-height: 1.7;
+  margin: 0;
+  max-width: 520px;
 }
 
-.link {
-    margin-top: 1rem;
-    padding: 0.6rem 1.2rem;
-    border-radius: 4px;
-    background-color: #7b61ff;
-    color: #ffffff;
-    text-decoration: none;
+/* Bouton retour accueil */
+.btnHome {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding: 0.75rem 2rem;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 58, 58, 0.15) 0%,
+    rgba(0, 210, 255, 0.15) 100%
+  );
+  border: 1.5px solid;
+  border-image: linear-gradient(135deg, var(--neon-red, #ff3a3a), var(--neon-blue, #00d2ff)) 1;
+  color: #ffffff;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 0 20px rgba(0, 210, 255, 0.1),
+    0 0 20px rgba(255, 58, 58, 0.1);
+}
+
+.btnHome:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 58, 58, 0.28) 0%,
+    rgba(0, 210, 255, 0.28) 100%
+  );
+  box-shadow:
+    0 0 30px rgba(0, 210, 255, 0.25),
+    0 0 30px rgba(255, 58, 58, 0.2);
+  transform: translateY(-2px);
 }
