@@ -1,37 +1,58 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
-
+import { useAuth } from "../context/AuthContext";
+import { isValidRegister } from "../lib/utils";
 
 function Register() {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
-    confirmPassword: "",
-    birthday: "",
+    password_confirm: "",
+    birthdate: "",
   });
-  const [error, setError] = useState("");
+  const [error, setError] = useState<{
+    [x: string]: string;
+}[] | undefined>(undefined);
+
+  const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    setError(""); // Efface l'erreur quand on tape
+    setFormData({ ...formData, [e.currentTarget.name]: e.currentTarget.value});
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      setError("Les mots de passe ne sont pas identiques.");
+  const handleSubmit = async () => {
+    const isValid = await isValidRegister(formData.username, formData.email, formData.password, formData.password_confirm, formData.birthdate);
+
+    if (!isValid.valid) {
+      setError(isValid.messages || [{ global: "Données invalides" }]);
+
       return;
     }
-    console.log("Inscription :", formData);
-    // Logique d'inscription ici
+
+    return await registerUser();
   };
 
-  return (
-    <>
+  async function registerUser() {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/register`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(formData)
+        });
 
+        if(!response.ok) {
+            setError([{ global: "Erreur lors de l'inscription" }]);
+            return;
+        }
 
+        navigate("/login");
+  }
+
+  return isLoggedIn ? <Navigate to="/"/> : (
       <div className={styles.pageWrapper}>
         <div className={styles.card}>
 
@@ -42,18 +63,18 @@ function Register() {
           </div>
 
           {/* Formulaire */}
-          <form onSubmit={handleSubmit} className={styles.form}>
+          <form action={handleSubmit} className={styles.form} noValidate>
 
             <div className={styles.fieldGroup}>
               <label htmlFor="username" className={styles.label}>Nom d'utilisateur</label>
               <input
                 type="text"
                 id="username"
-                name="username" // Ajout de name pour que handleChange fonctionne
+                name="username"
                 value={formData.username}
                 onChange={handleChange}
                 placeholder="Ton pseudo (ex: Cybersniper)"
-                className={styles.input}
+                className={`${styles.input} ${error?.find(err => err["username"]) ? styles.invalid : ""}`}
                 required
               />
             </div>
@@ -67,7 +88,7 @@ function Register() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="votre@email.com"
-                className={styles.input}
+                className={`${styles.input} ${error?.find(err => err["email"]) ? styles.invalid : ""}`}
                 required
               />
             </div>
@@ -83,42 +104,46 @@ function Register() {
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="••••••••"
-                  className={styles.input}
+                  className={`${styles.input} ${error?.find(err => err["password"]) ? styles.invalid : ""}`}
                   required
                 />
               </div>
 
               <div className={styles.fieldGroup}>
-                <label htmlFor="confirmPassword" className={styles.label}>Confirmation</label>
+                <label htmlFor="password_confirm" className={styles.label}>Confirmation</label>
                 <input
                   type="password"
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
+                  id="password_confirm"
+                  name="password_confirm"
+                  value={formData.password_confirm}
                   onChange={handleChange}
                   placeholder="••••••••"
-                  className={styles.input}
+                  className={`${styles.input} ${error?.find(err => err["password_confirm"]) ? styles.invalid : ""}`}
                   required
                 />
               </div>
             </div>
 
             <div className={styles.fieldGroup}>
-              <label htmlFor="birthday" className={styles.label}>Date de naissance</label>
+              <label htmlFor="birthdate" className={styles.label}>Date de naissance</label>
               <input
                 type="date"
-                id="birthday"
-                name="birthday"
-                value={formData.birthday}
+                id="birthdate"
+                name="birthdate"
+                value={formData.birthdate}
                 onChange={handleChange}
-                className={styles.input}
+                className={`${styles.input} ${error?.find(err => err["birthdate"]) ? styles.invalid : ""}`}
                 required
               />
             </div>
 
             {error && (
               <div className={styles.errorBox}>
-                <span>⚠</span> {error}
+                {error.map((err, index) => (
+                  <div className={styles.errorItem} key={index}>
+                    <span>⚠</span> {Object.values(err)}
+                  </div>
+                ))}
               </div>
             )}
 
@@ -136,7 +161,6 @@ function Register() {
 
         </div>
       </div>
-    </>
   );
 }
 

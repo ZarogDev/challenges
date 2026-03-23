@@ -111,6 +111,10 @@
   box-sizing: border-box;
 }
 
+.invalid {
+  border-color: var(--neon-red);
+}
+
 .input::placeholder {
   color: rgba(255, 255, 255, 0.2);
 }
@@ -131,6 +135,7 @@
 /* Message d'erreur */
 .errorBox {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
   padding: 0.65rem 1rem;
@@ -139,6 +144,10 @@
   border-radius: 6px;
   color: #ff8a80;
   font-size: 0.85rem;
+}
+
+.errorItem {
+  width: 100%;
 }
 
 /* --- BOUTON PRINCIPAL (Se connecter / S'inscrire) --- */

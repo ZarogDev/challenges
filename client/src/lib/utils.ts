@@ -45,7 +45,9 @@ export const getInitialColor = (username: string): string => {
   return textColors[index];
 };
 
-export async function isValidRegister(username: string, email: string, password: string, password_confirm: string, birthdate: string): Promise<{ valid: boolean; messages?: string | string[] }> {
+export async function isValidRegister(username: string, email: string, password: string, password_confirm: string, birthdate: string): Promise<{ valid: boolean; messages?: {
+    [x: string]: string;
+}[] }> {
 
   const registerSchema = z.object({
     username: z.string().min(3, "Le nom d'utilisateur doit contenir au moins 3 caractères").max(20, "Le nom d'utilisateur ne peut pas dépasser 20 caractères"),
@@ -70,11 +72,11 @@ export async function isValidRegister(username: string, email: string, password:
     if (error instanceof ZodError) {
       const errors = error.issues;
 
-      const messages = errors.map(err => err.message);
+      const messages = errors.map(err => ({[err.path[0]]: err.message}));
 
       return { valid: false, messages };
     }
 
-    return { valid: false, messages: "Une erreur inconnue est survenue" };
+    return { valid: false, messages: [{ global: "Une erreur inconnue est survenue"}] };
   }
 }

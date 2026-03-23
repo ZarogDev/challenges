@@ -1,7 +1,10 @@
+import { useAuth } from '../context/AuthContext';
 import styles from './Hero.module.css';
 import { Link } from "react-router-dom"
 
 const Hero = () => {
+  const { isLoggedIn } = useAuth();
+
   return (
     <section className={styles.hero}>
       <div className={styles.fadeLeft} />
@@ -19,7 +22,7 @@ const Hero = () => {
         </p>
         <div className={styles.actions}>
           <Link to="/challenges" className={styles.btnPrimary} >Voir les challenges</Link>
-          <Link to="/register" className={styles.btnSecondary}>Inscription</Link>
+          {!isLoggedIn && <Link to="/register" className={styles.btnSecondary}>Inscription</Link>}
         </div>
       </div>
     </section>
