@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { isValidRegister } from "../lib/utils";
 
 function Register() {
     const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ function Register() {
         password_confirm:"",
         birthdate:"",
     });
+    const [registerError, setRegisterError] = useState<string | string[] | null>(null);
 
     const navigate = useNavigate();
     const { isLoggedIn } = useAuth();
@@ -28,8 +30,7 @@ function Register() {
         });
 
         if(!response.ok) {
-            alert("Erreur lors de l'inscription");
-            console.log(response);
+            setRegisterError("Erreur lors de l'inscription");
             return;
         }
 
@@ -37,43 +38,11 @@ function Register() {
     }
 
     const handleSubmit = async () => {
-        if(formData.password !== formData.password_confirm) {
-            alert("Les mots de passe ne correspondent pas");
-            return;
-        }
+        const isValid = await isValidRegister(formData.username, formData.email, formData.password, formData.password_confirm, formData.birthdate);
 
-        if(new Date(formData.birthdate) > new Date()) {
-            alert("La date de naissance ne peut pas être dans le futur");
-            return;
-        }
-
-        if(new Date().getFullYear() - new Date(formData.birthdate).getFullYear() < 15) {
-            alert("Vous devez avoir au moins 15 ans pour vous inscrire");
-            return;
-        }
-
-        if(!formData.email.includes("@")) {
-            alert("Veuillez entrer une adresse email valide");
-            return;
-        }
-
-        if(formData.password.length < 6) {
-            alert("Le mot de passe doit contenir au moins 6 caractères");
-            return;
-        }
-
-        if(formData.username.length < 3) {
-            alert("Le nom d'utilisateur doit contenir au moins 3 caractères");
-            return;
-        }
-
-        if(formData.username.length > 20) {
-            alert("Le nom d'utilisateur ne peut pas dépasser 20 caractères");
-            return;
-        }
-
-        if(formData.password.length > 50) {
-            alert("Le mot de passe ne peut pas dépasser 50 caractères");
+        if (!isValid.valid) {
+            setRegisterError(isValid.messages || "Données invalides");
+            console.log(isValid.messages);
             return;
         }
 
@@ -140,7 +109,17 @@ function Register() {
                     required
                     />
                 </div>
-                        <button type="submit">S'inscrire</button>   
+
+                {registerError && 
+                registerError instanceof Array ? (
+                    <ul>
+                        {registerError.map((err, index) => (<li key={index}>{err}</li>))}
+                    </ul>
+                ) : (
+                    <p>{registerError}</p>
+                )}
+
+                <button type="submit">S'inscrire</button>   
             </form>
             <p>
                 Déja un compte ? <a href="/login">Se connecter</a>
