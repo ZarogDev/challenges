@@ -1,4 +1,4 @@
-import styles from "./ProfilPage.module.css"
+import styles from "./ProfilePage.module.css"
 
 type User = {
     username: string
