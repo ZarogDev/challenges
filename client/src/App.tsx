@@ -15,6 +15,7 @@ import NotFound from "./components/NotFound"
 import Login from './components/Login';
 import Register from './components/Register';
 import RecentChallenges from './components/RecentChallenges';
+import Profile from './components/PageProfile';
 
 function App() {
   return (
@@ -66,7 +67,12 @@ function App() {
               path="/leaderboard"
               element={<Ranking />}
             />
+            {/*Page profile*/}
 
+            <Route 
+            path="/profil"
+            element{<Profile/>}
+            />
           {/* 404 */}
           <Route path="*" element={<NotFound />} />
         
