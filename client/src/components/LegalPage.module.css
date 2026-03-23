@@ -1,0 +1,172 @@
+.pageWrapper {
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 2rem 2rem 4rem;
+}
+
+.container {
+  width: 100%;
+}
+
+/* Barre titre hero */
+.heroBar {
+  position: relative;
+  padding: 2.5rem 2rem;
+  margin-bottom: 2rem;
+  border-left: 3px solid var(--neon-blue, #00d2ff);
+  background: linear-gradient(
+    to right,
+    rgba(0, 210, 255, 0.07) 0%,
+    transparent 100%
+  );
+}
+
+.heroBar::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, var(--neon-blue, #00d2ff), transparent);
+}
+
+.mainTitle {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.mainSubtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted, #8a9baa);
+  margin: 0;
+}
+
+/* Sections */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.section {
+  position: relative;
+  padding: 1.8rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  transition: background 0.2s ease;
+}
+
+.section:hover {
+  background: rgba(0, 210, 255, 0.03);
+}
+
+.section p {
+  color: var(--text-muted, #8a9baa);
+  font-size: 0.92rem;
+  line-height: 1.7;
+  margin: 0.5rem 0;
+}
+
+/* Numéro + titre de section */
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0 0 1rem;
+}
+
+.sectionNumber {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--neon-blue, #00d2ff);
+  color: var(--neon-blue, #00d2ff);
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 4px;
+  flex-shrink: 0;
+  box-shadow: 0 0 8px rgba(0, 210, 255, 0.2);
+}
+
+/* Sous-titres h3 */
+.subTitle {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--neon-blue, #00d2ff);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 1.2rem 0 0.5rem;
+}
+
+/* Listes */
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.list li {
+  position: relative;
+  padding-left: 1.2rem;
+  color: var(--text-muted, #8a9baa);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.list li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--neon-blue, #00d2ff);
+  font-size: 0.7rem;
+  top: 0.25rem;
+}
+
+/* Labels en gras dans les listes */
+.label {
+  color: #c9d6e3;
+  font-weight: 600;
+}
+
+/* Texte accentué */
+.highlight {
+  color: var(--neon-blue, #00d2ff);
+  font-weight: 600;
+}
+
+/* Section contact */
+.contactSection {
+  border-bottom: none;
+}
+
+.contactBox {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid rgba(0, 210, 255, 0.3);
+  border-radius: 6px;
+  background: rgba(0, 210, 255, 0.05);
+  color: var(--neon-blue, #00d2ff);
+  font-size: 0.92rem;
+  box-shadow: 0 0 12px rgba(0, 210, 255, 0.1);
+}

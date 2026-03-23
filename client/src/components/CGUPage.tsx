@@ -1,173 +1,203 @@
+import styles from './LegalPage.module.css';
+
 export default function CGUPage() {
   return (
-    <div className="cgu-page">
-      <h1>CONDITIONS GÉNÉRALES D'UTILISATION - GamerChallenges</h1>
+    <>
+      <div className={styles.pageWrapper}>
+        <div className={styles.container}>
 
-      <h2>1. Objet</h2>
+          {/* En-tête de la page */}
+          <div className={styles.heroBar}>
+            <h1 className={styles.mainTitle}>Conditions Générales d'Utilisation</h1>
+            <p className={styles.mainSubtitle}>GamerChallenges — Règles et fonctionnement de la plateforme</p>
+          </div>
 
-      <p>
-        Les présentes Conditions Générales d'Utilisation (CGU) définissent les règles d'utilisation de la plateforme <strong>GamerChallenges</strong>.
-      </p>
+          <div className={styles.content}>
 
-      <p>
-        Toute utilisation du site implique l'acceptation des présentes conditions.
-      </p>
+            <section className={styles.section}>
+              <h2 className={styles.sectionTitle}>
+                <span className={styles.sectionNumber}>01</span>
+                Objet
+              </h2>
+              <p>
+                Les présentes Conditions Générales d'Utilisation (CGU) définissent les règles d'utilisation de la plateforme <strong className={styles.highlight}>GamerChallenges</strong>.
+              </p>
+              <p>Toute utilisation du site implique l'acceptation des présentes conditions.</p>
+            </section>
 
-      <h2>2. Inscription</h2>
+            <section className={styles.section}>
+              <h2 className={styles.sectionTitle}>
+                <span className={styles.sectionNumber}>02</span>
+                Inscription
+              </h2>
+              <p>L'utilisateur peut créer un compte en fournissant :</p>
+              <ul className={styles.list}>
+                <li>Un email valide</li>
+                <li>Un pseudonyme</li>
+                <li>Un mot de passe sécurisé</li>
+              </ul>
+              <p>L'utilisateur est responsable de la confidentialité de ses identifiants et de toutes les activités réalisées avec son compte.</p>
+            </section>
 
-      <p>
-        L'utilisateur peut créer un compte en fournissant :
-      </p>
+            <section className={styles.section}>
+              <h2 className={styles.sectionTitle}>
+                <span className={styles.sectionNumber}>03</span>
+                Fonctionnalités
+              </h2>
+              <p>La plateforme permet de :</p>
+              <ul className={styles.list}>
+                <li>Créer des challenges</li>
+                <li>Participer à des défis</li>
+                <li>Publier des performances (scores, vidéos)</li>
+                <li>Voter pour les challenges et participations</li>
+                <li>Consulter des classements</li>
+              </ul>
+            </section>
 
-      <ul>
-        <li>un email valide</li>
-        <li>un pseudonyme</li>
-        <li>un mot de passe sécurisé</li>
-      </ul>
+            <section className={styles.section}>
+              <h2 className={styles.sectionTitle}>
+                <span className={styles.sectionNumber}>04</span>
+                Règles de conduite
+              </h2>
+              <p>L'utilisateur s'engage à :</p>
+              <ul className={styles.list}>
+                <li>Respecter les autres membres de la communauté</li>
+                <li>Ne pas tricher ou falsifier ses performances</li>
+                <li>Ne pas publier de contenu illégal, offensant ou inapproprié</li>
+                <li>Ne pas usurper l'identité d'un tiers</li>
+              </ul>
+            </section>
 
-      <p>
-        L'utilisateur est responsable de la confidentialité de ses identifiants et de toutes les activités réalisées avec son compte.
-      </p>
+            <section className={styles.section}>
+              <h2 className={styles.sectionTitle}>
+                <span className={styles.sectionNumber}>05</span>
+                Contenus utilisateurs
+              </h2>
+              <h3 className={styles.subTitle}>Responsabilité</h3>
+              <p>Les contenus publiés (challenges, scores, vidéos, commentaires) sont sous la responsabilité de l'utilisateur.</p>
+              
+              <h3 className={styles.subTitle}>Licence accordée à la plateforme</h3>
+              <p>En publiant du contenu, l'utilisateur autorise GamerChallenges à :</p>
+              <ul className={styles.list}>
+                <li>Afficher et diffuser le contenu sur la plateforme</li>
+                <li>Promouvoir le contenu dans le cadre du service</li>
+              </ul>
+            </section>
 
-      <h2>3. Fonctionnalités</h2>
+            <section className={styles.section}>
+              <h2 className={styles.sectionTitle}>
+                <span className={styles.sectionNumber}>06</span>
+                Système de vote et classement
+              </h2>
+              <p>Les classements sont calculés automatiquement à partir des participations et votes.</p>
+              <p>L'éditeur ne garantit pas :</p>
+              <ul className={styles.list}>
+                <li>L'exactitude absolue des scores</li>
+                <li>L'absence de triche ou d'erreurs dans les participations</li>
+              </ul>
+            </section>
 
-      <p>La plateforme permet de :</p>
+            <section className={styles.section}>
+              <h2 className={styles.sectionTitle}>
+                <span className={styles.sectionNumber}>07</span>
+                Modération
+              </h2>
+              <p>L'éditeur se réserve le droit de :</p>
+              <ul className={styles.list}>
+                <li>Supprimer un contenu inapproprié</li>
+                <li>Suspendre ou supprimer un compte utilisateur</li>
+                <li>Intervenir en cas de non-respect des CGU</li>
+              </ul>
+            </section>
 
-      <ul>
-        <li>créer des challenges</li>
-        <li>participer à des défis</li>
-        <li>publier des performances (scores, vidéos)</li>
-        <li>voter pour les challenges et participations</li>
-        <li>consulter des classements</li>
-      </ul>
+            <section className={styles.section}>
+              <h2 className={styles.sectionTitle}>
+                <span className={styles.sectionNumber}>08</span>
+                Suspension et suppression de compte
+              </h2>
+              <p>L'utilisateur peut supprimer son compte à tout moment.</p>
+              <p>L'éditeur peut suspendre ou supprimer un compte en cas de :</p>
+              <ul className={styles.list}>
+                <li>Comportement abusif ou frauduleux</li>
+                <li>Violation des CGU</li>
+                <li>Non-respect des règles de la communauté</li>
+              </ul>
+            </section>
 
-      <h2>4. Règles de conduite</h2>
+            <section className={styles.section}>
+              <h2 className={styles.sectionTitle}>
+                <span className={styles.sectionNumber}>09</span>
+                Responsabilité
+              </h2>
+              <p>La plateforme est fournie "en l'état". L'éditeur ne peut être tenu responsable :</p>
+              <ul className={styles.list}>
+                <li>Des bugs, erreurs ou interruptions du service</li>
+                <li>Des pertes de données ou de contenus utilisateurs</li>
+                <li>Des comportements des autres utilisateurs</li>
+              </ul>
+            </section>
 
-      <p>L'utilisateur s'engage à :</p>
+            <section className={styles.section}>
+              <h2 className={styles.sectionTitle}>
+                <span className={styles.sectionNumber}>10</span>
+                Propriété intellectuelle
+              </h2>
+              <p>Le site et l'ensemble de ses contenus (texte, images, logos, code) sont protégés par le droit de la propriété intellectuelle.</p>
+              <p>Toute reproduction, modification ou exploitation sans autorisation est interdite.</p>
+            </section>
 
-      <ul>
-        <li>respecter les autres membres de la communauté</li>
-        <li>ne pas tricher ou falsifier ses performances</li>
-        <li>ne pas publier de contenu illégal, offensant ou inapproprié</li>
-        <li>ne pas usurper l'identité d'un tiers</li>
-      </ul>
+            <section className={styles.section}>
+              <h2 className={styles.sectionTitle}>
+                <span className={styles.sectionNumber}>11</span>
+                Services tiers
+              </h2>
+              <p>La plateforme peut intégrer des services externes (ex : YouTube). L'utilisateur accepte les conditions et politiques de ces services.</p>
+            </section>
 
-      <h2>5. Contenus utilisateurs</h2>
+            <section className={styles.section}>
+              <h2 className={styles.sectionTitle}>
+                <span className={styles.sectionNumber}>12</span>
+                Évolution du service
+              </h2>
+              <p>La plateforme peut évoluer à tout moment avec :</p>
+              <ul className={styles.list}>
+                <li>L'ajout de fonctionnalités</li>
+                <li>La modification ou la suppression de services</li>
+              </ul>
+            </section>
 
-      <h3>Responsabilité</h3>
+            <section className={styles.section}>
+              <h2 className={styles.sectionTitle}>
+                <span className={styles.sectionNumber}>13</span>
+                Modification des CGU
+              </h2>
+              <p>Les présentes CGU peuvent être modifiées à tout moment. L'utilisateur est invité à les consulter régulièrement.</p>
+            </section>
 
-      <p>
-        Les contenus publiés (challenges, scores, vidéos, commentaires) sont sous la responsabilité de l'utilisateur.
-      </p>
+            <section className={styles.section}>
+              <h2 className={styles.sectionTitle}>
+                <span className={styles.sectionNumber}>14</span>
+                Droit applicable
+              </h2>
+              <p>Les présentes CGU sont soumises au droit français.</p>
+            </section>
 
-      <h3>Licence accordée à la plateforme</h3>
+            <section className={`${styles.section} ${styles.contactSection}`}>
+              <h2 className={styles.sectionTitle}>
+                <span className={styles.sectionNumber}>15</span>
+                Contact
+              </h2>
+              <p>Pour toute question relative aux CGU :</p>
+              <div className={styles.contactBox}>
+                <span>📧</span>
+                <span>[Adresse e-mail de contact]</span>
+              </div>
+            </section>
 
-      <p>
-        En publiant du contenu, l'utilisateur autorise GamerChallenges à :
-      </p>
+          </div>
+        </div>
+      </div>
 
-      <ul>
-        <li>afficher et diffuser le contenu sur la plateforme</li>
-        <li>promouvoir le contenu dans le cadre du service</li>
-      </ul>
-
-      <h2>6. Système de vote et classement</h2>
-
-      <p>
-        Les classements sont calculés automatiquement à partir des participations et votes.
-      </p>
-
-      <p>
-        L'éditeur ne garantit pas :
-      </p>
-
-      <ul>
-        <li>l'exactitude absolue des scores</li>
-        <li>l'absence de triche ou d'erreurs dans les participations</li>
-      </ul>
-
-      <h2>7. Modération</h2>
-
-      <p>L'éditeur se réserve le droit de :</p>
-
-      <ul>
-        <li>supprimer un contenu inapproprié</li>
-        <li>suspendre ou supprimer un compte utilisateur</li>
-        <li>intervenir en cas de non-respect des CGU</li>
-      </ul>
-
-      <h2>8. Suspension et suppression de compte</h2>
-
-      <p>
-        L'utilisateur peut supprimer son compte à tout moment.
-      </p>
-
-      <p>
-        L'éditeur peut suspendre ou supprimer un compte en cas de :
-      </p>
-
-      <ul>
-        <li>comportement abusif ou frauduleux</li>
-        <li>violation des CGU</li>
-        <li>non-respect des règles de la communauté</li>
-      </ul>
-
-      <h2>9. Responsabilité</h2>
-
-      <p>
-        La plateforme est fournie "en l'état".
-      </p>
-
-      <p>L'éditeur ne peut être tenu responsable :</p>
-
-      <ul>
-        <li>des bugs, erreurs ou interruptions du service</li>
-        <li>des pertes de données ou de contenus utilisateurs</li>
-        <li>des comportements des autres utilisateurs</li>
-      </ul>
-
-      <h2>10. Propriété intellectuelle</h2>
-
-      <p>
-        Le site et l'ensemble de ses contenus (texte, images, logos, code) sont protégés par le droit de la propriété intellectuelle.
-      </p>
-
-      <p>Toute reproduction, modification ou exploitation sans autorisation est interdite.</p>
-
-      <h2>11. Services tiers</h2>
-
-      <p>
-        La plateforme peut intégrer des services externes (ex : YouTube). L'utilisateur accepte les conditions et politiques de ces services.
-      </p>
-
-      <h2>12. Évolution du service</h2>
-
-      <p>
-        La plateforme peut évoluer à tout moment avec :
-      </p>
-
-      <ul>
-        <li>l'ajout de fonctionnalités</li>
-        <li>la modification ou la suppression de services</li>
-      </ul>
-
-      <h2>13. Modification des CGU</h2>
-
-      <p>
-        Les présentes CGU peuvent être modifiées à tout moment. L'utilisateur est invité à les consulter régulièrement.
-      </p>
-
-      <h2>14. Droit applicable</h2>
-
-      <p>
-        Les présentes CGU sont soumises au droit français.
-      </p>
-
-      <h2>15. Contact</h2>
-
-      <p>Pour toute question relative aux CGU :</p>
-
-      <p>📧 [Adresse e-mail de contact]</p>
-    </div>
+    </>
   );
 }

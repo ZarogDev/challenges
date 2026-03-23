@@ -25,7 +25,7 @@ const RecentChallenges: React.FC = () => {
     }
 
     fetchChallenges()
-  }, [])
+  }, []);
 
   if (loading) {
     return <p>Chargement des Challenges...</p>
@@ -38,15 +38,15 @@ const RecentChallenges: React.FC = () => {
   return (
       <div className={`${styles.listContainer} neon-border-dual`}>
         <div className={styles.headerRow}>
-          <div className={styles.title}>Challenges populaires / Challenges récents</div>
-          <div className={styles.searchBarContainer}>
+          <div className={styles.title}>Nos derniers challenges</div>
+          {/* <div className={styles.searchBarContainer}>
             <input
               type="text"
               placeholder="Recherche"
               className={styles.searchBar}
             />
             <span className={styles.searchIcon}>🔍</span>
-          </div>
+          </div> */}
         </div>
 
         <div className={styles.carouselWrapper}>
