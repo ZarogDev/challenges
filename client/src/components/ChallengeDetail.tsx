@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './ChallengeDetail.module.css';
-import { getAvatarBorder, getAvatarColor, getInitialColor, getInitials } from '../lib/utils';
+import { getEmbedUrl } from '../lib/utils';
 import { useParams } from 'react-router-dom';
 import type { ChallengeWithParticipations } from '../@types';
 import StarRating from './StarRating';
@@ -74,17 +74,10 @@ const ChallengeDetail: React.FC = () => {
           {challenge.participations.map((c) => (
             <div key={c.id} className={`${styles.completionCard} neon-border-dual`}>
 
-              {/* ✅ Avatar initiales à la place de l'image */}
-              <div
-                className={styles.avatarInitial}
-                style={{
-                  backgroundColor: getAvatarColor(c.participant),
-                  border: `1px solid ${getAvatarBorder(c.participant)}`,
-                  color: getInitialColor(c.participant),
-                }}
-              >
-                {getInitials(c.participant)}
-              </div>
+              <iframe src={getEmbedUrl(c.videoLink)}
+                allow="fullscreen; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
 
               <div className={styles.cardContent}>
                 <span className={styles.username}>{c.participant}</span>
