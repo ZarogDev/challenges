@@ -14,7 +14,7 @@ const StarRating: React.FC<{ rating: number; max?: number }> = ({ rating, max = 
     ))}
   </div>
 
-  <span className={styles.rating}>{rating.toFixed(1)}</span>
+    {rating && <span className={styles.rating}>{rating.toFixed(1)}</span>}
   </>
 );
 
