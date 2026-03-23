@@ -5,6 +5,7 @@ type User = {
     email: string
     avatarUrl: string
     points: number
+    rank: string
 }
 
 const mockUser: User ={
@@ -12,6 +13,7 @@ const mockUser: User ={
     email: "gamerone@example.com",
     avatarUrl: '/avatar-default.png',
     points:3000,
+    rank: "premier",
 }
 
 
