@@ -7,7 +7,8 @@ import {
   voteOnChallenge
 } from "../controllers/challenges.controller.js";
 import { authenticate } from "../middlewares/auth.middleware.js";
-import { validateCreationBody, validateVoteBody } from "../middlewares/challenges.middleware.js";
+import { validateCreationBody } from "../middlewares/challenges.middleware.js";
+import { validateVoteBody } from "../middlewares/common.middleware.js";
 
 const router = Router();
 

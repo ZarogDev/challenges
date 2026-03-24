@@ -13,3 +13,12 @@ export async function validateBody(schema: ZodObject, req: Request, res: Respons
     return res.status(500).json({ error: "Internal server error" });
   }
 }
+
+// common to challenges & participations resources
+export async function validateVoteBody(req: Request, res: Response, next: NextFunction) {
+  const voteOnChallengeSchema = z.object({
+    rating: z.coerce.number().int().min(1).max(5)
+  });
+
+  validateBody(voteOnChallengeSchema, req, res, next);
+}
