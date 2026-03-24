@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import styles from "./CreateChallengeModal.module.css"
+import { useAuth } from "../context/AuthContext"
 
 type CreateChallengeForm = {
   title: string
@@ -33,6 +34,12 @@ const CreateChallengeModal = ({ onClose }: Props) => {
   const [gameResults, setGameResults] = useState<RawgGame[]>([])
   const [gameLoading, setGameLoading] = useState(false)
   const [gameError, setGameError] = useState<string | null>(null)
+
+  const { token, isLoggedIn } = useAuth()
+
+   if (!isLoggedIn) {
+    return null
+  }
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -72,12 +79,10 @@ const CreateChallengeModal = ({ onClose }: Props) => {
     setErrors({})
 
     try {
-      // adapte l’URL à ton backend
-      const res = await fetch("http://localhost:3000/api/challenges", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/challenges`,{
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json" ,"Authorization": `Bearer ${token}`},
         body: JSON.stringify(form),
-        credentials: "include",
       })
 
       if (!res.ok) {
@@ -86,6 +91,7 @@ const CreateChallengeModal = ({ onClose }: Props) => {
       }
 
       onClose()
+      window.location.reload()
     } catch (err) {
       setErrors({ global: (err as Error).message })
     } finally {
@@ -134,8 +140,7 @@ const CreateChallengeModal = ({ onClose }: Props) => {
     setGameSearch(game.name)
     setGameResults([])
   }
-
-  return (
+return (
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <header className={styles.header}>
@@ -226,13 +231,13 @@ const CreateChallengeModal = ({ onClose }: Props) => {
                     className={styles.suggestionItem}
                     onClick={() => handleSelectGame(game)}
                   >
-                    {game.background_image && (
+                    {/* {game.background_image && (
                       <img
                         src={game.background_image}
                         alt={game.name}
                         className={styles.gameThumbnail}
                       />
-                    )}
+                    )} */}
                     <span>{game.name}</span>
                   </li>
                 ))}
@@ -260,7 +265,9 @@ const CreateChallengeModal = ({ onClose }: Props) => {
         </form>
       </div>
     </div>
+  
   )
+  
 }
 
 export default CreateChallengeModal

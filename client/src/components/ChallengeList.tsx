@@ -3,6 +3,7 @@ import styles from "./ChallengeList.module.css"
 import ChallengeCard from "./ChallengeCard"
 import type { Challenge } from "../@types"
 import CreateChallengeModal from "./CreateChallengeModal"
+import { useAuth } from "../context/AuthContext"
 
 const ChallengeList: React.FC = () => {
   const [challenges, setChallenges] = useState<Challenge[]>([])
@@ -10,7 +11,7 @@ const ChallengeList: React.FC = () => {
   const [error, setError] = useState<string | null>(null)
   const [searchTerm, setSearchTerm] = useState("")
   const [showCreateModal, setShowCreateModal] = useState(false)
-
+  const {isLoggedIn} = useAuth()
   const fetchChallenges = async () => {
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/challenges`)
@@ -62,13 +63,13 @@ const ChallengeList: React.FC = () => {
       <h2 className={styles.sectionTitle}>
         Relève le défi, prouve ta valeur !
       </h2>
-
-      <button
+      { isLoggedIn && <button
         className={styles.createButton}
         onClick={() => setShowCreateModal(true)}
       >
         Créer un challenge
-      </button>
+      </button>}
+      
 
       {showCreateModal && (
         <CreateChallengeModal

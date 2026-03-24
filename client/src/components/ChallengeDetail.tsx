@@ -5,13 +5,14 @@ import { useParams } from "react-router-dom"
 import type { ChallengeWithParticipations } from "../@types"
 import StarRating from "./StarRating"
 import ParticipateModal from "./ParticipateModal"
+import { useAuth } from "../context/AuthContext"
 
 const ChallengeDetail: React.FC = () => {
   const [challenge, setChallenge] =
     useState<ChallengeWithParticipations | undefined>(undefined)
   const [showParticipate, setShowParticipate] = useState(false)
   const { id } = useParams()
-
+  const {isLoggedIn} = useAuth()
   useEffect(() => {
     async function fetchChallenge() {
       try {
@@ -66,13 +67,13 @@ const ChallengeDetail: React.FC = () => {
             Challenge créé par :{" "}
             <span className={styles.creatorName}>{challenge.creator}</span>
           </p>
-
-          <button
+          {isLoggedIn &&<button
             className={styles.participateButton}
             onClick={() => setShowParticipate(true)}
           >
             Participer au challenge
-          </button>
+          </button>}
+          
         </div>
       </div>
 

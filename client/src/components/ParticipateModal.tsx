@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styles from "./ParticipateModal.module.css"
+import { useAuth } from "../context/AuthContext"
 
 
 type Props = {
@@ -19,6 +20,12 @@ const ParticipateModal = ({ challengeId, onClose}: Props) => {
     const[videoUrl, setVideoUrl]= useState("")
     const[errors,setErrors]= useState<Record<string,string>>({})
     const[submitting, setSubmitting]= useState(false)
+
+  const { token, isLoggedIn } = useAuth()
+   if (!isLoggedIn) {
+    return null
+  }
+
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -40,12 +47,11 @@ const ParticipateModal = ({ challengeId, onClose}: Props) => {
                 `${import.meta.env.VITE_API_URL}/challenges/${challengeId}/participations`,
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json" , 'Authorization': `Bearer ${token}`},
           body: JSON.stringify({
             description: description.trim(),
-            videoUrl: videoUrl.trim(),
+            videoLink: videoUrl.trim(),
           }),
-          credentials: "include",
         }
             )
         if (!res.ok) {
@@ -54,13 +60,14 @@ const ParticipateModal = ({ challengeId, onClose}: Props) => {
         }
 
         onClose()
+        window.location.reload()
         } catch (err) {setErrors({global: (err as Error).message})
     } finally {
         setSubmitting(false)
     }
     }
     return (
-        <div className={styles.backdrop}>
+    <div className={styles.backdrop}>
       <div className={styles.modal}>
         <header className={styles.header}>
           <h2>Participer au challenge</h2>
@@ -130,7 +137,10 @@ const ParticipateModal = ({ challengeId, onClose}: Props) => {
         </form>
       </div>
     </div>
-    )
+  )
+    
+        
+    
 }
 
 export default ParticipateModal
