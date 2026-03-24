@@ -1,40 +1,45 @@
-import { Request, Response } from "express";
-import { getUserByIdService } from "../services/users.service";
+import { prisma } from "../db/prisma";
 
-// note : controller = récupère l'id dans l'url puis appelle le service
-export const getUserById = async (req: Request, res: Response) => {
+// récupère l'utilisateur connecté grâce au token
+export const getMe = async (req: Request, res: Response) => {
   try {
-    // note : je récupère l'id depuis l'url
-    const id = Number(req.params.id);
+    //id vient du middleware auth
+    const id = Number(req.user?.id);
 
-    // note : sécurité simple
-    // si l'id n'est pas un nombre, je bloque direct
-    if (isNaN(id)) {
-      return res.status(400).json({
-        message: "invalid user id",
+    // si pas d'id dans le token, on refuse
+    if (!id) {
+      return res.status(401).json({
+        message: "unauthorized",
       });
     }
 
-    // note : j'appelle le service pour aller chercher le user
-    const user = await getUserByIdService(id);
+    // note : on va chercher le user connecté + ses participations
+    const user = await prisma.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        birthdate: true,
+        createdAt: true,
+        participations: true,
+      },
+    });
 
-    // note : si aucun user trouvé avec cet id
+    //  si jamais le user n'existe pas / plus
     if (!user) {
       return res.status(404).json({
         message: "user not found",
       });
     }
 
-    // note : ici je renvoie le user
-    // mais seulement les champs choisis dans le select
-    // donc normalement pas de password, pas de données sensibles
+    // on renvoie le user connecté + ses participations
     return res.status(200).json(user);
   } catch (error) {
-    // note : si bug serveur
     console.error(error);
 
     return res.status(500).json({
-      message: "error while getting user",
+      message: "error while getting current user",
     });
   }
 };
