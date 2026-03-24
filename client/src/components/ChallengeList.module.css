@@ -1,66 +1,4 @@
-.listContainer {
-  padding: 20px;
-}
-
-.headerRow {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.title {
-  font-size: 1.1rem;
-  color: var(--text-muted);
-  font-weight: 600;
-}
-
-.searchBarContainer {
-  position: relative;
-  width: 100%;
-}
-
-.searchBar {
-  background-color: transparent;
-  border: 1px solid rgba(255, 58, 58, 0.4);
-  border-radius: 8px;
-  padding: 8px 30px 8px 12px;
-  color: white;
-  width: 450px;
-  outline: none;
-  font-family: 'Inter', sans-serif;
-}
-
-.searchIcon {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--text-muted);
-}
-
-.carouselWrapper {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.arrow {
-  background: none;
-  border: none;
-  color: var(--text-light);
-  font-size: 1.5rem;
-  cursor: pointer;
-  padding: 5px;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-  flex: 1;
-}
-
+/* ── Section wrapper ── */
 .section {
   display: flex;
   flex-direction: column;
@@ -77,56 +15,15 @@
   letter-spacing: 0.5px;
 }
 
-@media (max-width: 768px) {
-  .section {
-    margin-top: 30px;
-    gap: 16px;
-  }
-
-  .sectionTitle {
-    font-size: 1.2rem;
-    padding: 0 1rem;
-  }
-
-  .listContainer {
-    padding: 12px;
-  }
-
-  .headerRow {
-    margin-bottom: 14px;
-  }
-
-  .searchBar {
-    width: 100%;
-    max-width: 100%;
-    font-size: 0.85rem;
-  }
-
-  .searchBarContainer {
-    width: 100%;
-  }
-
-  .grid {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-
-  .carouselWrapper {
-    gap: 6px;
-  }
-
-  .arrow {
-    font-size: 1.2rem;
-    padding: 3px;
-  }
-}
+/* ── Container principal ── */
 .listContainer {
   padding: 20px;
 }
 
+/* ── Header row : barre de recherche alignée aux cards ── */
 .headerRow {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start; /* ← aligné à gauche comme les cards */
   align-items: center;
   margin-bottom: 20px;
 }
@@ -137,30 +34,47 @@
   font-weight: 600;
 }
 
+/* ── Barre de recherche ── */
 .searchBarContainer {
   position: relative;
   width: 100%;
+  max-width: 745px; 
+  margin-left: 2rem;
 }
 
 .searchBar {
   background-color: transparent;
   border: 1px solid rgba(255, 58, 58, 0.4);
   border-radius: 8px;
-  padding: 8px 30px 8px 12px;
+  padding: 8px 36px 8px 12px; /* ← espace à droite pour la loupe */
   color: white;
-  width: 450px;
+  width: 100%;
   outline: none;
   font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  transition: border-color 0.2s ease;
 }
 
+.searchBar:focus {
+  border-color: rgba(0, 210, 255, 0.5);
+}
+
+.searchBar::placeholder {
+  color: var(--text-muted);
+}
+
+/* ── Loupe positionnée correctement ── */
 .searchIcon {
   position: absolute;
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
   color: var(--text-muted);
+  font-size: 1rem;
+  pointer-events: none; /* ← ne bloque pas les clics */
 }
 
+/* ── Carousel ── */
 .carouselWrapper {
   display: flex;
   align-items: center;
@@ -174,8 +88,14 @@
   font-size: 1.5rem;
   cursor: pointer;
   padding: 5px;
+  transition: color 0.2s ease;
 }
 
+.arrow:hover {
+  color: var(--neon-blue, #00d2ff);
+}
+
+/* ── Grille 3 colonnes ── */
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -183,23 +103,11 @@
   flex: 1;
 }
 
-.section {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  margin-top: 60px;
-}
-
-.sectionTitle {
-  text-align: center;
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: #ffffff;
-  margin: 0;
-  letter-spacing: 0.5px;
-}
-
+/* ================================
+   RESPONSIVE MOBILE
+   ================================ */
 @media (max-width: 768px) {
+
   .section {
     margin-top: 30px;
     gap: 16px;
@@ -214,20 +122,25 @@
     padding: 12px;
   }
 
+  /* Barre de recherche centrée avec écart haut/bas */
   .headerRow {
-    margin-bottom: 14px;
+    justify-content: center; /* ← centrée sur mobile */
+    margin-bottom: 0;
+    padding: 12px 0; /* ← écart haut et bas */
+  }
+
+  .searchBarContainer {
+    width: 85%; /* ← légèrement réduite sur mobile */
+    max-width: 340px;
   }
 
   .searchBar {
     width: 100%;
-    max-width: 100%;
     font-size: 0.85rem;
+    padding: 10px 36px 10px 12px; /* ← plus de padding vertical */
   }
 
-  .searchBarContainer {
-    width: 100%;
-  }
-
+  /* Grille 1 colonne */
   .grid {
     grid-template-columns: 1fr;
     gap: 10px;

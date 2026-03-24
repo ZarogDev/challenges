@@ -7,6 +7,7 @@
   margin: 0 auto;
   padding: 0 2rem;
   overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 .main-content {
@@ -14,6 +15,7 @@
   display: flex;
   flex-direction: column;
   gap: 0;
+  width: 100%;
 }
 
 .dashboard-layout {
@@ -55,6 +57,12 @@
     box-sizing: border-box;
   }
 
+  .main-content {
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
   .dashboard-layout {
     flex-direction: column;
     gap: 12px;
@@ -62,11 +70,10 @@
     box-sizing: border-box;
   }
 
-  /* CRITIQUE : force le right-panel à prendre exactement 100% */
   .right-panel {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
     flex-shrink: 1;
     box-sizing: border-box;
   }
@@ -75,13 +82,5 @@
     width: 100%;
     min-width: 0;
     box-sizing: border-box;
-  }
-
-  .main-content {
-    margin-bottom: 0;
-    padding-bottom: 0;
-    width: 100%;
-    box-sizing: border-box;
-    overflow-x: hidden;
   }
 }

@@ -7,7 +7,6 @@
   --neon-blue: #00D2FF;
   --text-light: #FFFFFF;
   --text-muted: #9AA0A6;
-
   --gold: #FFD700;
   --silver: #C0C0C0;
   --bronze: #CD7732;
@@ -28,6 +27,7 @@ body {
   background-attachment: fixed;
   color: var(--text-light);
   min-height: 100vh;
+  overflow-x: hidden; /* ← empêche le scroll horizontal */
 }
 
 h1, h2, h3 {
@@ -40,6 +40,8 @@ h1, h2, h3 {
   background-color: var(--panel-bg);
   box-shadow: -4px 0 15px rgba(255, 58, 58, 0.25), 4px 0 15px rgba(0, 210, 255, 0.25);
   z-index: 1;
+  width: 100%;           /* ← FIX principal */
+  box-sizing: border-box;
 }
 
 .neon-border-dual::before {

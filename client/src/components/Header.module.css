@@ -170,34 +170,35 @@
 }
 
 /* ================================
-   MENU MOBILE
+   MENU MOBILE PLEIN ÉCRAN
    ================================ */
 .mobileMenu {
   display: none;
   flex-direction: column;
   position: fixed;
   top: 0;
-  right: 0;
-  width: 75%;
-  max-width: 320px;
+  left: 0;
+  width: 100%;
   height: 100vh;
   z-index: 18;
   overflow: hidden;
-  background-image: url('/circuit-bg.png');
+  background-image: url('/background.png');
   background-size: cover;
   background-position: center;
   transform: translateX(100%);
   transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Overlay sombre par dessus le circuit */
 .mobileMenu::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(8, 14, 30, 0.88);
+  /* background: rgba(8, 14, 30, 0.75); */
   z-index: 0;
 }
 
+/* Ligne néon en haut */
 .mobileMenu::after {
   content: '';
   position: absolute;
@@ -224,18 +225,18 @@
 }
 
 .mobileLink {
-  padding: 1rem 2rem;
+  padding: 1.2rem 2rem;
   color: var(--text-muted);
   text-decoration: none;
   font-family: 'Rajdhani', sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: 600;
   border-left: 3px solid transparent;
   transition: all 0.2s ease;
 }
 
 .mobileLink:first-child {
-  margin-top: 80px;
+  margin-top: 100px;
 }
 
 .mobileLink:hover,
@@ -257,7 +258,7 @@
 
 .mobileBtnConnexion {
   margin: 0.75rem 2rem;
-  padding: 0.75rem 1.5rem;
+  padding: 1rem 1.5rem;
   background: linear-gradient(
     135deg,
     rgba(255, 58, 58, 0.15) 0%,
@@ -271,7 +272,7 @@
   ) 1;
   color: #ffffff;
   font-family: 'Rajdhani', sans-serif;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -300,6 +301,9 @@
   pointer-events: none;
 }
 
+/* ================================
+   RESPONSIVE MOBILE
+   ================================ */
 @media (max-width: 768px) {
 
   .headerContent {
@@ -318,34 +322,25 @@
     margin-top: 0;
   }
 
-  /* Cache nav et bouton desktop */
   .nav,
   .authDesktop {
     display: none;
   }
 
-  /* Affiche le burger */
   .burger {
     display: flex;
   }
 
-  /* Affiche le menu mobile */
   .mobileMenu {
     display: flex;
   }
 
-  /* Affiche l'overlay de fermeture */
   .menuOverlay {
-    display: block;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 17;
+    display: none !important;
   }
 
-  /* SVG visible sur mobile mais adapté */
   .bottomBorderSvg {
-    display: block; /* ← on le remet visible */
-    height: 20px;   /* ← plus petit sur mobile */
+    display: block;
+    height: 20px;
   }
 }
