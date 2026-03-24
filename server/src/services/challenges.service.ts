@@ -114,3 +114,27 @@ export async function getFormattedChallenge(challengeWithParticipations: IChalle
     participations
   }
 };
+
+export async function createVoteOnChallenge(challengeId: number, userId: number, rating: number) {
+  const existingVoteonChallenge = await prisma.voteChallenge.findFirst({
+    where: { challengeId, userId }
+  });
+
+  if(existingVoteonChallenge) {
+    return { success: false, error: "A user can only vote once for a challenge", status: 400 }
+  }
+  
+  try {
+    const newVote = await prisma.voteChallenge.create({
+      data: { 
+        challengeId,
+        userId, 
+        rating
+      }
+    });
+
+    return { success: true, data: newVote, status: 201 };
+  } catch {
+    return { success: false, error: "Internal server error", status: 500 };
+  }
+}
