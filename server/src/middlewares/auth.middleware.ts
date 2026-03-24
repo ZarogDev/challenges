@@ -50,8 +50,7 @@ export async function authenticate(req: Request, res: Response, next: NextFuncti
     const decoded: JwtPayload = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
     req.user = { id: decoded.userId as string };
     next();
-  } catch (error) {
-    console.error(error);
+  } catch {
     return res.status(401).json({ error: 'Invalid token' });
   }
 }
