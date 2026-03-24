@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { createParticipationSchema } from "../validators/participation.validator";
 import { prisma } from "../db/prisma";
+import { parseIntFromParams } from "../lib/utils";
+import { createVoteOnParticipation } from "../services/participations.service";
 
 export const createParticipation = async (req: Request, res: Response) => {
   try {
@@ -113,3 +115,23 @@ export const getChallengeParticipations = async (req: Request, res: Response) =>
     });
   }
 };
+
+export async function voteOnParticipation(req: Request, res: Response) {
+  const userId = await parseIntFromParams(req.user.id);
+  const participationId = await parseIntFromParams(req.params.id);
+  const { rating } = req.body;
+
+  try {
+    const newVote = await createVoteOnParticipation(participationId, userId, rating);
+
+    if(!newVote.success) {
+      return res.status(newVote.status).json({ error: newVote.error });
+    }
+
+    return res.status(newVote.status).json(newVote.data);
+  } catch (error) {
+    if(error instanceof Error) {
+      return res.status(500).json({ error: error.message });
+    }
+  }
+}
