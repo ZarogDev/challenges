@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import { prisma } from '../db/prisma';
 import { fetchGame } from "../services/rawgio";
-import { create, getChallenges, getChallengeWithParticipations, getFormattedChallenge } from "../services/challenges.service";
+import { create, createVoteOnChallenge, getChallenges, getChallengeWithParticipations, getFormattedChallenge } from "../services/challenges.service";
+import { parseIntFromParams } from "../lib/utils";
 
 // voir tous les challenges
 export async function getAllChallenges(req: Request, res: Response) {
@@ -88,3 +89,23 @@ export async function getChallengeParticipations(req: Request, res: Response) {
 
   res.json(formatedChallenge);
 };
+
+export async function voteOnChallenge(req: Request, res: Response) {
+  const userId = await parseIntFromParams(req.user.id);
+  const challengeId = await parseIntFromParams(req.params.id);
+  const { rating } = req.body;
+
+  try {
+    const newVote = await createVoteOnChallenge(challengeId, userId, rating);
+
+    if(!newVote.success) {
+      return res.status(newVote.status).json({ error: newVote.error });
+    }
+
+    return res.status(newVote.status).json(newVote.data);
+  } catch (error) {
+    if(error instanceof Error) {
+      return res.status(500).json({ error: error.message });
+    }
+  }
+}
