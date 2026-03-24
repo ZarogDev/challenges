@@ -3,10 +3,11 @@ import {
   getAllChallenges,
   getChallengeById,
   createChallenge,
-  getChallengeParticipations
+  getChallengeParticipations,
+  voteOnChallenge
 } from "../controllers/challenges.controller.js";
 import { authenticate } from "../middlewares/auth.middleware.js";
-import { validateCreationBody } from "../middlewares/challenges.middleware.js";
+import { validateCreationBody, validateVoteBody } from "../middlewares/challenges.middleware.js";
 
 const router = Router();
 
@@ -21,5 +22,8 @@ router.get("/:id/participations", getChallengeParticipations);
 
 // créer un challenge
 router.post("/", authenticate, validateCreationBody, createChallenge);
+
+// voter pour un challenge
+router.post("/:id/votes", authenticate, validateVoteBody, voteOnChallenge);
 
 export default router;
