@@ -134,7 +134,8 @@ export async function createVoteOnChallenge(challengeId: number, userId: number,
     });
 
     return { success: true, data: newVote, status: 201 };
-  } catch {
+  } catch (err) {
+    console.log(err);
     return { success: false, error: "Internal server error", status: 500 };
   }
 }

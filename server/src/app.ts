@@ -12,7 +12,7 @@ app.use(express.json());
 
 // route test
 app.get("/", (req, res) => {
-  res.json({ message: "API GamerChallenges" });
+  res.json({ message: "API GamerChallenges", documentation: "Read our API documentation : /api/docs" });
 });
 
 // toutes les routes passent par /api
