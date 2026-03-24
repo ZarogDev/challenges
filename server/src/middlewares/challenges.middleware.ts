@@ -12,3 +12,11 @@ export async function validateCreationBody(req: Request, res: Response, next: Ne
 
   validateBody(challengeCreationSchema, req, res, next);
 }
+
+export async function validateVoteBody(req: Request, res: Response, next: NextFunction) {
+  const voteOnChallengeSchema = z.object({
+    rating: z.coerce.number().int().min(1).max(5)
+  });
+
+  validateBody(voteOnChallengeSchema, req, res, next);
+}
