@@ -116,11 +116,11 @@ export async function getFormattedChallenge(challengeWithParticipations: IChalle
 };
 
 export async function createVoteOnChallenge(challengeId: number, userId: number, rating: number) {
-  const existingVoteonChallenge = await prisma.voteChallenge.findFirst({
+  const existingVoteOnChallenge = await prisma.voteChallenge.findFirst({
     where: { challengeId, userId }
   });
 
-  if(existingVoteonChallenge) {
+  if(existingVoteOnChallenge) {
     return { success: false, error: "A user can only vote once for a challenge", status: 400 }
   }
   
