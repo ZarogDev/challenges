@@ -15,7 +15,7 @@ import NotFound from "./components/NotFound"
 import Login from './components/Login';
 import Register from './components/Register';
 import RecentChallenges from './components/RecentChallenges';
-import Profile from './components/PageProfile';
+import Profile from './components/ProfilePage';
 import ScrollToTop from './components/ScrollToTop';
 
 function App() {
