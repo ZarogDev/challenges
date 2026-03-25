@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  min-height: calc(100vh - 300px); /* pousse le footer en bas */
+  min-height: calc(100vh - 300px);
 }
 
 /* En-tête : avatar + nom + email */
@@ -22,7 +22,7 @@
     0 0 30px rgba(255, 58, 58, 0.04);
 }
 
-/* Ligne décorative néon en haut de la carte */
+/* Ligne décorative néon en haut */
 .header::before {
   content: '';
   position: absolute;
@@ -41,17 +41,33 @@
   border-radius: 2px;
 }
 
-/* Avatar */
-.avatar {
+/* Avatar initiale */
+.avatarInitial {
   width: 90px;
   height: 90px;
   border-radius: 50%;
-  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  font-weight: 700;
+  font-family: 'Rajdhani', sans-serif;
+  flex-shrink: 0;
+  background: rgba(0, 210, 255, 0.12);
   border: 2px solid var(--neon-blue, #00d2ff);
+  color: var(--neon-blue, #00d2ff);
   box-shadow:
     0 0 12px rgba(0, 210, 255, 0.4),
     0 0 24px rgba(0, 210, 255, 0.2);
-  flex-shrink: 0;
+}
+
+/* Wrapper infos texte */
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  flex: 1;
+  min-width: 0;
 }
 
 .username {
@@ -137,7 +153,6 @@
   flex-wrap: wrap;
 }
 
-/* Bouton principal */
 .primaryButton {
   flex: 1;
   min-width: 160px;
@@ -179,7 +194,6 @@
   transform: translateY(-2px);
 }
 
-/* Bouton secondaire déconnexion */
 .secondaryButton {
   flex: 1;
   min-width: 160px;
@@ -219,7 +233,133 @@
 }
 
 .completionsGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 16px;
 }
+
+.completionsGrid > * {
+  width: calc(50% - 8px);
+  max-width: 600px;
+}
+
+/* Points de pagination — cachés sur desktop */
+.dots {
+  display: none;
+}
+
+/* ================================
+   RESPONSIVE MOBILE
+   ================================ */
+@media (max-width: 768px) {
+
+  .profile {
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+    gap: 1.2rem;
+    min-height: unset;
+  }
+
+  .header {
+    padding: 1.5rem 1rem;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .avatarInitial {
+    width: 70px;
+    height: 70px;
+    font-size: 1.8rem;
+    flex-shrink: 0;
+  }
+
+  .username {
+    font-size: 1.2rem;
+  }
+
+  .email {
+    font-size: 0.78rem;
+  }
+
+  .completionsBlock {
+    padding: 16px 12px;
+  }
+
+  .completionsTitle {
+    text-align: center;
+    font-size: 1rem;
+    margin-bottom: 16px;
+  }
+
+  /* Scroll horizontal avec fondu à droite */
+  .completionsGrid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 12px;
+    padding-bottom: 12px;
+    justify-content: flex-start;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    /* Fondu à droite pour indiquer le scroll */
+    -webkit-mask-image: linear-gradient(
+      to right,
+      black 80%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      black 80%,
+      transparent 100%
+    );
+  }
+
+  .completionsGrid::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Chaque card : 85% de la largeur */
+  .completionsGrid > * {
+    flex: 0 0 85%;
+    scroll-snap-align: start;
+    min-width: 0;
+    width: 85%;
+    max-width: none;
+  }
+
+  .primaryButton {
+    width: 100%;
+  }
+}
+
+  .dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 0 4px;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.25s ease;
+    flex-shrink: 0;
+  }
+
+  .dotActive {
+    width: 20px;
+    border-radius: 3px;
+    background: var(--neon-blue, #00d2ff);
+    box-shadow: 0 0 6px rgba(0, 210, 255, 0.6);
+  }
+

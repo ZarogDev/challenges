@@ -89,6 +89,31 @@
   font-weight: 600;
 }
 
+/* Bouton noter */
+.rateButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.2rem;
+  background: transparent;
+  border: 1px solid var(--neon-blue, #00d2ff);
+  color: var(--neon-blue, #00d2ff);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.rateButton:hover {
+  background: rgba(0, 210, 255, 0.1);
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 210, 255, 0.2);
+}
+
 /* ── Bloc completions ── */
 .completionsBlock {
   padding: 24px;
@@ -108,58 +133,11 @@
   gap: 16px;
 }
 
-/* ── Card completion ── */
-.completionCard {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 14px;
-  border-radius: 10px;
-  background-color: rgba(255, 255, 255, 0.03);
-}
-
-.avatarInitial {
-  width: 72px;
-  height: 72px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.8rem;
-  font-weight: 700;
-  font-family: 'Inter', sans-serif;
-  flex-shrink: 0;
-}
-
-.cardContent {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  flex: 1;
-  min-width: 0;
-}
-
-.username {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #ffffff;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.comment {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  line-height: 1.5;
-  margin: 0;
-}
-
 .participateButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-top: 0.5rem;
+  margin-top: 5.3rem;
   padding: 0.7rem 2rem;
   background: linear-gradient(
     135deg,
@@ -167,7 +145,6 @@
     rgba(0, 210, 255, 0.15) 100%
   );
   border: 1.5px solid;
- 
   border-image: linear-gradient(
     135deg,
     var(--neon-red, #ff3a3a),
@@ -199,6 +176,11 @@
   transform: translateY(-2px);
 }
 
+/* Points de pagination — cachés sur desktop */
+.dots {
+  display: none;
+}
+
 /* ================================
    RESPONSIVE MOBILE
    ================================ */
@@ -206,26 +188,23 @@
 
   .section {
     margin-top: 80px;
-    padding: 0 0px;
+    padding: 0;
     gap: 20px;
   }
 
-  /* Bloc principal : colonne sur mobile */
   .detailBlock {
     flex-direction: column;
     gap: 20px;
     align-items: stretch;
   }
 
-  /* 1. Image en premier — pleine largeur */
   .mainImage {
     width: 100%;
     height: 220px;
     border-radius: 10px;
-    order: 1; /* ← en premier */
+    order: 1;
   }
 
-  /* 2. Infos en second */
   .infoBlock {
     order: 2;
     gap: 10px;
@@ -251,7 +230,6 @@
     font-size: 0.82rem;
   }
 
-  /* 3. Completions en dernier — 1 colonne */
   .completionsBlock {
     order: 3;
     padding: 16px 12px;
@@ -260,35 +238,80 @@
   .completionsTitle {
     font-size: 1rem;
     margin-bottom: 14px;
+    text-align: center;
   }
 
+  /* Scroll horizontal avec fondu */
   .completionsGrid {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
     gap: 12px;
+    padding-bottom: 12px;
+    grid-template-columns: unset;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      black 80%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      black 80%,
+      transparent 100%
+    );
   }
 
-  .completionCard {
-    padding: 12px;
-    gap: 12px;
+  .completionsGrid::-webkit-scrollbar {
+    display: none;
   }
 
-  .avatarInitial {
-    width: 52px;
-    height: 52px;
-    font-size: 1.3rem;
-    border-radius: 8px;
+  .completionsGrid > * {
+    flex: 0 0 85%;
+    scroll-snap-align: start;
+    min-width: 0;
+    width: 85%;
   }
 
-  .username {
-    font-size: 0.95rem;
-  }
-
-  .comment {
-    font-size: 0.8rem;
-  }
-
- .participateButton {
+  .participateButton {
     width: 100%;
     padding: 0.8rem;
+  }
+
+  .rateButton {
+    width: 100%;
+    justify-content: center;
+    padding: 0.6rem;
+  }
+
+  /* Points de pagination */
+  .dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 0 4px;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.25s ease;
+    flex-shrink: 0;
+  }
+
+  .dotActive {
+    width: 20px;
+    border-radius: 3px;
+    background: var(--neon-blue, #00d2ff);
+    box-shadow: 0 0 6px rgba(0, 210, 255, 0.6);
   }
 }

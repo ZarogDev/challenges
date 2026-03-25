@@ -1,65 +1,107 @@
 /* ── Card completion ── */
 .completionCard {
   display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 14px;
-  border-radius: 10px;
-  background-color: rgba(255, 255, 255, 0.03);
+  flex-direction: column;
+  gap: 0;
+  border-radius: 12px;
+  background-color: var(--panel-bg, rgba(10, 16, 35, 0.95));
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* .avatarInitial {
-  width: 72px;
-  height: 72px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.8rem;
-  font-weight: 700;
-  font-family: 'Inter', sans-serif;
-  flex-shrink: 0;
-} */
+.completionCard:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 24px rgba(0, 210, 255, 0.1),
+    0 0 24px rgba(255, 58, 58, 0.08);
+}
 
+/* ── iFrame vidéo ── */
+.completionCard iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: none;
+  display: block;
+  background: #000;
+  margin: 0 auto; /* ← centre la vidéo */
+}
+
+/* ── Contenu texte ── */
 .cardContent {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
+  padding: 14px 16px;
   flex: 1;
   min-width: 0;
 }
 
+/* Nom joueur */
 .username {
+  font-family: 'Rajdhani', sans-serif;
   font-size: 1rem;
   font-weight: 700;
   color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
+/* Description */
 .comment {
   font-size: 0.85rem;
-  color: var(--text-muted);
+  color: var(--text-muted, #8a9baa);
   line-height: 1.5;
   margin: 0;
+}
+
+/* Bouton noter */
+.rateButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4px;
+  padding: 0.5rem 1.2rem;
+  background: transparent;
+  border: 1px solid var(--neon-blue, #00d2ff);
+  color: var(--neon-blue, #00d2ff);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  align-self: flex-start;
+}
+
+.rateButton:hover {
+  background: rgba(0, 210, 255, 0.1);
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 210, 255, 0.2);
 }
 
 /* ================================
    RESPONSIVE MOBILE
    ================================ */
 @media (max-width: 768px) {
+
   .completionCard {
-    padding: 12px;
-    gap: 12px;
+    border-radius: 10px;
   }
 
-  /* .avatarInitial {
-    width: 52px;
-    height: 52px;
-    font-size: 1.3rem;
-    border-radius: 8px;
-  } */
+  .completionCard iframe {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+  }
+
+   .cardContent {
+    padding: 12px;
+    gap: 6px;
+  }
 
   .username {
     font-size: 0.95rem;
@@ -67,5 +109,13 @@
 
   .comment {
     font-size: 0.8rem;
+  }
+
+  .rateButton {
+    width: 100%;
+    padding: 0.6rem;
+    font-size: 0.82rem;
+    align-self: stretch;
+    justify-content: center;
   }
 }
