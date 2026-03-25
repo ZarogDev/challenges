@@ -106,34 +106,8 @@ const ChallengeDetail: React.FC = () => {
         </h2>
 
         <div className={styles.completionsGrid}>
-          {challenge.participations.map((c) => (
-            <div
-              key={c.id}
-              className={`${styles.completionCard} neon-border-dual`}
-            >
-              <iframe
-                src={getEmbedUrl(c.videoLink)}
-                allow="fullscreen; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-
-              <div className={styles.cardContent}>
-                <span className={styles.username}>{c.participant}</span>
-                <p className={styles.comment}>{c.description}</p>
-                <StarRating
-                  rating={c.averageParticipationScore}
-                  readOnly
-                />
-                {isLoggedIn && (
-                  <button
-                    className={styles.rateButton}
-                    onClick={() => setParticipationToRate(c.id)}
-                  >
-                    Noter cette participation
-                  </button>
-                )}
-              </div>
-            </div>
+          {challenge.participations.map((participation) => (
+            <ParticipationCard key={participation.id} participation={participation} setParticipationToRate={setParticipationToRate}/>
           ))}
         </div>
       </div>
