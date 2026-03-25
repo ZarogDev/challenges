@@ -15,8 +15,9 @@ const RecentChallenges: React.FC = () => {
         if (!res.ok) {
           throw new Error("Erreur lors du chargement des challenges")
         }
-        const data: Challenge[] = await res.json()
-        setChallenges(data)
+        const data = await res.json()
+        const challenges: Challenge[] = data.data;
+        setChallenges(challenges)
       } catch (err) {
         setError((err as Error).message)
       } finally {
