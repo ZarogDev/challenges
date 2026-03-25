@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { prisma } from "../db/prisma";
 import { getUserByIdService } from "../services/users.service";
+import { getLeaderboardService } from "../services/leaderboard.service.js";
 
 // récupérer un user par son id
 export const getUserById = async (req: Request, res: Response) => {
@@ -31,7 +32,7 @@ export const getUserById = async (req: Request, res: Response) => {
   }
 };
 
-// récupérer l'utilisateur connecté + ses participations (formatées)
+// récupérer l'utilisateur connecté + ses participations formatées + son rank
 export const getMe = async (req: Request, res: Response) => {
   try {
     const id = Number(req.user?.id);
@@ -72,24 +73,38 @@ export const getMe = async (req: Request, res: Response) => {
       });
     }
 
-    // ici on transforme les participations
-    const formattedParticipations = user.participations.map((p) => {
-      const total = p.voteParticipations.reduce((sum, v) => sum + v.rating, 0);
+    // On reformate les participations pour envoyer une réponse plus propre au front
+    const formattedParticipations = user.participations.map((participation) => {
+      const totalScore = participation.voteParticipations.reduce((sum, vote) => {
+        return sum + vote.rating;
+      }, 0);
 
-      const average =
-        p.voteParticipations.length > 0
-          ? total / p.voteParticipations.length
+      const averageParticipationScore =
+        participation.voteParticipations.length > 0
+          ? totalScore / participation.voteParticipations.length
           : 0;
 
       return {
-        id: p.id,
-        description: p.description,
-        videoLink: p.videoLink,
-        participant: user.username, // username du user
-        createdAt: p.createdAt.toISOString(), // en string
-        averageParticipationScore: average,
+        id: participation.id,
+        description: participation.description,
+        videoLink: participation.videoLink,
+        participant: user.username,
+        createdAt: participation.createdAt.toISOString(),
+        averageParticipationScore: Number(averageParticipationScore.toFixed(2)),
       };
     });
+
+    //  on récupère le vrai leaderboard du projet
+    // comme ça le rank de /users/me utilise exactement le même calcul
+    const leaderboard = await getLeaderboardService();
+
+    // on cherche la ligne du user connecté dans le classement
+    const currentUserInLeaderboard = leaderboard.find(
+      (player) => player.userId === user.id
+    );
+
+    // si le user n'est pas classé (par exemple aucun vote), on met null
+    const rank = currentUserInLeaderboard ? currentUserInLeaderboard.rank : null;
 
     return res.status(200).json({
       id: user.id,
@@ -97,6 +112,7 @@ export const getMe = async (req: Request, res: Response) => {
       username: user.username,
       birthdate: user.birthdate,
       createdAt: user.createdAt,
+      rank,
       participations: formattedParticipations,
     });
   } catch (error) {
