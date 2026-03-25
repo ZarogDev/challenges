@@ -72,15 +72,40 @@ function Profile() {
             </div>
 
             <div className={`${styles.completionsBlock} neon-border-dual`}>
-                <h2 className={styles.completionsTitle}>Vos participations</h2>
 
+                {/* Header titre + flèches desktop */}
+                <div className={styles.completionsHeader}>
+                    <h2 className={styles.completionsTitle}>Vos participations</h2>
+                    <div className={styles.desktopArrows}>
+                        <button
+                            className={styles.arrowBtn}
+                            onClick={() => {
+                                const grid = gridRef.current;
+                                if (grid) grid.scrollBy({ left: -400, behavior: 'smooth' });
+                            }}
+                        >
+                            ‹
+                        </button>
+                        <button
+                            className={styles.arrowBtn}
+                            onClick={() => {
+                                const grid = gridRef.current;
+                                if (grid) grid.scrollBy({ left: 400, behavior: 'smooth' });
+                            }}
+                        >
+                            ›
+                        </button>
+                    </div>
+                </div>
+
+                {/* Grid scrollable */}
                 <div className={styles.completionsGrid} ref={gridRef}>
                     {user?.participations.map((p) => (
                         <ParticipationCard key={p.id} participation={p} />
                     ))}
                 </div>
 
-                {/* Points de pagination — visibles uniquement sur mobile */}
+                {/* Points pagination — mobile uniquement */}
                 {user?.participations && user.participations.length > 1 && (
                     <div className={styles.dots}>
                         {user.participations.map((_, i) => (
