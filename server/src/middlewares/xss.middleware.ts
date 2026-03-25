@@ -1,7 +1,7 @@
+import { NextFunction, Request, Response } from "express";
 import xss from "xss";
-import { Request, Response, NextFunction } from "express";
 
-// nettoie les strings dans les objets, tableaux...
+// nettoie les strings dans les objets, tableaux, etc.
 function sanitizeData(data: unknown): unknown {
   if (typeof data === "string") {
     return xss(data);
@@ -11,11 +11,11 @@ function sanitizeData(data: unknown): unknown {
     return data.map((item) => sanitizeData(item));
   }
 
-  if (data && typeof data === "object") {
+  if (data !== null && typeof data === "object") {
     const sanitizedObject: Record<string, unknown> = {};
 
-    for (const key in data as Record<string, unknown>) {
-      sanitizedObject[key] = sanitizeData((data as Record<string, unknown>)[key]);
+    for (const [key, value] of Object.entries(data)) {
+      sanitizedObject[key] = sanitizeData(value);
     }
 
     return sanitizedObject;
@@ -26,17 +26,13 @@ function sanitizeData(data: unknown): unknown {
 
 // middleware global pour nettoyer body, query et params
 export function sanitizeXss(req: Request, _res: Response, next: NextFunction) {
-  if (req.body) {
-    req.body = sanitizeData(req.body);
-  }
+  try {
+    if (req.body) {
+      req.body = sanitizeData(req.body);
+    }
 
-  if (req.query) {
-    req.query = sanitizeData(req.query) as Request["query"];
+    next();
+  } catch (error) {
+    next(error);
   }
-
-  if (req.params) {
-    req.params = sanitizeData(req.params) as Request["params"];
-  }
-
-  next();
 }
