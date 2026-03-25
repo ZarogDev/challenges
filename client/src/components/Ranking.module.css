@@ -3,6 +3,7 @@
   flex-direction: column;
   gap: 24px;
   margin-top: 60px;
+  padding-top: 2rem;
 }
 
 .sectionTitle {
@@ -159,6 +160,7 @@
   .section {
     margin-top: 20px;
     gap: 16px;
+    padding-top: 1rem;
   }
 
   .sectionTitle {
@@ -170,19 +172,25 @@
   .leaderboard {
     padding: 16px 12px;
     height: auto;
+    width: 100%;
+    box-sizing: border-box;
   }
 
-  /* 1 seule colonne sur mobile */
   .columnsWrapper {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* ← 1 seule colonne */
     max-height: none;
     overflow-y: visible;
+    overflow-x: hidden; /* ← empêche le débordement horizontal */
     padding-right: 0;
     gap: 0;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .column {
     gap: 0;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .listItem {
@@ -192,6 +200,9 @@
     padding: 10px 8px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     flex-wrap: nowrap;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden; /* ← empêche le débordement */
   }
 
   .listItem:last-child {
@@ -205,23 +216,9 @@
     flex-shrink: 0;
   }
 
-  .rank1 {
-    background-color: var(--gold);
-    box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
-    color: #000;
-  }
-
-  .rank2 {
-    background-color: var(--silver);
-    box-shadow: 0 0 8px rgba(192, 192, 192, 0.6);
-    color: #000;
-  }
-
-  .rank3 {
-    background-color: var(--bronze);
-    box-shadow: 0 0 8px rgba(205, 127, 50, 0.6);
-    color: #000;
-  }
+  .rank1 { background-color: var(--gold); box-shadow: 0 0 8px rgba(255, 215, 0, 0.6); color: #000; }
+  .rank2 { background-color: var(--silver); box-shadow: 0 0 8px rgba(192, 192, 192, 0.6); color: #000; }
+  .rank3 { background-color: var(--bronze); box-shadow: 0 0 8px rgba(205, 127, 50, 0.6); color: #000; }
 
   .avatarInitial {
     width: 42px;
@@ -232,8 +229,11 @@
 
   .userInfo {
     flex: 1;
-    min-width: 0;
+    min-width: 0; /* ← crucial pour que le flex child ne déborde pas */
+    display: flex;
+    flex-direction: column;
     gap: 2px;
+    overflow: hidden;
   }
 
   .username {
@@ -250,5 +250,8 @@
 
   .extraInfo {
     font-size: 0.72rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
