@@ -15,5 +15,5 @@
     "types": ["node"]
   },
   "include": ["**/*.ts", "**/*.js"],
-  "exclude": ["node_modules", "src/db/generated"]
+  "exclude": ["node_modules", "src/db/reset/generated"]
 }

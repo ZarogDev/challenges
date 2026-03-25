@@ -31,7 +31,7 @@ export const getUserById = async (req: Request, res: Response) => {
   }
 };
 
-// récupérer l'utilisateur connecté + ses participations
+// récupérer l'utilisateur connecté + ses participations (formatées)
 export const getMe = async (req: Request, res: Response) => {
   try {
     const id = Number(req.user?.id);
@@ -50,7 +50,19 @@ export const getMe = async (req: Request, res: Response) => {
         username: true,
         birthdate: true,
         createdAt: true,
-        participations: true,
+        participations: {
+          select: {
+            id: true,
+            description: true,
+            videoLink: true,
+            createdAt: true,
+            voteParticipations: {
+              select: {
+                rating: true,
+              },
+            },
+          },
+        },
       },
     });
 
@@ -60,7 +72,33 @@ export const getMe = async (req: Request, res: Response) => {
       });
     }
 
-    return res.status(200).json(user);
+    // ici on transforme les participations
+    const formattedParticipations = user.participations.map((p) => {
+      const total = p.voteParticipations.reduce((sum, v) => sum + v.rating, 0);
+
+      const average =
+        p.voteParticipations.length > 0
+          ? total / p.voteParticipations.length
+          : 0;
+
+      return {
+        id: p.id,
+        description: p.description,
+        videoLink: p.videoLink,
+        participant: user.username, // username du user
+        createdAt: p.createdAt.toISOString(), // en string
+        averageParticipationScore: average,
+      };
+    });
+
+    return res.status(200).json({
+      id: user.id,
+      email: user.email,
+      username: user.username,
+      birthdate: user.birthdate,
+      createdAt: user.createdAt,
+      participations: formattedParticipations,
+    });
   } catch (error) {
     console.error(error);
 
