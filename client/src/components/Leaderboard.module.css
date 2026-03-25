@@ -129,6 +129,7 @@
     margin-bottom: 16px;
     color: #ffffff;
     font-weight: 700;
+    text-align: center;
   }
 
   .list {
@@ -136,73 +137,57 @@
     width: 100%;
   }
 
-  .listItem {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 8px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    width: 100%;
-    box-sizing: border-box;
-    flex-wrap: nowrap;
-  }
+.listItem {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* ← était 14px */
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  width: 100%;
+  box-sizing: border-box;
+  flex-wrap: nowrap;
+}
 
   .listItem:last-child {
     border-bottom: none;
   }
 
   .rankBadge {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     font-size: 0.85rem;
     font-weight: 800;
     flex-shrink: 0;
     border-radius: 50%;
+    margin-right: 50px;
   }
 
-  .rank1 {
-    background-color: var(--gold);
-    box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
-    color: #000;
-  }
-
-  .rank2 {
-    background-color: var(--silver);
-    box-shadow: 0 0 8px rgba(192, 192, 192, 0.6);
-    color: #000;
-  }
-
-  .rank3 {
-    background-color: var(--bronze);
-    box-shadow: 0 0 8px rgba(205, 127, 50, 0.6);
-    color: #000;
-  }
-
-  .rankOther {
-    background-color: transparent;
-    color: var(--text-muted);
-    border: 1px solid var(--text-muted);
-  }
+  .rank1 { background-color: var(--gold); box-shadow: 0 0 8px rgba(255, 215, 0, 0.6); color: #000; }
+  .rank2 { background-color: var(--silver); box-shadow: 0 0 8px rgba(192, 192, 192, 0.6); color: #000; }
+  .rank3 { background-color: var(--bronze); box-shadow: 0 0 8px rgba(205, 127, 50, 0.6); color: #000; }
+  .rankOther { background-color: transparent; color: var(--text-muted); border: 1px solid var(--text-muted); }
 
   .avatarInitial {
-    width: 44px;
-    height: 44px;
-    font-size: 1.1rem;
+    width: 52px;
+    height: 52px;
+    font-size: 1.3rem;
     font-weight: 800;
     border-radius: 50%;
     flex-shrink: 0;
   }
 
+  /* userInfo prend tout l'espace restant */
   .userInfo {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 3px;
     min-width: 0;
+    padding: 0 8px; 
   }
 
   .username {
-    font-size: 0.95rem;
+    font-size: 1rem;
     font-weight: 700;
     color: #ffffff;
     line-height: 1.2;
@@ -212,7 +197,7 @@
   }
 
   .score {
-    font-size: 0.8rem;
+    font-size: 0.82rem;
     color: var(--text-muted);
   }
 }
