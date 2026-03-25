@@ -42,15 +42,17 @@ function Profile() {
             <p className={styles.email}>{user?.email}</p>
             </div>
             </div>
+
             <div className={styles.stats}>
                 <div className={styles.statCard}>
                     <span className={styles.statLabel}>Rang</span>
                     {/* <span className={styles.statValue}>{user?.rank}</span> */}
                 </div>
             </div>
+
+            {/* Bouton centré, sans déconnexion */}
             <div className={styles.actions}>
                 <button className={styles.primaryButton}>Modifier le profil</button>
-                <button className={styles.secondaryButton}>Déconnexion</button>
             </div>
 
             {/* ── Bloc completions ── */}
