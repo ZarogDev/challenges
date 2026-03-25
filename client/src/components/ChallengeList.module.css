@@ -83,7 +83,8 @@
 .searchBarContainer {
   position: relative;
   width: 100%;
-  max-width: 450px;
+  max-width: 745px;
+  margin-left: 2rem;;
 }
 
 .searchBar {
