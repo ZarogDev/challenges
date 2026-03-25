@@ -1,9 +1,9 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Star } from "lucide-react"
 import styles from "./StarRating.module.css"
 
 type StarRatingProps = {
-  rating?: number
+  rating?: number          // moyenne actuelle (ex: 4.3)
   max?: number
   onChange?: (value: number) => void
   readOnly?: boolean
@@ -17,6 +17,11 @@ const StarRating: React.FC<StarRatingProps> = ({
 }) => {
   const [current, setCurrent] = useState(rating)
   const [hover, setHover] = useState<number | null>(null)
+
+  // si la moyenne change (refetch), on met à jour l'affichage
+  useEffect(() => {
+    setCurrent(rating)
+  }, [rating])
 
   const handleClick = (value: number) => {
     if (readOnly) return
@@ -50,6 +55,7 @@ const StarRating: React.FC<StarRatingProps> = ({
               onClick={() => handleClick(value)}
               onMouseEnter={() => handleMouseEnter(value)}
               onMouseLeave={handleMouseLeave}
+              disabled={readOnly}
             >
               <Star
                 size={16}
@@ -61,7 +67,7 @@ const StarRating: React.FC<StarRatingProps> = ({
         })}
       </div>
 
-      {!!current && (
+      {current > 0 && (
         <span className={styles.rating}>{current.toFixed(1)}</span>
       )}
     </>
