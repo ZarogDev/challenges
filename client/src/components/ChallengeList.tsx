@@ -4,55 +4,65 @@ import ChallengeCard from "./ChallengeCard"
 import type { Challenge } from "../@types"
 import CreateChallengeModal from "./CreateChallengeModal"
 import { useAuth } from "../context/AuthContext"
+import { getPagination } from "../lib/utils"
 
 const ChallengeList: React.FC = () => {
   const [challenges, setChallenges] = useState<Challenge[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [searchTerm, setSearchTerm] = useState("")
+  const [debouncedSearch, setDebouncedSearch] = useState("")
   const [showCreateModal, setShowCreateModal] = useState(false)
+  const [page, setPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
   const {isLoggedIn} = useAuth()
-  const fetchChallenges = async () => {
-    try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/challenges`)
-      if (!res.ok) {
-        throw new Error("Erreur lors du chargement des challenges")
+
+  const pages = getPagination(page, totalPages);
+
+  useEffect(() => {
+    const fetchChallenges = async (page: number, search: string) => {
+      const url = new URL(`${import.meta.env.VITE_API_URL}/challenges`);
+
+      url.searchParams.append("page", page.toString());
+      url.searchParams.append("limit", "9");
+
+      if(search) {
+        url.searchParams.append("search", search);
       }
-      const data: Challenge[] = await res.json()
-      setChallenges(data)
-    } catch (err) {
-      setError((err as Error).message)
-    } finally {
-      setLoading(false)
-    }
-  }
 
-  useEffect(() => {
-    fetchChallenges()
-  }, [])
-
-  useEffect(() => {
-    if (!searchTerm.trim()) {
-      fetchChallenges()
-      return
+      const res = await fetch(url.toString());
+      return await res.json();
     }
 
-    const filteredChallenges = challenges.filter(
-      (challenge) =>
-        challenge.title
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase()) ||
-        challenge.gameTitle
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase())
-    )
+    async function fetchData() {
+      setLoading(true);
 
-    setChallenges(filteredChallenges)
+      try {
+        const data = await fetchChallenges(page, debouncedSearch);
+
+        setChallenges(data.data);
+        setTotalPages(data.totalPages);
+      } catch (err) {
+        setError((err as Error).message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchData()
+  }, [page, debouncedSearch]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDebouncedSearch(searchTerm)
+    }, 300)
+
+    return () => clearTimeout(timeout)
   }, [searchTerm])
 
-  if (loading) {
-    return <p>Chargement des Challenges...</p>
-  }
+  useEffect(() => {
+    setPage(1)
+  }, [debouncedSearch]);
 
   if (error) {
     return <p>Erreur : {error}</p>
@@ -91,14 +101,63 @@ const ChallengeList: React.FC = () => {
           </div>
         </div>
 
+        {/* Pagination */}
+          <div>
+            {/* <button
+              onClick={() => setPage((p) => p - 1)}
+              disabled={page === 1}
+            >
+              ←
+            </button> */}
+
+            {pages.map((p, index) =>
+              typeof p === "string" ? (
+                <span key={index}>
+                  ...
+                </span>
+              ) : (
+                <button
+                  key={p}
+                  onClick={() => setPage(p)}
+                  style={{ backgroundColor: page === p ? "red" : "" }}
+                >
+                  {p}
+                </button>
+              )
+            )}
+
+            {/* <button
+              onClick={() => setPage((p) => p + 1)}
+              disabled={page === totalPages}
+            >
+              →
+            </button> */}
+          </div>
+          {/* {totalPages > 1 && (
+            <div>
+              <button onClick={() => setPage((p) => p - 1)} disabled={page === 1}>
+                Précédent
+              </button>
+
+              <span>
+                Page {page} / {totalPages}
+              </span>
+
+              <button
+                onClick={() => setPage((p) => p + 1)}
+                disabled={page === totalPages}
+              >
+                Suivant
+              </button>
+            </div>
+          )} */}
+
         <div className={styles.carouselWrapper}>
-          <button className={styles.arrow}>&lt;</button>
           <div className={styles.grid}>
-            {challenges.map((c) => (
+            {loading ? "Chargement..." : error ? error : challenges.map((c) => (
               <ChallengeCard key={c.id} challenge={c} />
             ))}
           </div>
-          <button className={styles.arrow}>&gt;</button>
         </div>
       </div>
     </section>
