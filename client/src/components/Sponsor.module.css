@@ -59,7 +59,7 @@
 .novaBox {
   position: relative;
   border: 2px solid #ffffff;
-  padding: 4px 10px 4px 10px;
+  padding: 4px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -115,4 +115,44 @@
   font-style: italic;
   letter-spacing: 0.03em;
   line-height: 1;
+}
+
+@media (max-width: 768px) {
+
+  .sponsorSection {
+    padding: 3rem 1rem 12px;
+  }
+
+  .title {
+    margin: 0 0 10px 0;
+    font-size: 0.85rem;
+  }
+
+  .logos {
+    gap: 18px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .novaTop {
+    font-size: 1rem;
+  }
+
+  .novaBottom {
+    font-size: 0.6rem;
+  }
+
+  .gearName,
+  .surgeName {
+    font-size: 1.1rem;
+  }
+
+  .logoName {
+    font-size: 0.85rem;
+  }
+
+  .cyberIcon {
+    width: 24px;
+    height: 30px;
+  }
 }

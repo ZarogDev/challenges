@@ -1,6 +1,10 @@
 .leaderboard {
   padding: 20px;
   height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 
 .title {
@@ -13,12 +17,16 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
+  width: 100%;
+  flex: 1;
 }
 
 .listItem {
   display: flex;
   align-items: center;
   gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .rankBadge {
@@ -31,18 +39,30 @@
   font-size: 0.8rem;
   font-weight: bold;
   color: #000;
+  flex-shrink: 0;
 }
 
-.rank1 { background-color: var(--gold);   box-shadow: 0 0 8px rgba(255, 215, 0, 0.6); }
-.rank2 { background-color: var(--silver); box-shadow: 0 0 8px rgba(192, 192, 192, 0.6); }
-.rank3 { background-color: var(--bronze); box-shadow: 0 0 8px rgba(205, 127, 50, 0.6); }
+.rank1 {
+  background-color: var(--gold);
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+}
+
+.rank2 {
+  background-color: var(--silver);
+  box-shadow: 0 0 8px rgba(192, 192, 192, 0.6);
+}
+
+.rank3 {
+  background-color: var(--bronze);
+  box-shadow: 0 0 8px rgba(205, 127, 50, 0.6);
+}
+
 .rankOther {
   background-color: transparent;
   color: var(--text-muted);
   border: 1px solid var(--text-muted);
 }
 
-/* ✅ Avatar initiale — remplace .avatar */
 .avatarInitial {
   width: 36px;
   height: 36px;
@@ -59,15 +79,129 @@
 .userInfo {
   display: flex;
   flex-direction: column;
+  flex: 1;
+  min-width: 0;
 }
 
 .username {
   font-size: 1rem;
   font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .score {
   font-size: 0.85rem;
   font-family: 'Inter', sans-serif;
   color: var(--text-muted);
+}
+
+.infoMessage {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+@media (max-width: 768px) {
+
+  .leaderboard {
+    padding: 16px;
+    height: auto;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .title {
+    font-size: 1.1rem;
+    margin-bottom: 16px;
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  .list {
+    gap: 0;
+    width: 100%;
+  }
+
+  .listItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    width: 100%;
+    box-sizing: border-box;
+    flex-wrap: nowrap;
+  }
+
+  .listItem:last-child {
+    border-bottom: none;
+  }
+
+  .rankBadge {
+    width: 28px;
+    height: 28px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    flex-shrink: 0;
+    border-radius: 50%;
+  }
+
+  .rank1 {
+    background-color: var(--gold);
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+    color: #000;
+  }
+
+  .rank2 {
+    background-color: var(--silver);
+    box-shadow: 0 0 8px rgba(192, 192, 192, 0.6);
+    color: #000;
+  }
+
+  .rank3 {
+    background-color: var(--bronze);
+    box-shadow: 0 0 8px rgba(205, 127, 50, 0.6);
+    color: #000;
+  }
+
+  .rankOther {
+    background-color: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--text-muted);
+  }
+
+  .avatarInitial {
+    width: 44px;
+    height: 44px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .userInfo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .username {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .score {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
 }
