@@ -1,9 +1,10 @@
-/* ── Section wrapper ── */
 .section {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 24px;
   margin-top: 60px;
+  width: 100%;
 }
 
 .sectionTitle {
@@ -15,15 +16,59 @@
   letter-spacing: 0.5px;
 }
 
+/* ── Bouton Créer un challenge ── */
+.createButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 2rem;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 58, 58, 0.15) 0%,
+    rgba(0, 210, 255, 0.15) 100%
+  );
+  border: 1.5px solid;
+  border-image: linear-gradient(
+    135deg,
+    var(--neon-red, #ff3a3a),
+    var(--neon-blue, #00d2ff)
+  ) 1;
+  color: #ffffff;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 0 16px rgba(0, 210, 255, 0.08),
+    0 0 16px rgba(255, 58, 58, 0.08);
+}
+
+.createButton:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 58, 58, 0.28) 0%,
+    rgba(0, 210, 255, 0.28) 100%
+  );
+  box-shadow:
+    0 0 24px rgba(0, 210, 255, 0.2),
+    0 0 24px rgba(255, 58, 58, 0.15);
+  transform: translateY(-2px);
+}
+
 /* ── Container principal ── */
 .listContainer {
   padding: 20px;
+  width: 100%;
 }
 
-/* ── Header row : barre de recherche alignée aux cards ── */
+/* ── Header row ── */
 .headerRow {
   display: flex;
-  justify-content: flex-start; /* ← aligné à gauche comme les cards */
+  justify-content: flex-start;
   align-items: center;
   margin-bottom: 20px;
 }
@@ -38,21 +83,21 @@
 .searchBarContainer {
   position: relative;
   width: 100%;
-  max-width: 745px; 
-  margin-left: 2rem;
+  max-width: 450px;
 }
 
 .searchBar {
   background-color: transparent;
   border: 1px solid rgba(255, 58, 58, 0.4);
   border-radius: 8px;
-  padding: 8px 36px 8px 12px; /* ← espace à droite pour la loupe */
+  padding: 8px 36px 8px 12px;
   color: white;
   width: 100%;
   outline: none;
   font-family: 'Inter', sans-serif;
   font-size: 0.9rem;
   transition: border-color 0.2s ease;
+  box-sizing: border-box;
 }
 
 .searchBar:focus {
@@ -63,7 +108,6 @@
   color: var(--text-muted);
 }
 
-/* ── Loupe positionnée correctement ── */
 .searchIcon {
   position: absolute;
   right: 10px;
@@ -71,7 +115,7 @@
   transform: translateY(-50%);
   color: var(--text-muted);
   font-size: 1rem;
-  pointer-events: none; /* ← ne bloque pas les clics */
+  pointer-events: none;
 }
 
 /* ── Carousel ── */
@@ -89,6 +133,7 @@
   cursor: pointer;
   padding: 5px;
   transition: color 0.2s ease;
+  flex-shrink: 0;
 }
 
 .arrow:hover {
@@ -118,29 +163,32 @@
     padding: 0 1rem;
   }
 
+  /* Bouton pleine largeur sur mobile */
+  .createButton {
+    width: 50%;
+    padding: 1.8rem;
+  }
+
   .listContainer {
     padding: 12px;
   }
 
-  /* Barre de recherche centrée avec écart haut/bas */
   .headerRow {
-    justify-content: center; /* ← centrée sur mobile */
+    justify-content: center;
     margin-bottom: 0;
-    padding: 12px 0; /* ← écart haut et bas */
+    padding: 12px 0;
   }
 
   .searchBarContainer {
-    width: 85%; /* ← légèrement réduite sur mobile */
+    width: 85%;
     max-width: 340px;
   }
 
   .searchBar {
-    width: 100%;
     font-size: 0.85rem;
-    padding: 10px 36px 10px 12px; /* ← plus de padding vertical */
+    padding: 10px 36px 10px 12px;
   }
 
-  /* Grille 1 colonne */
   .grid {
     grid-template-columns: 1fr;
     gap: 10px;
