@@ -21,7 +21,7 @@ app.use(
 app.use(express.json());
 
 // nettoie les données envoyées par le client
-// app.use(sanitizeXss);
+app.use(sanitizeXss);
 
 // petite route test
 app.get("/", (_req, res) => {
