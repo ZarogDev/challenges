@@ -1,3 +1,5 @@
+import xss from "xss";
+import { Request, Response, NextFunction } from "express";
 
 // nettoie les strings dans les objets, tableaux...
 function sanitizeData(data: unknown): unknown {
