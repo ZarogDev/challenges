@@ -31,6 +31,23 @@ const ChallengeDetail: React.FC = () => {
     }
     fetchChallenge()
   }, [id])
+const handleRateChallenge = async (value: number) => {
+  if (!challenge) return
+  if (!isLoggedIn) return
+
+  try {
+    await fetch(
+      `${import.meta.env.VITE_API_URL}/challenges/${challenge.id}/ratings`,
+      {
+        method: "POST",
+        headers : { "Content-Type": "application.json"},
+        body:JSON.stringify({score: value}),
+      }
+    )} catch (err) {
+      console.error("Erreur lors du vote", err)
+    }
+}
+
 
   if (!challenge) return null
 
@@ -47,7 +64,11 @@ const ChallengeDetail: React.FC = () => {
         <div className={styles.infoBlock}>
           <div className={styles.titleRow}>
             <h1 className={styles.title}>{challenge.title}</h1>
-            <StarRating rating={challenge.averageChallengeScore} />
+            <StarRating 
+            rating={challenge.averageChallengeScore}
+            onChange={handleRateChallenge}
+            readOnly={!isLoggedIn}
+             />
           </div>
 
           <p className={styles.game}>{challenge.gameTitle}</p>
