@@ -1,26 +1,22 @@
 import { useState } from "react";
 import { AuthContext } from "./AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function AuthProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [token, setToken] = useState<string | null>(null);
-  const [username, setUsername] = useState<string | null>(null);
+  // les states sont initialisés directement avec le contenu du localStorage, pour éviter la déconnexion au rechargement de la page
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
+  const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
+  const [username, setUsername] = useState<string | null>(localStorage.getItem('user'));
   const [error, setError] = useState<string | null>(null);
 
   const localUser = localStorage.getItem('user');
   const localToken = localStorage.getItem('token');
 
-  // useEffect(() => {
-  //   if(localUser && localToken) {
-  //     setUsername(localUser);
-  //     setToken(localToken);
-  //     setIsLoggedIn(true);
-  //   }
-  // }, []);
+  const navigate = useNavigate();
 
   const login = async (email: string, password: string) => {
     if(!localUser || !localToken) {
@@ -57,6 +53,8 @@ export default function AuthProvider({
 
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+
+    return navigate("/");
   };
 
   const value = {
