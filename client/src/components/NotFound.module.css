@@ -1,13 +1,12 @@
 .pageWrapper {
   width: 100%;
-  padding: 10rem 0 4rem;
+  padding: 8rem 0 4rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
 }
 
-/* Carte centrale */
 .card {
   position: relative;
   width: 100%;
@@ -22,7 +21,6 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
-/* Ligne décorative néon en haut */
 .card::before {
   content: '';
   position: absolute;
@@ -41,22 +39,21 @@
   z-index: 2;
 }
 
+
 .imageWrapper {
   position: relative;
   width: 100%;
-  height: 500px;
+  height: auto; 
   overflow: hidden;
 }
 
 .image {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center center; 
+  height: auto;
+  object-fit: contain;
   display: block;
 }
 
-/* Fondu bas de l'image vers la carte */
 .imageFadeBottom {
   position: absolute;
   bottom: 0;
@@ -70,7 +67,6 @@
   );
 }
 
-/* Contenu texte */
 .content {
   display: flex;
   flex-direction: column;
@@ -80,7 +76,6 @@
   gap: 1rem;
 }
 
-/* Badge erreur */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -114,7 +109,6 @@
   max-width: 520px;
 }
 
-/* Bouton retour accueil */
 .btnHome {
   display: inline-flex;
   align-items: center;
@@ -152,4 +146,34 @@
     0 0 30px rgba(0, 210, 255, 0.25),
     0 0 30px rgba(255, 58, 58, 0.2);
   transform: translateY(-2px);
+}
+
+/* ================================
+   RESPONSIVE MOBILE
+   ================================ */
+@media (max-width: 768px) {
+
+  .pageWrapper {
+    padding: 8rem 0 2rem;
+    gap: 1rem;
+  }
+
+  .content {
+    padding: 1rem 1.5rem 2rem;
+    gap: 0.8rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .text {
+    font-size: 0.85rem;
+  }
+
+  .btnHome {
+    width: 100%;
+    justify-content: center;
+    padding: 0.75rem 1rem;
+  }
 }

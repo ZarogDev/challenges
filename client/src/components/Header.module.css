@@ -201,7 +201,6 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(8, 14, 30, 0.88);
   z-index: 0;
 }
 

@@ -1,3 +1,19 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 60px;
+}
+
+.sectionTitle {
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
 .leaderboard {
   padding: 20px;
   height: 100%;
@@ -10,6 +26,7 @@
   color: #ffffff;
 }
 
+/* 3 colonnes sur desktop */
 .columnsWrapper {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -59,16 +76,27 @@
   flex-shrink: 0;
 }
 
-.rank1 { background-color: var(--gold);   box-shadow: 0 0 8px rgba(255, 215, 0, 0.6); }
-.rank2 { background-color: var(--silver); box-shadow: 0 0 8px rgba(192, 192, 192, 0.6); }
-.rank3 { background-color: var(--bronze); box-shadow: 0 0 8px rgba(205, 127, 50, 0.6); }
+.rank1 {
+  background-color: var(--gold);
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+}
+
+.rank2 {
+  background-color: var(--silver);
+  box-shadow: 0 0 8px rgba(192, 192, 192, 0.6);
+}
+
+.rank3 {
+  background-color: var(--bronze);
+  box-shadow: 0 0 8px rgba(205, 127, 50, 0.6);
+}
+
 .rankOther {
   background-color: transparent;
   color: var(--text-muted);
   border: 1px solid var(--text-muted);
 }
 
-/* ✅ Avatar initiale circulaire */
 .avatarInitial {
   width: 36px;
   height: 36px;
@@ -85,12 +113,17 @@
 .userInfo {
   display: flex;
   flex-direction: column;
+  min-width: 0;
+  flex: 1;
 }
 
 .username {
   font-size: 0.95rem;
   font-weight: 600;
   color: #ffffff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .anonymous {
@@ -105,18 +138,117 @@
   color: var(--text-muted);
 }
 
-.section {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  margin-top: 60px;
+.extraInfo {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-family: 'Inter', sans-serif;
 }
 
-.sectionTitle {
+.infoMessage {
+  color: var(--text-muted);
+  font-size: 0.85rem;
   text-align: center;
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: #ffffff;
-  margin: 0;
-  letter-spacing: 0.5px;
+  padding: 1rem 0;
+}
+
+/* ================================
+   RESPONSIVE MOBILE
+   ================================ */
+@media (max-width: 768px) {
+
+  .section {
+    margin-top: 20px;
+    gap: 16px;
+  }
+
+  .sectionTitle {
+    font-size: 1.2rem;
+    padding: 0 0.5rem;
+    line-height: 1.3;
+  }
+
+  .leaderboard {
+    padding: 16px 12px;
+    height: auto;
+  }
+
+  /* 1 seule colonne sur mobile */
+  .columnsWrapper {
+    grid-template-columns: 1fr;
+    max-height: none;
+    overflow-y: visible;
+    padding-right: 0;
+    gap: 0;
+  }
+
+  .column {
+    gap: 0;
+  }
+
+  .listItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    flex-wrap: nowrap;
+  }
+
+  .listItem:last-child {
+    border-bottom: none;
+  }
+
+  .rankBadge {
+    width: 28px;
+    height: 28px;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+  }
+
+  .rank1 {
+    background-color: var(--gold);
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+    color: #000;
+  }
+
+  .rank2 {
+    background-color: var(--silver);
+    box-shadow: 0 0 8px rgba(192, 192, 192, 0.6);
+    color: #000;
+  }
+
+  .rank3 {
+    background-color: var(--bronze);
+    box-shadow: 0 0 8px rgba(205, 127, 50, 0.6);
+    color: #000;
+  }
+
+  .avatarInitial {
+    width: 42px;
+    height: 42px;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .userInfo {
+    flex: 1;
+    min-width: 0;
+    gap: 2px;
+  }
+
+  .username {
+    font-size: 0.9rem;
+    font-weight: 700;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .score {
+    font-size: 0.78rem;
+  }
+
+  .extraInfo {
+    font-size: 0.72rem;
+  }
 }
