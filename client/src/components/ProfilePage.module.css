@@ -302,6 +302,7 @@
     flex-direction: row;
     align-items: center;
     gap: 1rem;
+    margin-top: 3rem;
   }
 
   .avatarInitial {
@@ -337,3 +338,31 @@
     font-size: 1rem;
   } 
 }
+/* Points de pagination */
+  .dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 0 4px;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.25s ease;
+    flex-shrink: 0;
+  }
+
+  .dotActive {
+    width: 20px;
+    border-radius: 3px;
+    background: var(--neon-blue, #00d2ff);
+    box-shadow: 0 0 6px rgba(0, 210, 255, 0.6);
+  }
+

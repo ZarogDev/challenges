@@ -3,14 +3,14 @@
   align-items: center;
   justify-content: center;
   min-height: calc(100vh - 200px);
-  padding: 3rem 2rem;
+  padding: 3rem 1rem;
 }
 
 /* Carte centrale */
 .card {
   position: relative;
   width: 100%;
-  max-width: 480px; 
+  max-width: 480px;
   background: var(--panel-bg, rgba(10, 16, 35, 0.95));
   border: 1px solid rgba(0, 210, 255, 0.2);
   border-radius: 12px;
@@ -76,7 +76,7 @@
   flex: 1;
 }
 
-/* Grille pour la page Register (2 mots de passe côte à côte) */
+/* Grille pour 2 mots de passe côte à côte */
 .gridRow {
   display: flex;
   gap: 1rem;
@@ -111,25 +111,50 @@
   box-sizing: border-box;
 }
 
-.invalid {
-  border-color: var(--neon-red);
-}
-
 .input::placeholder {
   color: rgba(255, 255, 255, 0.2);
-}
-
-/* Hack calendrier pour la page Register */
-.input::-webkit-calendar-picker-indicator {
-  filter: invert(1);
-  opacity: 0.6;
-  cursor: pointer;
 }
 
 .input:focus {
   border-color: var(--neon-blue, #00d2ff);
   box-shadow: 0 0 12px rgba(0, 210, 255, 0.2);
   background: rgba(0, 210, 255, 0.04);
+}
+
+.invalid {
+  border-color: var(--neon-red, #ff3a3a) !important;
+}
+
+/* ── Champ date stylisé ── */
+.input[type="date"] {
+  color-scheme: dark;
+  cursor: pointer;
+}
+
+.input[type="date"]:not(:valid) {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.input[type="date"]:valid {
+  color: #ffffff;
+}
+
+/* Icône calendrier en cyan */
+.input::-webkit-calendar-picker-indicator {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2300d2ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Cline x1='16' y1='2' x2='16' y2='6'%3E%3C/line%3E%3Cline x1='8' y1='2' x2='8' y2='6'%3E%3C/line%3E%3Cline x1='3' y1='10' x2='21' y2='10'%3E%3C/line%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: 16px;
+  background-position: center;
+  width: 20px;
+  height: 20px;
+  opacity: 1;
+  filter: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.input::-webkit-calendar-picker-indicator:hover {
+  opacity: 0.7;
 }
 
 /* Message d'erreur */
@@ -150,7 +175,7 @@
   width: 100%;
 }
 
-/* --- BOUTON PRINCIPAL (Se connecter / S'inscrire) --- */
+/* Bouton principal */
 .btnSubmit {
   width: 100%;
   padding: 0.8rem;
@@ -161,7 +186,11 @@
     rgba(0, 210, 255, 0.15) 100%
   );
   border: 1.5px solid;
-  border-image: linear-gradient(135deg, var(--neon-red, #ff3a3a), var(--neon-blue, #00d2ff)) 1;
+  border-image: linear-gradient(
+    135deg,
+    var(--neon-red, #ff3a3a),
+    var(--neon-blue, #00d2ff)
+  ) 1;
   color: #ffffff;
   font-family: 'Rajdhani', sans-serif;
   font-size: 1.1rem;
@@ -188,7 +217,7 @@
   transform: translateY(-2px);
 }
 
-/* --- SECTION DE REDIRECTION (Bas de carte) --- */
+/* Section redirection */
 .registerSection {
   margin-top: 2rem;
   padding-top: 1.5rem;
@@ -205,7 +234,7 @@
   color: var(--text-muted, #8a9baa);
 }
 
-/* Bouton Secondaire fantôme (CTA de redirection) */
+/* Bouton secondaire CTA */
 .btnSecondary {
   display: inline-flex;
   justify-content: center;
@@ -233,7 +262,7 @@
   transform: translateY(-2px);
 }
 
-/* Simple lien texte (utilisé potentiellement ailleurs ou pour Register) */
+/* Lien texte */
 .registerLink {
   text-align: center;
   margin-top: 1.5rem;
