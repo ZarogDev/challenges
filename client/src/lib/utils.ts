@@ -85,3 +85,37 @@ export function getEmbedUrl(url: string) {
   const videoId = url.split("v=")[1];
   return `https://www.youtube.com/embed/${videoId}`;
 };
+
+export function getPagination(current: number, total: number) {
+  const delta = 1; // nb de pages autour
+  const range: (number | string)[] = [];
+
+  const left = current - delta;
+  const right = current + delta;
+
+  for (let i = 1; i <= total; i++) {
+    if (
+      i === 1 ||
+      i === total ||
+      (i >= left && i <= right)
+    ) {
+      range.push(i);
+    }
+  }
+
+  // Ajouter les "..."
+  const result: (number | string)[] = [];
+  let prev: number | null = null;
+
+  for (const page of range) {
+    if (typeof page === "number") {
+      if (prev !== null && page - prev > 1) {
+        result.push("...");
+      }
+      result.push(page);
+      prev = page;
+    }
+  }
+
+  return result;
+}
