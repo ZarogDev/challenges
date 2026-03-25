@@ -1,10 +1,74 @@
-.listContainer {
-  padding: 20px;
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  margin-top: 60px;
+  width: 100%;
 }
 
+.sectionTitle {
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+/* ── Bouton Créer un challenge ── */
+.createButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 2rem;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 58, 58, 0.15) 0%,
+    rgba(0, 210, 255, 0.15) 100%
+  );
+  border: 1.5px solid;
+  border-image: linear-gradient(
+    135deg,
+    var(--neon-red, #ff3a3a),
+    var(--neon-blue, #00d2ff)
+  ) 1;
+  color: #ffffff;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 0 16px rgba(0, 210, 255, 0.08),
+    0 0 16px rgba(255, 58, 58, 0.08);
+}
+
+.createButton:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 58, 58, 0.28) 0%,
+    rgba(0, 210, 255, 0.28) 100%
+  );
+  box-shadow:
+    0 0 24px rgba(0, 210, 255, 0.2),
+    0 0 24px rgba(255, 58, 58, 0.15);
+  transform: translateY(-2px);
+}
+
+/* ── Container principal ── */
+.listContainer {
+  padding: 20px;
+  width: 100%;
+}
+
+/* ── Header row ── */
 .headerRow {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   margin-bottom: 20px;
 }
@@ -15,19 +79,34 @@
   font-weight: 600;
 }
 
+/* ── Barre de recherche ── */
 .searchBarContainer {
   position: relative;
+  width: 100%;
+  max-width: 745px;
+  margin-left: 2rem;;
 }
 
 .searchBar {
   background-color: transparent;
   border: 1px solid rgba(255, 58, 58, 0.4);
   border-radius: 8px;
-  padding: 8px 30px 8px 12px;
+  padding: 8px 36px 8px 12px;
   color: white;
-  width: 450px;
+  width: 100%;
   outline: none;
   font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.searchBar:focus {
+  border-color: rgba(0, 210, 255, 0.5);
+}
+
+.searchBar::placeholder {
+  color: var(--text-muted);
 }
 
 .searchIcon {
@@ -36,8 +115,11 @@
   top: 50%;
   transform: translateY(-50%);
   color: var(--text-muted);
+  font-size: 1rem;
+  pointer-events: none;
 }
 
+/* ── Carousel ── */
 .carouselWrapper {
   display: flex;
   align-items: center;
@@ -51,8 +133,15 @@
   font-size: 1.5rem;
   cursor: pointer;
   padding: 5px;
+  transition: color 0.2s ease;
+  flex-shrink: 0;
 }
 
+.arrow:hover {
+  color: var(--neon-blue, #00d2ff);
+}
+
+/* ── Grille 3 colonnes ── */
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -60,19 +149,58 @@
   flex: 1;
 }
 
-/* ✅ Nouveaux styles */
-.section {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  margin-top: 60px;
-}
+/* ================================
+   RESPONSIVE MOBILE
+   ================================ */
+@media (max-width: 768px) {
 
-.sectionTitle {
-  text-align: center;
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: #ffffff;
-  margin: 0;
-  letter-spacing: 0.5px;
+  .section {
+    margin-top: 30px;
+    gap: 16px;
+  }
+
+  .sectionTitle {
+    font-size: 1.2rem;
+    padding: 0 1rem;
+  }
+
+  /* Bouton pleine largeur sur mobile */
+  .createButton {
+    width: 50%;
+    padding: 1.8rem;
+  }
+
+  .listContainer {
+    padding: 12px;
+  }
+
+  .headerRow {
+    justify-content: center;
+    margin-bottom: 0;
+    padding: 12px 0;
+  }
+
+  .searchBarContainer {
+    width: 85%;
+    max-width: 340px;
+  }
+
+  .searchBar {
+    font-size: 0.85rem;
+    padding: 10px 36px 10px 12px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .carouselWrapper {
+    gap: 6px;
+  }
+
+  .arrow {
+    font-size: 1.2rem;
+    padding: 3px;
+  }
 }

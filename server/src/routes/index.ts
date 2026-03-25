@@ -4,6 +4,8 @@ import challengesRoutes from "./challenges.routes.js";
 import leaderboardRoutes from "./leaderboard.routes.js";
 import usersRoutes from "./users.routes.js";
 import participationsRoutes from "./participations.routes.js";
+import swaggerUi from "swagger-ui-express";
+import { spec } from "../../docs/swagger/index.js";
 // import votesRoutes from "./votes.routes.js";
 
 const router = Router();
@@ -25,5 +27,8 @@ router.use("/users", usersRoutes);
 // => participationsRoutes doit être utilisé sur les routes /participations
 router.use("/", participationsRoutes);
 // router.use("/", votesRoutes);
+
+// Documentation swagger
+router.use("/docs", swaggerUi.serve, swaggerUi.setup(spec));
 
 export default router;

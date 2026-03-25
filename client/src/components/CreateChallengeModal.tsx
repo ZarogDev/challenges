@@ -231,13 +231,13 @@ return (
                     className={styles.suggestionItem}
                     onClick={() => handleSelectGame(game)}
                   >
-                    {/* {game.background_image && (
+                    {game.background_image && (
                       <img
                         src={game.background_image}
                         alt={game.name}
                         className={styles.gameThumbnail}
                       />
-                    )} */}
+                    )}
                     <span>{game.name}</span>
                   </li>
                 ))}

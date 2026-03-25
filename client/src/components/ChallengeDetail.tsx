@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import styles from "./ChallengeDetail.module.css"
-import { getEmbedUrl } from "../lib/utils"
+// import { getEmbedUrl } from "../lib/utils"
 import { useParams } from "react-router-dom"
 import type { ChallengeWithParticipations } from "../@types"
 import StarRating from "./StarRating"
@@ -8,6 +8,7 @@ import ParticipateModal from "./ParticipateModal"
 import { useAuth } from "../context/AuthContext"
 import RateChallengeModal from "./RateChallengeModal"
 import RateParticipationModal from "./RateParticipationModal"
+import ParticipationCard from "./ParticipationCard"
 
 const ChallengeDetail: React.FC = () => {
   const [challenge, setChallenge] =

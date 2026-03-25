@@ -125,24 +125,27 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.8rem; /* ✅ plus grande car une seule lettre */
+  font-size: 1.8rem;
   font-weight: 700;
   font-family: 'Inter', sans-serif;
   flex-shrink: 0;
 }
-
 
 .cardContent {
   display: flex;
   flex-direction: column;
   gap: 6px;
   flex: 1;
+  min-width: 0;
 }
 
 .username {
   font-size: 1rem;
   font-weight: 700;
   color: #ffffff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .comment {
@@ -150,4 +153,142 @@
   color: var(--text-muted);
   line-height: 1.5;
   margin: 0;
+}
+
+.participateButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.5rem;
+  padding: 0.7rem 2rem;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 58, 58, 0.15) 0%,
+    rgba(0, 210, 255, 0.15) 100%
+  );
+  border: 1.5px solid;
+ 
+  border-image: linear-gradient(
+    135deg,
+    var(--neon-red, #ff3a3a),
+    var(--neon-blue, #00d2ff)
+  ) 1;
+  color: #ffffff;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 0 16px rgba(0, 210, 255, 0.08),
+    0 0 16px rgba(255, 58, 58, 0.08);
+}
+
+.participateButton:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 58, 58, 0.28) 0%,
+    rgba(0, 210, 255, 0.28) 100%
+  );
+  box-shadow:
+    0 0 24px rgba(0, 210, 255, 0.2),
+    0 0 24px rgba(255, 58, 58, 0.15);
+  transform: translateY(-2px);
+}
+
+/* ================================
+   RESPONSIVE MOBILE
+   ================================ */
+@media (max-width: 768px) {
+
+  .section {
+    margin-top: 80px;
+    padding: 0 0px;
+    gap: 20px;
+  }
+
+  /* Bloc principal : colonne sur mobile */
+  .detailBlock {
+    flex-direction: column;
+    gap: 20px;
+    align-items: stretch;
+  }
+
+  /* 1. Image en premier — pleine largeur */
+  .mainImage {
+    width: 100%;
+    height: 220px;
+    border-radius: 10px;
+    order: 1; /* ← en premier */
+  }
+
+  /* 2. Infos en second */
+  .infoBlock {
+    order: 2;
+    gap: 10px;
+  }
+
+  .title {
+    font-size: 1.3rem;
+  }
+
+  .game {
+    font-size: 0.85rem;
+  }
+
+  .description {
+    font-size: 0.88rem;
+  }
+
+  .descriptionLabel {
+    font-size: 0.8rem;
+  }
+
+  .creator {
+    font-size: 0.82rem;
+  }
+
+  /* 3. Completions en dernier — 1 colonne */
+  .completionsBlock {
+    order: 3;
+    padding: 16px 12px;
+  }
+
+  .completionsTitle {
+    font-size: 1rem;
+    margin-bottom: 14px;
+  }
+
+  .completionsGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .completionCard {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .avatarInitial {
+    width: 52px;
+    height: 52px;
+    font-size: 1.3rem;
+    border-radius: 8px;
+  }
+
+  .username {
+    font-size: 0.95rem;
+  }
+
+  .comment {
+    font-size: 0.8rem;
+  }
+
+ .participateButton {
+    width: 100%;
+    padding: 0.8rem;
+  }
 }

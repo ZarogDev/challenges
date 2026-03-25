@@ -76,3 +76,70 @@
   margin: 0;
   letter-spacing: 0.5px;
 }
+@media (max-width: 768px) {
+
+  .section {
+    margin-top: 30px;
+    gap: 16px;
+  }
+
+  .sectionTitle {
+    font-size: 1.2rem;
+    padding: 0 1rem;
+  }
+
+  .listContainer {
+    padding: 12px;
+  }
+
+  .headerRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .searchBar {
+    width: 100%;
+    font-size: 0.85rem;
+  }
+
+  .searchBarContainer {
+    width: 100%;
+  }
+
+  /* Carousel : 1 carte visible + scroll horizontal */
+  .carouselWrapper {
+    gap: 4px;
+  }
+
+  .arrow {
+    font-size: 1.2rem;
+    padding: 3px;
+    flex-shrink: 0;
+  }
+
+  /* La grille devient un scroll horizontal — 1 carte visible */
+  .grid {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 12px;
+    padding-bottom: 8px;
+    /* Cache la scrollbar */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Chaque carte prend toute la largeur visible */
+  .grid > * {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    min-width: 0;
+  }
+}

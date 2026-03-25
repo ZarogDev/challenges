@@ -64,7 +64,7 @@ function App() {
             {/*Page profile*/}
 
             <Route 
-            path="/profil"
+            path="/profile"
             element={<Profile/>}
             />
           {/* 404 */}

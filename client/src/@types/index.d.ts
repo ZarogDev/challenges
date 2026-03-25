@@ -45,3 +45,12 @@ export interface Authcontext {
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
 }
+
+export interface UserWithParticipations {
+  id: number;
+  email: string;
+  username: string;
+  birthdate: string;
+  createdAt: string;
+  participations: Participation[];
+}

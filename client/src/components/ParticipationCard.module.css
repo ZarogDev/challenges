@@ -1,0 +1,71 @@
+/* ── Card completion ── */
+.completionCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* .avatarInitial {
+  width: 72px;
+  height: 72px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  flex-shrink: 0;
+} */
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.username {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.comment {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ================================
+   RESPONSIVE MOBILE
+   ================================ */
+@media (max-width: 768px) {
+  .completionCard {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  /* .avatarInitial {
+    width: 52px;
+    height: 52px;
+    font-size: 1.3rem;
+    border-radius: 8px;
+  } */
+
+  .username {
+    font-size: 0.95rem;
+  }
+
+  .comment {
+    font-size: 0.8rem;
+  }
+}

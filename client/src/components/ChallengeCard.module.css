@@ -5,6 +5,7 @@
   gap: 10px;
   cursor: pointer;
   transition: transform 0.2s;
+  text-decoration: none;
 }
 
 .cardWrapper:hover {
@@ -23,7 +24,7 @@
   font-size: 0.9rem;
   font-weight: 600;
   line-height: 1;
-  /* min-height: 34px; */
+  color: #ffffff;
 }
 
 .cardGameTitle {
@@ -36,17 +37,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 20px;
+  margin-top: auto;
 }
 
-/* ✅ Ligne avatar + nom */
 .creatorRow {
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-/* ✅ Avatar initiale */
 .avatarInitial {
   width: 24px;
   height: 24px;
@@ -74,4 +73,42 @@
   border-radius: 12px;
   font-size: 0.8rem;
   cursor: pointer;
+  transition: background 0.2s ease;
+  white-space: nowrap;
+}
+
+.btnInscrire:hover {
+  background: rgba(0, 210, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+  .cardWrapper {
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .cardImage {
+    height: 120px;
+  }
+
+  .cardTitle {
+    font-size: 0.95rem;
+  }
+
+  .cardGameTitle {
+    font-size: 0.72rem;
+  }
+
+  .cardFooter {
+    margin-top: 10px;
+  }
+
+  .creator {
+    font-size: 0.7rem;
+  }
+
+  .btnInscrire {
+    padding: 4px 10px;
+    font-size: 0.75rem;
+  }
 }
