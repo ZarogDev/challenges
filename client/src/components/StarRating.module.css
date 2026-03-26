@@ -1,6 +1,38 @@
-/* ── Étoiles ── */
+/* ── Conteneur étoiles ── */
 .stars {
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 2px;
+}
+
+/* ── Bouton étoile ── */
+.starButton {
+  background: transparent;
+  border: none;
+  padding: 2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease;
+  line-height: 1;
+}
+
+.starButton:not(:disabled):hover {
+  transform: scale(1.2);
+}
+
+.starButton:disabled {
+  cursor: default;
+}
+
+/* ── Note affichée ── */
+.rating {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--neon-blue, #00d2ff);
+  text-shadow: 0 0 8px rgba(0, 210, 255, 0.5);
+  margin-left: 4px;
+  letter-spacing: 0.03em;
 }

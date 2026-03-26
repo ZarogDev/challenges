@@ -52,5 +52,6 @@ export interface UserWithParticipations {
   username: string;
   birthdate: string;
   createdAt: string;
+  rank: string;
   participations: Participation[];
 }

@@ -11,7 +11,7 @@
 .detailBlock {
   display: flex;
   gap: 40px;
-  align-items: flex-start;
+  align-items: center; /* ← centre l'image verticalement */
 }
 
 .mainImage {
@@ -28,12 +28,13 @@
   flex-direction: column;
   gap: 12px;
   flex: 1;
+  align-self: flex-start; /* ← le texte reste en haut */
 }
 
 .titleRow {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
@@ -42,6 +43,22 @@
   font-weight: 700;
   color: var(--neon-blue, #00d4ff);
   margin: 0;
+}
+
+/* Étoiles + note à gauche — bouton noter à droite */
+.ratingRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+/* Groupe étoiles + note collés ensemble */
+.starsGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .game {
@@ -61,21 +78,52 @@
 .conditionsBlock {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 .descriptionLabel {
-  font-size: 0.9rem;
-  color: var(--text-muted);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted, #8a9baa);
   margin: 0;
 }
 
-.description {
-  font-size: 0.95rem;
+/* ── Textarea description / conditions ── */
+.descriptionArea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 210, 255, 0.04);
+  border: 1px solid rgba(0, 210, 255, 0.2);
+  border-radius: 8px;
   color: var(--text-light, #e0e0e0);
+  font-size: 0.92rem;
+  font-family: 'Inter', sans-serif;
   line-height: 1.6;
-  white-space: pre-line;
-  margin: 0;
+  resize: none;
+  outline: none;
+  box-sizing: border-box;
+  cursor: default;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 210, 255, 0.3) transparent;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.descriptionArea::-webkit-scrollbar {
+  width: 4px;
+}
+
+.descriptionArea::-webkit-scrollbar-thumb {
+  background: rgba(0, 210, 255, 0.3);
+  border-radius: 4px;
+}
+
+.descriptionArea:focus {
+  border-color: rgba(0, 210, 255, 0.35);
+  box-shadow: 0 0 8px rgba(0, 210, 255, 0.1);
+  outline: none;
 }
 
 .creator {
@@ -94,18 +142,19 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem 1.2rem;
+  padding: 0.4rem 1rem;
   background: transparent;
   border: 1px solid var(--neon-blue, #00d2ff);
   color: var(--neon-blue, #00d2ff);
   font-family: 'Rajdhani', sans-serif;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .rateButton:hover {
@@ -119,8 +168,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-top: 5.3rem;
+  margin-top: 0.5rem;
   padding: 0.7rem 2rem;
+  width: 100%;
   background: linear-gradient(
     135deg,
     rgba(255, 58, 58, 0.15) 0%,
@@ -164,7 +214,6 @@
   border-radius: 12px;
 }
 
-/* Header titre + flèches */
 .completionsHeader {
   display: flex;
   align-items: center;
@@ -179,7 +228,6 @@
   margin: 0;
 }
 
-/* Flèches desktop */
 .desktopArrows {
   display: flex;
   gap: 8px;
@@ -210,7 +258,7 @@
   transform: scale(1.05);
 }
 
-/* Grid scrollable horizontalement */
+/* Grid scrollable */
 .completionsGrid {
   display: flex;
   flex-direction: row;
@@ -220,16 +268,8 @@
   padding-bottom: 8px;
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 210, 255, 0.3) transparent;
-  -webkit-mask-image: linear-gradient(
-    to right,
-    black 88%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to right,
-    black 88%,
-    transparent 100%
-  );
+  -webkit-mask-image: linear-gradient(to right, black 88%, transparent 100%);
+  mask-image: linear-gradient(to right, black 88%, transparent 100%);
 }
 
 .completionsGrid::-webkit-scrollbar {
@@ -245,9 +285,16 @@
   flex: 0 0 380px;
   scroll-snap-align: start;
   min-width: 0;
+  /* Supprime le hover sur les cards vidéo */
+  transition: none !important;
+  transform: none !important;
 }
 
-/* Points de pagination — cachés sur desktop */
+.completionsGrid > *:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
 .dots {
   display: none;
 }
@@ -279,6 +326,7 @@
   .infoBlock {
     order: 2;
     gap: 10px;
+    align-self: auto;
   }
 
   .title {
@@ -289,16 +337,34 @@
     font-size: 0.85rem;
   }
 
-  .description {
-    font-size: 0.88rem;
+  .ratingRow {
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-start;
+  }
+
+  .rateButton {
+    width: 100%;
+    justify-content: center;
+    padding: 0.6rem;
+  }
+
+  .descriptionArea {
+    font-size: 0.85rem;
+    padding: 0.6rem 0.8rem;
   }
 
   .descriptionLabel {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
 
   .creator {
     font-size: 0.82rem;
+  }
+
+  .participateButton {
+    width: 100%;
+    padding: 0.8rem;
   }
 
   .completionsBlock {
@@ -306,7 +372,6 @@
     padding: 16px 12px;
   }
 
-  /* Cache les flèches sur mobile */
   .desktopArrows {
     display: none;
   }
@@ -320,18 +385,9 @@
     text-align: center;
   }
 
-  /* Scroll horizontal mobile */
   .completionsGrid {
-    -webkit-mask-image: linear-gradient(
-      to right,
-      black 80%,
-      transparent 100%
-    );
-    mask-image: linear-gradient(
-      to right,
-      black 80%,
-      transparent 100%
-    );
+    -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
+    mask-image: linear-gradient(to right, black 80%, transparent 100%);
   }
 
   .completionsGrid > * {
@@ -339,18 +395,6 @@
     width: 85%;
   }
 
-  .participateButton {
-    width: 100%;
-    padding: 0.8rem;
-  }
-
-  .rateButton {
-    width: 100%;
-    justify-content: center;
-    padding: 0.6rem;
-  }
-
-  /* Points de pagination */
   .dots {
     display: flex;
     justify-content: center;

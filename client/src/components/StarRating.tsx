@@ -3,7 +3,7 @@ import { Star } from "lucide-react"
 import styles from "./StarRating.module.css"
 
 type StarRatingProps = {
-  rating?: number          // moyenne actuelle (ex: 4.3)
+  rating?: number
   max?: number
   onChange?: (value: number) => void
   readOnly?: boolean
@@ -18,7 +18,6 @@ const StarRating: React.FC<StarRatingProps> = ({
   const [current, setCurrent] = useState(rating)
   const [hover, setHover] = useState<number | null>(null)
 
-  // si la moyenne change (refetch), on met à jour l'affichage
   useEffect(() => {
     setCurrent(rating)
   }, [rating])
@@ -47,6 +46,8 @@ const StarRating: React.FC<StarRatingProps> = ({
         {Array.from({ length: max }, (_, i) => {
           const value = i + 1
           const active = value <= displayed
+         
+
           return (
             <button
               key={value}
@@ -59,8 +60,9 @@ const StarRating: React.FC<StarRatingProps> = ({
             >
               <Star
                 size={16}
-                fill={active ? "#00d4ff" : "none"}
-                color={active ? "#00d4ff" : "#555"}
+fill={active ? "#00d2ff" : "none"}
+color={active ? "#00d2ff" : "rgba(255,255,255,0.2)"}
+                strokeWidth={1.5}
               />
             </button>
           )
