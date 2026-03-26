@@ -111,3 +111,29 @@ export async function voteOnChallenge(req: Request, res: Response) {
     }
   }
 }
+
+// vérifier si le user connecté a déjà voté pour un challenge
+export async function checkIfUserAlreadyVotedOnChallenge(req: Request, res: Response) {
+  const userId = await parseIntFromParams(req.user.id);
+  const challengeId = await parseIntFromParams(req.params.id);
+
+  try {
+    // on cherche un vote avec ce user et ce challenge
+    const existingVote = await prisma.voteChallenge.findFirst({
+      where: {
+        userId,
+        challengeId,
+      },
+    });
+
+    // si on trouve un vote -> true, sinon -> false
+   
+    return res.status(200).json({
+      hasVoted: !!existingVote,
+    });
+  } catch (error) {
+    if (error instanceof Error) {
+      return res.status(500).json({ error: error.message });
+    }
+  }
+}
