@@ -53,8 +53,8 @@ const Leaderboard: React.FC = () => {
       try {
         setLoading(true);
         setError("");
-        console.log("API_URL:", API_URL);
-        console.log("URL complète:", `${API_URL}/leaderboard`);
+        console.log("API_URL:", import.meta.env.VITE_API_URL);
+        console.log("URL complète:", `${import.meta.env.VITE_API_URL}/leaderboard`);
         
         
         // récupère l'URL du backend
