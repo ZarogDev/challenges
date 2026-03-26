@@ -75,8 +75,11 @@ const ChallengeDetail: React.FC = () => {
             <h1 className={styles.title}>{challenge.title}</h1>
           </div>
 
+          {/* Étoiles + note à gauche — bouton noter à droite */}
           <div className={styles.ratingRow}>
-            <StarRating rating={challenge.averageChallengeScore} readOnly />
+            <div className={styles.starsGroup}>
+              <StarRating rating={challenge.averageChallengeScore} readOnly />
+            </div>
             {isLoggedIn && (
               <button
                 className={styles.rateButton}
@@ -91,7 +94,6 @@ const ChallengeDetail: React.FC = () => {
 
           <div className={styles.divider} />
 
-          {/* Description avec textarea stylisé */}
           <div className={styles.descriptionBlock}>
             <p className={styles.descriptionLabel}>Description / règles</p>
             <textarea
@@ -102,7 +104,6 @@ const ChallengeDetail: React.FC = () => {
             />
           </div>
 
-          {/* Conditions avec textarea stylisé */}
           <div className={styles.conditionsBlock}>
             <p className={styles.descriptionLabel}>Conditions</p>
             <textarea
@@ -135,30 +136,28 @@ const ChallengeDetail: React.FC = () => {
 
         <div className={styles.completionsHeader}>
           <h2 className={styles.completionsTitle}>
-            {challenge.participations.length ? "Ils ont relevé le challenge !" : "Sois le premier à relever ce challenge ! Prouve ta valeur, monte dans le classement."}
+            Ils ont relevé le challenge !
           </h2>
-          {challenge.participations.length ? (
-            <div className={styles.desktopArrows}>
-              <button
-                className={styles.arrowBtn}
-                onClick={() => {
-                  const grid = gridRef.current
-                  if (grid) grid.scrollBy({ left: -400, behavior: 'smooth' })
-                }}
-              >
-                ‹
-              </button>
-              <button
-                className={styles.arrowBtn}
-                onClick={() => {
-                  const grid = gridRef.current
-                  if (grid) grid.scrollBy({ left: 400, behavior: 'smooth' })
-                }}
-              >
-                ›
-              </button>
-            </div>
-          ) : null}
+          <div className={styles.desktopArrows}>
+            <button
+              className={styles.arrowBtn}
+              onClick={() => {
+                const grid = gridRef.current
+                if (grid) grid.scrollBy({ left: -400, behavior: 'smooth' })
+              }}
+            >
+              ‹
+            </button>
+            <button
+              className={styles.arrowBtn}
+              onClick={() => {
+                const grid = gridRef.current
+                if (grid) grid.scrollBy({ left: 400, behavior: 'smooth' })
+              }}
+            >
+              ›
+            </button>
+          </div>
         </div>
 
         <div className={styles.completionsGrid} ref={gridRef}>
