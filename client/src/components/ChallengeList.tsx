@@ -4,7 +4,7 @@ import ChallengeCard from "./ChallengeCard"
 import type { Challenge } from "../@types"
 import CreateChallengeModal from "./CreateChallengeModal"
 import { useAuth } from "../context/AuthContext"
-import { getPagination } from "../lib/utils"
+import Pagination from "./Pagination"
 
 const ChallengeList: React.FC = () => {
   const [challenges, setChallenges] = useState<Challenge[]>([])
@@ -16,8 +16,6 @@ const ChallengeList: React.FC = () => {
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const {isLoggedIn} = useAuth()
-
-  const pages = getPagination(page, totalPages);
 
   useEffect(() => {
     const fetchChallenges = async (page: number, search: string) => {
@@ -100,57 +98,8 @@ const ChallengeList: React.FC = () => {
             <span className={styles.searchIcon}>🔍</span>
           </div>
         </div>
-
-        {/* Pagination */}
-          <div>
-            {/* <button
-              onClick={() => setPage((p) => p - 1)}
-              disabled={page === 1}
-            >
-              ←
-            </button> */}
-
-            {pages.map((p, index) =>
-              typeof p === "string" ? (
-                <span key={index}>
-                  ...
-                </span>
-              ) : (
-                <button
-                  key={p}
-                  onClick={() => setPage(p)}
-                  style={{ backgroundColor: page === p ? "red" : "" }}
-                >
-                  {p}
-                </button>
-              )
-            )}
-
-            {/* <button
-              onClick={() => setPage((p) => p + 1)}
-              disabled={page === totalPages}
-            >
-              →
-            </button> */}
-          </div>
-          {/* {totalPages > 1 && (
-            <div>
-              <button onClick={() => setPage((p) => p - 1)} disabled={page === 1}>
-                Précédent
-              </button>
-
-              <span>
-                Page {page} / {totalPages}
-              </span>
-
-              <button
-                onClick={() => setPage((p) => p + 1)}
-                disabled={page === totalPages}
-              >
-                Suivant
-              </button>
-            </div>
-          )} */}
+          
+        <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage}/>
 
         <div className={styles.carouselWrapper}>
           <div className={styles.grid}>
