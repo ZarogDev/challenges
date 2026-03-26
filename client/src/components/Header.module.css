@@ -326,24 +326,32 @@
    ================================ */
 @media (max-width: 768px) {
 
-  .headerContent {
+   .headerContent {
     grid-template-columns: 1fr auto;
     padding: 0.5rem 1rem;
     align-items: center;
+    min-height: 56px; /* ← hauteur minimale du header */
+    overflow: visible; /* ← permet au logo de ne pas être coupé */
   }
 
-  .logoContainer {
+   .logoContainer {
     width: auto;
+    overflow: visible;
+    display: flex;
+    align-items: center;
   }
 
-  .logoImage {
-    height: 37px;
-    margin-left: 0;
-    margin-top: 0;
-    margin-bottom: -30px;
-  }
+   .logoImage {
 
-  .nav,
+       height: 35px;
+        width: auto;
+        margin-left: -4px;
+        margin-top: 0px;
+        margin-bottom: -12px;
+        object-fit: contain;
+    }
+  
+   .nav,
   .authDesktop {
     display: none;
   }
@@ -359,5 +367,4 @@
   .menuOverlay {
     display: none !important;
   }
-
 }

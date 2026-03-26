@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import styles from "./ChallengeDetail.module.css"
-// import { getEmbedUrl } from "../lib/utils"
 import { useParams } from "react-router-dom"
 import type { ChallengeWithParticipations } from "../@types"
 import StarRating from "./StarRating"
@@ -11,13 +10,12 @@ import RateParticipationModal from "./RateParticipationModal"
 import ParticipationCard from "./ParticipationCard"
 
 const ChallengeDetail: React.FC = () => {
-  const [challenge, setChallenge] =
-    useState<ChallengeWithParticipations | undefined>(undefined)
+  const [challenge, setChallenge] = useState<ChallengeWithParticipations | undefined>(undefined)
   const [showParticipate, setShowParticipate] = useState(false)
   const [showRateChallenge, setShowRateChallenge] = useState(false)
-  const [participationToRate, setParticipationToRate] = useState<number | null>(
-    null
-  )
+  const [participationToRate, setParticipationToRate] = useState<number | null>(null)
+  const [activeIndex, setActiveIndex] = useState(0)
+  const gridRef = useRef<HTMLDivElement>(null)
 
   const { id } = useParams()
   const { isLoggedIn } = useAuth()
@@ -28,9 +26,7 @@ const ChallengeDetail: React.FC = () => {
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/challenges/${id}/participations`
         )
-        if (!response.ok) {
-          throw new Error("Failed to fetch challenge")
-        }
+        if (!response.ok) throw new Error("Failed to fetch challenge")
         const data: ChallengeWithParticipations = await response.json()
         setChallenge(data)
       } catch (error) {
@@ -40,10 +36,35 @@ const ChallengeDetail: React.FC = () => {
     fetchChallenge()
   }, [id])
 
+  /* Détecte la card visible au scroll */
+  useEffect(() => {
+    const grid = gridRef.current
+    if (!grid) return
+
+    const handleScroll = () => {
+      const cardWidth = grid.offsetWidth * 0.85 + 12
+      const index = Math.round(grid.scrollLeft / cardWidth)
+      setActiveIndex(index)
+    }
+
+    grid.addEventListener("scroll", handleScroll, { passive: true })
+    return () => grid.removeEventListener("scroll", handleScroll)
+  }, [challenge])
+
+  /* Clic sur un point → scroll vers la card */
+  const goToIndex = (index: number) => {
+    const grid = gridRef.current
+    if (!grid) return
+    const cardWidth = grid.offsetWidth * 0.85 + 12
+    grid.scrollTo({ left: index * cardWidth, behavior: "smooth" })
+    setActiveIndex(index)
+  }
+
   if (!challenge) return null
 
   return (
     <section className={styles.section}>
+
       {/* ── Bloc principal : image + infos ── */}
       <div className={styles.detailBlock}>
         <img
@@ -55,10 +76,7 @@ const ChallengeDetail: React.FC = () => {
         <div className={styles.infoBlock}>
           <div className={styles.titleRow}>
             <h1 className={styles.title}>{challenge.title}</h1>
-            <StarRating
-              rating={challenge.averageChallengeScore}
-              readOnly
-            />
+            <StarRating rating={challenge.averageChallengeScore} readOnly />
             {isLoggedIn && (
               <button
                 className={styles.rateButton}
@@ -101,15 +119,58 @@ const ChallengeDetail: React.FC = () => {
 
       {/* ── Bloc participations ── */}
       <div className={`${styles.completionsBlock} neon-border-dual`}>
-        <h2 className={styles.completionsTitle}>
-          Ils ont relevé le challenge !
-        </h2>
 
-        <div className={styles.completionsGrid}>
+        {/* Header avec titre + flèches desktop */}
+        <div className={styles.completionsHeader}>
+          <h2 className={styles.completionsTitle}>
+            Ils ont relevé le challenge !
+          </h2>
+          <div className={styles.desktopArrows}>
+            <button
+              className={styles.arrowBtn}
+              onClick={() => {
+                const grid = gridRef.current
+                if (grid) grid.scrollBy({ left: -400, behavior: 'smooth' })
+              }}
+            >
+              ‹
+            </button>
+            <button
+              className={styles.arrowBtn}
+              onClick={() => {
+                const grid = gridRef.current
+                if (grid) grid.scrollBy({ left: 400, behavior: 'smooth' })
+              }}
+            >
+              ›
+            </button>
+          </div>
+        </div>
+
+        {/* Grid scrollable */}
+        <div className={styles.completionsGrid} ref={gridRef}>
           {challenge.participations.map((participation) => (
-            <ParticipationCard key={participation.id} participation={participation} setParticipationToRate={setParticipationToRate}/>
+            <ParticipationCard
+              key={participation.id}
+              participation={participation}
+              setParticipationToRate={setParticipationToRate}
+            />
           ))}
         </div>
+
+        {/* Points pagination — mobile uniquement */}
+        {challenge.participations.length > 1 && (
+          <div className={styles.dots}>
+            {challenge.participations.map((_, i) => (
+              <button
+                key={i}
+                className={`${styles.dot} ${i === activeIndex ? styles.dotActive : ''}`}
+                onClick={() => goToIndex(i)}
+                aria-label={`Participation ${i + 1}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       {/* ── Popups ── */}
