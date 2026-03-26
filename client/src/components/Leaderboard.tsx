@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Leaderboard.module.css";
 
-// structure d'un joueur
 type Player = {
   rank: number;
   userId: number;
@@ -11,13 +10,11 @@ type Player = {
   averageScore: number;
 };
 
-// structure de la réponse API
 type LeaderboardApiResponse = {
   message: string;
   data: Player[];
 };
 
-// styles avatar (déjà présent avant)
 const getAvatarBg = (name: string): string => {
   const colors = [
     "rgba(0, 212, 255, 0.15)",
@@ -39,13 +36,8 @@ const getAvatarColor = (name: string): string => {
 };
 
 const Leaderboard: React.FC = () => {
-  // liste des joueurs (remplace le tableau statique d'avant)
   const [players, setPlayers] = useState<Player[]>([]);
-
-  // pour afficher "chargement"
   const [loading, setLoading] = useState(true);
-
-  // pour afficher une erreur si besoin
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -53,22 +45,10 @@ const Leaderboard: React.FC = () => {
       try {
         setLoading(true);
         setError("");
-        console.log("API_URL:", import.meta.env.VITE_API_URL);
-        console.log("URL complète:", `${import.meta.env.VITE_API_URL}/leaderboard`);
-        
-        
-        // récupère l'URL du backend
         const API_URL = import.meta.env.VITE_API_URL;
-
         const response = await fetch(`${API_URL}/leaderboard`);
-
-        if (!response.ok) {
-          throw new Error("fetch failed");
-        }
-
+        if (!response.ok) throw new Error("fetch failed");
         const result: LeaderboardApiResponse = await response.json();
-
-        // on met les données du backend dans le state
         setPlayers(result.data);
       } catch (err) {
         console.error(err);
@@ -77,12 +57,9 @@ const Leaderboard: React.FC = () => {
         setLoading(false);
       }
     };
-
-    // lancé quand le composant apparaît
     fetchLeaderboard();
   }, []);
 
-  // on garde seulement les 5 premiers
   const topPlayers = players.slice(0, 5);
 
   return (
@@ -102,26 +79,33 @@ const Leaderboard: React.FC = () => {
 
             return (
               <div key={p.userId} className={styles.listItem}>
+
+                {/* Rang seul à gauche */}
                 <div className={`${styles.rankBadge} ${rankClass}`}>
                   {p.rank}
                 </div>
 
-                <div
-                  className={styles.avatarInitial}
-                  style={{
-                    backgroundColor: getAvatarBg(p.username),
-                    border: `1px solid ${getAvatarBorder(p.username)}`,
-                    color: getAvatarColor(p.username),
-                  }}
-                >
-                  {p.username.charAt(0).toUpperCase()}
+                {/* Espace explicite entre rang et avatar */}
+                <div className={styles.rankSpacer} />
+
+                {/* Avatar + nom groupés */}
+                <div className={styles.playerGroup}>
+                  <div
+                    className={styles.avatarInitial}
+                    style={{
+                      backgroundColor: getAvatarBg(p.username),
+                      border: `1px solid ${getAvatarBorder(p.username)}`,
+                      color: getAvatarColor(p.username),
+                    }}
+                  >
+                    {p.username.charAt(0).toUpperCase()}
+                  </div>
+                  <div className={styles.userInfo}>
+                    <span className={styles.username}>{p.username}</span>
+                    <span className={styles.score}>{p.totalScore} pts</span>
+                  </div>
                 </div>
 
-                <div className={styles.userInfo}>
-                  <span className={styles.username}>{p.username}</span>
-                  {/* score venant du backend */}
-                  <span className={styles.score}>{p.totalScore} pts</span>
-                </div>
               </div>
             );
           })}
