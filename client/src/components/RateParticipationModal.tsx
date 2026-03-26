@@ -6,18 +6,27 @@ type Props = {
   participationId: number
   title?: string
   onClose: () => void
+  userHasRated?: boolean
+  onRated?: () => void
 }
 
 const RateParticipationModal: React.FC<Props> = ({
   participationId,
   title = "Noter la participation",
   onClose,
+  userHasRated = false,
+  onRated,
 }) => {
   const [value, setValue] = useState(0)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const handleSubmit = async () => {
+    if (userHasRated) {
+      setError("Tu as déjà noté cette participation.")
+      return
+    }
+
     if (!value) {
       setError("Choisis une note avant de valider")
       return
@@ -27,14 +36,28 @@ const RateParticipationModal: React.FC<Props> = ({
     setError(null)
 
     try {
-      await fetch(
-        `${import.meta.env.VITE_API_URL}/participations/${participationId}/ratings`,
+      const res = await fetch(
+        `http://localhost:3000/api/participations/${participationId}/votes`,
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({ score: value }),
         }
       )
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => null)
+        if (res.status === 409 || data?.message === "ALREADY_RATED") {
+          setError("Tu as déjà noté cette participation.")
+          return
+        }
+
+        throw new Error(data?.message || "Une erreur est survenue")
+      }
+
+      onRated?.()
       onClose()
     } catch (err) {
       setError((err as Error).message)
@@ -52,6 +75,7 @@ const RateParticipationModal: React.FC<Props> = ({
             type="button"
             className={styles.closeButton}
             onClick={onClose}
+            disabled={submitting}
           >
             ✕
           </button>
@@ -59,6 +83,12 @@ const RateParticipationModal: React.FC<Props> = ({
 
         <div className={styles.body}>
           <StarRating rating={value} onChange={setValue} readOnly={false} />
+          {userHasRated && !error && (
+            <p className={styles.info}>
+              Tu as déjà noté cette participation, tu ne peux pas voter à
+              nouveau.
+            </p>
+          )}
           {error && <p className={styles.error}>{error}</p>}
         </div>
 
@@ -75,7 +105,7 @@ const RateParticipationModal: React.FC<Props> = ({
             type="button"
             className={styles.primaryButton}
             onClick={handleSubmit}
-            disabled={submitting}
+            disabled={submitting || userHasRated}
           >
             {submitting ? "Envoi…" : "Valider la note"}
           </button>

@@ -6,12 +6,14 @@ type Props = {
   challengeId: number
   title?: string
   onClose: () => void
+  onRated: () => void
 }
 
 const RateChallengeModal: React.FC<Props> = ({
   challengeId,
   title = "Noter le challenge",
   onClose,
+  onRated,
 }) => {
   const [value, setValue] = useState(0)
   const [submitting, setSubmitting] = useState(false)
@@ -35,7 +37,7 @@ const RateChallengeModal: React.FC<Props> = ({
   
   body: JSON.stringify({ score: value }),
 })
-
+      onRated()
       onClose()
     } catch (err) {
       setError((err as Error).message)

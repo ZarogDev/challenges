@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useRef } from "react"
+import React, { useEffect, useState } from "react"
 import styles from "./ChallengeDetail.module.css"
+import { getEmbedUrl } from "../lib/utils"
 import { useParams } from "react-router-dom"
 import type { ChallengeWithParticipations } from "../@types"
 import StarRating from "./StarRating"
@@ -7,15 +8,23 @@ import ParticipateModal from "./ParticipateModal"
 import { useAuth } from "../context/AuthContext"
 import RateChallengeModal from "./RateChallengeModal"
 import RateParticipationModal from "./RateParticipationModal"
-import ParticipationCard from "./ParticipationCard"
 
 const ChallengeDetail: React.FC = () => {
-  const [challenge, setChallenge] = useState<ChallengeWithParticipations | undefined>(undefined)
+  const [challenge, setChallenge] =
+    useState<ChallengeWithParticipations | undefined>(undefined)
   const [showParticipate, setShowParticipate] = useState(false)
   const [showRateChallenge, setShowRateChallenge] = useState(false)
-  const [participationToRate, setParticipationToRate] = useState<number | null>(null)
-  const [activeIndex, setActiveIndex] = useState(0)
-  const gridRef = useRef<HTMLDivElement>(null)
+  const [participationToRate, setParticipationToRate] = useState<number | null>(
+    null
+  )
+
+  // a-t‑il déjà noté le challenge ?
+  const [hasRatedChallenge, setHasRatedChallenge] = useState(false)
+
+  // a-t‑il déjà noté chaque participation ? (clé = participationId)
+  const [ratedParticipations, setRatedParticipations] = useState<
+    Record<number, boolean>
+  >({})
 
   const { id } = useParams()
   const { isLoggedIn } = useAuth()
@@ -26,9 +35,19 @@ const ChallengeDetail: React.FC = () => {
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/challenges/${id}/participations`
         )
-        if (!response.ok) throw new Error("Failed to fetch challenge")
+        if (!response.ok) {
+          throw new Error("Failed to fetch challenge")
+        }
         const data: ChallengeWithParticipations = await response.json()
         setChallenge(data)
+
+        // Quand ton back renverra ces infos, tu pourras initialiser ici :
+        // setHasRatedChallenge(data.userHasRatedChallenge ?? false)
+        // const initialRated: Record<number, boolean> = {}
+        // data.participations.forEach(p => {
+        //   if (p.userHasRatedParticipation) initialRated[p.id] = true
+        // })
+        // setRatedParticipations(initialRated)
       } catch (error) {
         console.error("Error fetching challenge:", error)
       }
@@ -36,35 +55,10 @@ const ChallengeDetail: React.FC = () => {
     fetchChallenge()
   }, [id])
 
-  /* Détecte la card visible au scroll */
-  useEffect(() => {
-    const grid = gridRef.current
-    if (!grid) return
-
-    const handleScroll = () => {
-      const cardWidth = grid.offsetWidth * 0.85 + 12
-      const index = Math.round(grid.scrollLeft / cardWidth)
-      setActiveIndex(index)
-    }
-
-    grid.addEventListener("scroll", handleScroll, { passive: true })
-    return () => grid.removeEventListener("scroll", handleScroll)
-  }, [challenge])
-
-  /* Clic sur un point → scroll vers la card */
-  const goToIndex = (index: number) => {
-    const grid = gridRef.current
-    if (!grid) return
-    const cardWidth = grid.offsetWidth * 0.85 + 12
-    grid.scrollTo({ left: index * cardWidth, behavior: "smooth" })
-    setActiveIndex(index)
-  }
-
   if (!challenge) return null
 
   return (
     <section className={styles.section}>
-
       {/* ── Bloc principal : image + infos ── */}
       <div className={styles.detailBlock}>
         <img
@@ -76,13 +70,21 @@ const ChallengeDetail: React.FC = () => {
         <div className={styles.infoBlock}>
           <div className={styles.titleRow}>
             <h1 className={styles.title}>{challenge.title}</h1>
-            <StarRating rating={challenge.averageChallengeScore} readOnly />
+            <StarRating
+              rating={challenge.averageChallengeScore}
+              readOnly
+            />
             {isLoggedIn && (
               <button
                 className={styles.rateButton}
-                onClick={() => setShowRateChallenge(true)}
+                onClick={() => {
+                  if (!hasRatedChallenge) {
+                    setShowRateChallenge(true)
+                  }
+                }}
+                disabled={hasRatedChallenge}
               >
-                Noter le challenge
+                {hasRatedChallenge ? "Déjà noté" : "Noter le challenge"}
               </button>
             )}
           </div>
@@ -119,61 +121,55 @@ const ChallengeDetail: React.FC = () => {
 
       {/* ── Bloc participations ── */}
       <div className={`${styles.completionsBlock} neon-border-dual`}>
+        <h2 className={styles.completionsTitle}>
+          Ils ont relevé le challenge !
+        </h2>
 
-        {/* Header avec titre + flèches desktop */}
-        <div className={styles.completionsHeader}>
-          <h2 className={styles.completionsTitle}>
-            Ils ont relevé le challenge !
-          </h2>
-          <div className={styles.desktopArrows}>
-            <button
-              className={styles.arrowBtn}
-              onClick={() => {
-                const grid = gridRef.current
-                if (grid) grid.scrollBy({ left: -400, behavior: 'smooth' })
-              }}
-            >
-              ‹
-            </button>
-            <button
-              className={styles.arrowBtn}
-              onClick={() => {
-                const grid = gridRef.current
-                if (grid) grid.scrollBy({ left: 400, behavior: 'smooth' })
-              }}
-            >
-              ›
-            </button>
-          </div>
+        <div className={styles.completionsGrid}>
+          {challenge.participations.map((c) => {
+            const hasRatedThisParticipation = ratedParticipations[c.id] === true
+
+            return (
+              <div
+                key={c.id}
+                className={`${styles.completionCard} neon-border-dual`}
+              >
+                <iframe
+                  src={getEmbedUrl(c.videoLink)}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+
+                <div className={styles.cardContent}>
+                  <span className={styles.username}>{c.participant}</span>
+                  <p className={styles.comment}>{c.description}</p>
+                  <StarRating
+                    rating={c.averageParticipationScore}
+                    readOnly
+                  />
+                  {isLoggedIn && (
+                    <button
+                      className={styles.rateButton}
+                      onClick={() => {
+                        if (!hasRatedThisParticipation) {
+                          setParticipationToRate(c.id)
+                        }
+                      }}
+                      disabled={hasRatedThisParticipation}
+                    >
+                      {hasRatedThisParticipation
+                        ? "Déjà notée"
+                        : "Noter cette participation"}
+                    </button>
+                  )}
+                </div>
+              </div>
+            )
+          })}
         </div>
-
-        {/* Grid scrollable */}
-        <div className={styles.completionsGrid} ref={gridRef}>
-          {challenge.participations.map((participation) => (
-            <ParticipationCard
-              key={participation.id}
-              participation={participation}
-              setParticipationToRate={setParticipationToRate}
-            />
-          ))}
-        </div>
-
-        {/* Points pagination — mobile uniquement */}
-        {challenge.participations.length > 1 && (
-          <div className={styles.dots}>
-            {challenge.participations.map((_, i) => (
-              <button
-                key={i}
-                className={`${styles.dot} ${i === activeIndex ? styles.dotActive : ''}`}
-                onClick={() => goToIndex(i)}
-                aria-label={`Participation ${i + 1}`}
-              />
-            ))}
-          </div>
-        )}
       </div>
 
-      {/* ── Popups ── */}
+            {/* ── Popups ── */}
       {showParticipate && (
         <ParticipateModal
           challengeId={challenge.id}
@@ -185,6 +181,7 @@ const ChallengeDetail: React.FC = () => {
         <RateChallengeModal
           challengeId={challenge.id}
           onClose={() => setShowRateChallenge(false)}
+          onRated={() => setHasRatedChallenge(true)}
         />
       )}
 
@@ -192,8 +189,16 @@ const ChallengeDetail: React.FC = () => {
         <RateParticipationModal
           participationId={participationToRate}
           onClose={() => setParticipationToRate(null)}
+          userHasRated={ratedParticipations[participationToRate] === true}
+          onRated={() =>
+            setRatedParticipations((prev) => ({
+              ...prev,
+              [participationToRate]: true,
+            }))
+          }
         />
       )}
+
     </section>
   )
 }
