@@ -1,6 +1,7 @@
 .profile {
   width: 100%;
-  padding: 2rem 0;
+  padding-top: 1.5rem; 
+  padding-bottom: 2rem;
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -308,18 +309,11 @@
 @media (max-width: 768px) {
 
   .profile {
-    padding-top: 2rem;
-    padding-bottom: 1rem;
-    gap: 1.2rem;
-    min-height: unset;
+    padding-top: 1rem;
   }
 
   .header {
-    padding: 1.5rem 1rem;
-    flex-direction: row;
-    align-items: center;
-    gap: 1rem;
-    margin-top: 3rem;
+    margin-top: 0;
   }
 
   .avatarInitial {

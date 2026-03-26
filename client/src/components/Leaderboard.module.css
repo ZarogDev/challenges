@@ -1,33 +1,24 @@
 .leaderboard {
   padding: 20px;
   height: 100%;
-  width: 100%;           /* ← AJOUT */
-  box-sizing: border-box; /* ← AJOUT */
-}
-
-.columnsWrapper {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0 24px;
-  max-height: 560px;
-  overflow-y: auto;
-  padding-right: 6px;
-  width: 100%;           /* ← AJOUT */
+  width: 100%;
   box-sizing: border-box;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 212, 255, 0.4) transparent;
+  display: flex;
+  flex-direction: column;
 }
 
 .title {
   font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #ffffff;
+  text-align: center;
 }
 
 .list {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 0;
   width: 100%;
   flex: 1;
 }
@@ -35,20 +26,28 @@
 .listItem {
   display: flex;
   align-items: center;
-  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   width: 100%;
   box-sizing: border-box;
+  gap: 0;
+   justify-content: center;
 }
 
+.listItem:last-child {
+  border-bottom: none;
+}
+
+/* Badge rang */
 .rankBadge {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.8rem;
-  font-weight: bold;
+  font-size: 0.82rem;
+  font-weight: 800;
   color: #000;
   flex-shrink: 0;
 }
@@ -74,15 +73,30 @@
   border: 1px solid var(--text-muted);
 }
 
+/* Espace entre rang et avatar */
+.rankSpacer {
+  width: 40px; /* ← espace visible */
+  flex-shrink: 0;
+}
+
+/* Avatar + nom groupés */
+.playerGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
 .avatarInitial {
-  width: 36px;
-  height: 36px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: 1.3rem;
+  font-weight: 800;
   font-family: 'Inter', sans-serif;
   flex-shrink: 0;
 }
@@ -92,18 +106,20 @@
   flex-direction: column;
   flex: 1;
   min-width: 0;
+  gap: 2px;
 }
 
 .username {
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .score {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-family: 'Inter', sans-serif;
   color: var(--text-muted);
 }
@@ -115,89 +131,51 @@
   padding: 1rem 0;
 }
 
+/* ================================
+   RESPONSIVE MOBILE
+   ================================ */
 @media (max-width: 768px) {
 
   .leaderboard {
     padding: 16px;
     height: auto;
-    width: 100%;
-    box-sizing: border-box;
   }
 
   .title {
-    font-size: 1.1rem;
-    margin-bottom: 16px;
-    color: #ffffff;
-    font-weight: 700;
-    text-align: center;
+    font-size: 1.05rem;
+    margin-bottom: 14px;
   }
 
-  .list {
-    gap: 0;
-    width: 100%;
-  }
-
-.listItem {
-  display: flex;
-  align-items: center;
-  gap: 20px; /* ← était 14px */
-  padding: 14px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  width: 100%;
-  box-sizing: border-box;
-  flex-wrap: nowrap;
-}
-
-  .listItem:last-child {
-    border-bottom: none;
+  .listItem {
+    padding: 10px 8px;
+    justify-content: center;
   }
 
   .rankBadge {
-    width: 32px;
-    height: 32px;
-    font-size: 0.85rem;
-    font-weight: 800;
-    flex-shrink: 0;
-    border-radius: 50%;
-    margin-right: 50px;
+    width: 28px;
+    height: 28px;
+    font-size: 0.8rem;
   }
 
-  .rank1 { background-color: var(--gold); box-shadow: 0 0 8px rgba(255, 215, 0, 0.6); color: #000; }
-  .rank2 { background-color: var(--silver); box-shadow: 0 0 8px rgba(192, 192, 192, 0.6); color: #000; }
-  .rank3 { background-color: var(--bronze); box-shadow: 0 0 8px rgba(205, 127, 50, 0.6); color: #000; }
-  .rankOther { background-color: transparent; color: var(--text-muted); border: 1px solid var(--text-muted); }
+  .rank1 { color: #000; }
+  .rank2 { color: #000; }
+  .rank3 { color: #000; }
+
+  .rankSpacer {
+    width: 40px;
+  }
 
   .avatarInitial {
-    width: 52px;
-    height: 52px;
-    font-size: 1.3rem;
-    font-weight: 800;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  /* userInfo prend tout l'espace restant */
-  .userInfo {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    min-width: 0;
-    padding: 0 8px; 
+    width: 44px;
+    height: 44px;
+    font-size: 1.1rem;
   }
 
   .username {
-    font-size: 1rem;
-    font-weight: 700;
-    color: #ffffff;
-    line-height: 1.2;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    font-size: 0.92rem;
   }
 
   .score {
-    font-size: 0.82rem;
-    color: var(--text-muted);
+    font-size: 0.78rem;
   }
 }
