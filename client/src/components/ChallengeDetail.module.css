@@ -11,7 +11,7 @@
 .detailBlock {
   display: flex;
   gap: 40px;
-  align-items: flex-start;
+  align-items: center; /* ← centre l'image verticalement */
 }
 
 .mainImage {
@@ -28,6 +28,7 @@
   flex-direction: column;
   gap: 12px;
   flex: 1;
+  align-self: flex-start; /* ← le texte reste en haut */
 }
 
 .titleRow {
@@ -44,7 +45,7 @@
   margin: 0;
 }
 
-/* Ligne étoiles à gauche + bouton à droite */
+/* Étoiles + note à gauche — bouton noter à droite */
 .ratingRow {
   display: flex;
   align-items: center;
@@ -251,8 +252,173 @@
 }
 
 .arrowBtn:hover {
-  background: rgba(0, 210, 255, 0.15);
-  border-color: rgba(0, 210, 255, 0.5);
-  color: #ffffff;
-  box-shadow: 0 0 8px rgba(0, 210, 255, 0.2);
+  background: rgba(0, 210, 255, 0.18);
+  border-color: var(--neon-blue, #00d2ff);
+  box-shadow: 0 0 10px rgba(0, 210, 255, 0.25);
+  transform: scale(1.05);
+}
+
+/* Grid scrollable */
+.completionsGrid {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 16px;
+  padding-bottom: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 210, 255, 0.3) transparent;
+  -webkit-mask-image: linear-gradient(to right, black 88%, transparent 100%);
+  mask-image: linear-gradient(to right, black 88%, transparent 100%);
+}
+
+.completionsGrid::-webkit-scrollbar {
+  height: 3px;
+}
+
+.completionsGrid::-webkit-scrollbar-thumb {
+  background: rgba(0, 210, 255, 0.3);
+  border-radius: 4px;
+}
+
+.completionsGrid > * {
+  flex: 0 0 380px;
+  scroll-snap-align: start;
+  min-width: 0;
+  /* Supprime le hover sur les cards vidéo */
+  transition: none !important;
+  transform: none !important;
+}
+
+.completionsGrid > *:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.dots {
+  display: none;
+}
+
+/* ================================
+   RESPONSIVE MOBILE
+   ================================ */
+@media (max-width: 768px) {
+
+  .section {
+    margin-top: 80px;
+    padding: 0;
+    gap: 20px;
+  }
+
+  .detailBlock {
+    flex-direction: column;
+    gap: 20px;
+    align-items: stretch;
+  }
+
+  .mainImage {
+    width: 100%;
+    height: 220px;
+    border-radius: 10px;
+    order: 1;
+  }
+
+  .infoBlock {
+    order: 2;
+    gap: 10px;
+    align-self: auto;
+  }
+
+  .title {
+    font-size: 1.3rem;
+  }
+
+  .game {
+    font-size: 0.85rem;
+  }
+
+  .ratingRow {
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-start;
+  }
+
+  .rateButton {
+    width: 100%;
+    justify-content: center;
+    padding: 0.6rem;
+  }
+
+  .descriptionArea {
+    font-size: 0.85rem;
+    padding: 0.6rem 0.8rem;
+  }
+
+  .descriptionLabel {
+    font-size: 0.75rem;
+  }
+
+  .creator {
+    font-size: 0.82rem;
+  }
+
+  .participateButton {
+    width: 100%;
+    padding: 0.8rem;
+  }
+
+  .completionsBlock {
+    order: 3;
+    padding: 16px 12px;
+  }
+
+  .desktopArrows {
+    display: none;
+  }
+
+  .completionsHeader {
+    justify-content: center;
+  }
+
+  .completionsTitle {
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .completionsGrid {
+    -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
+    mask-image: linear-gradient(to right, black 80%, transparent 100%);
+  }
+
+  .completionsGrid > * {
+    flex: 0 0 85%;
+    width: 85%;
+  }
+
+  .dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 0 4px;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.25s ease;
+    flex-shrink: 0;
+  }
+
+  .dotActive {
+    width: 20px;
+    border-radius: 3px;
+    background: var(--neon-blue, #00d2ff);
+    box-shadow: 0 0 6px rgba(0, 210, 255, 0.6);
+  }
 }
