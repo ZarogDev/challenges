@@ -148,28 +148,31 @@ const ChallengeDetail: React.FC = () => {
 
         <div className={styles.completionsHeader}>
           <h2 className={styles.completionsTitle}>
-            Ils ont relevé le challenge !
+            {challenge.participations.length ? "Ils ont relevé le challenge !" : "Sois le premier à relever ce challenge ! Prouve ta valeur, monte dans le classement."}
           </h2>
-          <div className={styles.desktopArrows}>
-            <button
-              className={styles.arrowBtn}
-              onClick={() => {
-                const grid = gridRef.current
-                if (grid) grid.scrollBy({ left: -400, behavior: 'smooth' })
-              }}
-            >
-              ‹
-            </button>
-            <button
-              className={styles.arrowBtn}
-              onClick={() => {
-                const grid = gridRef.current
-                if (grid) grid.scrollBy({ left: 400, behavior: 'smooth' })
-              }}
-            >
-              ›
-            </button>
-          </div>
+
+          {challenge.participations.length ? (
+            <div className={styles.desktopArrows}>
+              <button
+                className={styles.arrowBtn}
+                onClick={() => {
+                  const grid = gridRef.current
+                  if (grid) grid.scrollBy({ left: -400, behavior: 'smooth' })
+                }}
+              >
+                ‹
+              </button>
+              <button
+                className={styles.arrowBtn}
+                onClick={() => {
+                  const grid = gridRef.current
+                  if (grid) grid.scrollBy({ left: 400, behavior: 'smooth' })
+                }}
+              >
+                ›
+              </button>
+            </div> ) 
+            : null }
         </div>
 
         <div className={styles.completionsGrid} ref={gridRef}>
