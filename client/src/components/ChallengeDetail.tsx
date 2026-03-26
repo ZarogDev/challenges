@@ -41,7 +41,7 @@ const ChallengeDetail: React.FC = () => {
         const data: ChallengeWithParticipations = await response.json()
         setChallenge(data)
 
-        // Quand ton back renverra ces infos, tu pourras initialiser ici :
+        
         // setHasRatedChallenge(data.userHasRatedChallenge ?? false)
         // const initialRated: Record<number, boolean> = {}
         // data.participations.forEach(p => {

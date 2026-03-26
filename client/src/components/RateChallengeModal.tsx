@@ -29,14 +29,16 @@ const RateChallengeModal: React.FC<Props> = ({
     setError(null)
 
     try {
-      await fetch(`http://localhost:3000/api/challenges/${challengeId}/ratings`, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
+  const token = localStorage.getItem("token");
   
-  body: JSON.stringify({ score: value }),
-})
+  await fetch(`http://localhost:3000/api/challenges/${challengeId}/votes`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
+    },
+    body: JSON.stringify({ rating: value }),
+  });
       onRated()
       onClose()
     } catch (err) {
