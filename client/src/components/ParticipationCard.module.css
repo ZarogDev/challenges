@@ -14,13 +14,13 @@
 }
 
 .completionCard iframe {
-  width: 70%;
+  width: 100%;
   aspect-ratio: 16 / 9;
   border: none;
   display: block;
   background: #000;
-  margin: 16px auto 0;
-  border-radius: 6px;
+  margin: 0;
+  border-radius: 0;
 }
 
 .cardContent {
