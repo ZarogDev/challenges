@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import styles from "./ChallengeDetail.module.css"
-import { getEmbedUrl } from "../lib/utils"
 import { useParams } from "react-router-dom"
 import type { ChallengeWithParticipations } from "../@types"
 import StarRating from "./StarRating"
@@ -8,23 +7,15 @@ import ParticipateModal from "./ParticipateModal"
 import { useAuth } from "../context/AuthContext"
 import RateChallengeModal from "./RateChallengeModal"
 import RateParticipationModal from "./RateParticipationModal"
+import ParticipationCard from "./ParticipationCard"
 
 const ChallengeDetail: React.FC = () => {
-  const [challenge, setChallenge] =
-    useState<ChallengeWithParticipations | undefined>(undefined)
+  const [challenge, setChallenge] = useState<ChallengeWithParticipations | undefined>(undefined)
   const [showParticipate, setShowParticipate] = useState(false)
   const [showRateChallenge, setShowRateChallenge] = useState(false)
-  const [participationToRate, setParticipationToRate] = useState<number | null>(
-    null
-  )
-
-  // a-t‑il déjà noté le challenge ?
-  const [hasRatedChallenge, setHasRatedChallenge] = useState(false)
-
-  // a-t‑il déjà noté chaque participation ? (clé = participationId)
-  const [ratedParticipations, setRatedParticipations] = useState<
-    Record<number, boolean>
-  >({})
+  const [participationToRate, setParticipationToRate] = useState<number | null>(null)
+  const [activeIndex, setActiveIndex] = useState(0)
+  const gridRef = useRef<HTMLDivElement>(null)
 
   const { id } = useParams()
   const { isLoggedIn } = useAuth()
@@ -35,12 +26,9 @@ const ChallengeDetail: React.FC = () => {
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/challenges/${id}/participations`
         )
-        if (!response.ok) {
-          throw new Error("Failed to fetch challenge")
-        }
+        if (!response.ok) throw new Error("Failed to fetch challenge")
         const data: ChallengeWithParticipations = await response.json()
         setChallenge(data)
-
       } catch (error) {
         console.error("Error fetching challenge:", error)
       }
@@ -72,6 +60,7 @@ const ChallengeDetail: React.FC = () => {
 
   return (
     <section className={styles.section}>
+
       {/* ── Bloc principal : image + infos ── */}
       <div className={styles.detailBlock}>
         <img
@@ -94,14 +83,9 @@ const ChallengeDetail: React.FC = () => {
             {isLoggedIn && (
               <button
                 className={styles.rateButton}
-                onClick={() => {
-                  if (!hasRatedChallenge) {
-                    setShowRateChallenge(true)
-                  }
-                }}
-                disabled={hasRatedChallenge}
+                onClick={() => setShowRateChallenge(true)}
               >
-                {hasRatedChallenge ? "Déjà noté" : "Noter le challenge"}
+                Noter le challenge
               </button>
             )}
           </div>
@@ -211,7 +195,6 @@ const ChallengeDetail: React.FC = () => {
         <RateChallengeModal
           challengeId={challenge.id}
           onClose={() => setShowRateChallenge(false)}
-          onRated={() => setHasRatedChallenge(true)}
         />
       )}
 
@@ -219,16 +202,8 @@ const ChallengeDetail: React.FC = () => {
         <RateParticipationModal
           participationId={participationToRate}
           onClose={() => setParticipationToRate(null)}
-          userHasRated={ratedParticipations[participationToRate] === true}
-          onRated={() =>
-            setRatedParticipations((prev) => ({
-              ...prev,
-              [participationToRate]: true,
-            }))
-          }
         />
       )}
-
     </section>
   )
 }
