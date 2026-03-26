@@ -135,3 +135,41 @@ export async function voteOnParticipation(req: Request, res: Response) {
     }
   }
 }
+
+// vérifier si user a déjà voté pour une participation
+export async function checkIfUserAlreadyVotedOnParticipation(req: Request, res: Response) {
+  try {
+    // je récupère l'id du user connecté
+    const userId = Number(req.user?.id);
+
+    // je récupère l'id de la participation dans l'url
+    const participationId = Number(req.params.id);
+
+    // sécurité si pas connecté
+    if (!userId) {
+      return res.status(401).json({
+        message: "unauthorized",
+      });
+    }
+
+    // je cherche si un vote existe déjà
+    const vote = await prisma.voteParticipation.findFirst({
+      where: {
+        userId: userId,
+        participationId: participationId,
+      },
+    });
+
+    // je retourne true ou false
+    return res.status(200).json({
+      hasVoted: !!vote,
+    });
+
+  } catch (error) {
+    console.error("error while checking participation vote:", error);
+
+    return res.status(500).json({
+      message: "error while checking vote",
+    });
+  }
+}
