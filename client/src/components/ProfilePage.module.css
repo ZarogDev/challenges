@@ -250,9 +250,6 @@
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   gap: 16px;
-  padding-bottom: 8px;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 210, 255, 0.3) transparent;
   -webkit-mask-image: linear-gradient(
     to right,
     black 88%,

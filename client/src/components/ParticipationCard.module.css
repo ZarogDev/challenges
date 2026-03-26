@@ -1,4 +1,3 @@
-/* ── Card completion ── */
 .completionCard {
   display: flex;
   flex-direction: column;
@@ -6,63 +5,39 @@
   border-radius: 12px;
   background-color: var(--panel-bg, rgba(10, 16, 35, 0.95));
   overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+/* Supprime le hover */
 .completionCard:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    0 0 24px rgba(0, 210, 255, 0.1),
-    0 0 24px rgba(255, 58, 58, 0.08);
+  transform: none;
+  box-shadow: none;
 }
 
-/* ── iFrame vidéo ── */
 .completionCard iframe {
   width: 100%;
   aspect-ratio: 16 / 9;
   border: none;
   display: block;
   background: #000;
-  margin: 0 auto; /* ← centre la vidéo */
+  margin: 0;
+  border-radius: 0;
 }
 
-/* ── Contenu texte ── */
 .cardContent {
   display: flex;
   flex-direction: column;
   gap: 8px;
   padding: 14px 16px;
-  flex: 1;
+  flex: 1;          /* ← prend tout l'espace disponible */
   min-width: 0;
 }
 
-/* Nom joueur */
-.username {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #ffffff;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* Description */
-.comment {
-  font-size: 0.85rem;
-  color: var(--text-muted, #8a9baa);
-  line-height: 1.5;
-  margin: 0;
-}
-
-/* Bouton noter */
+/* Pousse le bouton noter en bas */
 .rateButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-top: 4px;
+  margin-top: auto; /* ← toujours en bas */
   padding: 0.5rem 1.2rem;
   background: transparent;
   border: 1px solid var(--neon-blue, #00d2ff);
@@ -76,12 +51,32 @@
   cursor: pointer;
   transition: all 0.2s ease;
   align-self: flex-start;
+  width: 100%;
 }
 
 .rateButton:hover {
   background: rgba(0, 210, 255, 0.1);
   color: #ffffff;
   box-shadow: 0 0 10px rgba(0, 210, 255, 0.2);
+}
+
+.username {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.comment {
+  font-size: 0.85rem;
+  color: var(--text-muted, #8a9baa);
+  line-height: 1.5;
+  margin: 0;
 }
 
 /* ================================
@@ -94,11 +89,13 @@
   }
 
   .completionCard iframe {
-    aspect-ratio: 16 / 9;
     width: 100%;
+    margin: 0;
+    border-radius: 0;
+    aspect-ratio: 16 / 9;
   }
 
-   .cardContent {
+  .cardContent {
     padding: 12px;
     gap: 6px;
   }
@@ -117,5 +114,6 @@
     font-size: 0.82rem;
     align-self: stretch;
     justify-content: center;
+    margin-top: 8px;
   }
 }
