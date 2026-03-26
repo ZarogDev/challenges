@@ -36,22 +36,18 @@ const ChallengeDetail: React.FC = () => {
     fetchChallenge()
   }, [id])
 
-  /* Détecte la card visible au scroll */
   useEffect(() => {
     const grid = gridRef.current
     if (!grid) return
-
     const handleScroll = () => {
       const cardWidth = grid.offsetWidth * 0.85 + 12
       const index = Math.round(grid.scrollLeft / cardWidth)
       setActiveIndex(index)
     }
-
     grid.addEventListener("scroll", handleScroll, { passive: true })
     return () => grid.removeEventListener("scroll", handleScroll)
   }, [challenge])
 
-  /* Clic sur un point → scroll vers la card */
   const goToIndex = (index: number) => {
     const grid = gridRef.current
     if (!grid) return
@@ -74,8 +70,12 @@ const ChallengeDetail: React.FC = () => {
         />
 
         <div className={styles.infoBlock}>
+
           <div className={styles.titleRow}>
             <h1 className={styles.title}>{challenge.title}</h1>
+          </div>
+
+          <div className={styles.ratingRow}>
             <StarRating rating={challenge.averageChallengeScore} readOnly />
             {isLoggedIn && (
               <button
@@ -91,14 +91,26 @@ const ChallengeDetail: React.FC = () => {
 
           <div className={styles.divider} />
 
+          {/* Description avec textarea stylisé */}
           <div className={styles.descriptionBlock}>
             <p className={styles.descriptionLabel}>Description / règles</p>
-            <p className={styles.description}>{challenge.description}</p>
+            <textarea
+              className={styles.descriptionArea}
+              value={challenge.description}
+              readOnly
+              rows={4}
+            />
           </div>
 
+          {/* Conditions avec textarea stylisé */}
           <div className={styles.conditionsBlock}>
             <p className={styles.descriptionLabel}>Conditions</p>
-            <p className={styles.description}>{challenge.conditions}</p>
+            <textarea
+              className={styles.descriptionArea}
+              value={challenge.conditions}
+              readOnly
+              rows={3}
+            />
           </div>
 
           <p className={styles.creator}>
@@ -114,13 +126,13 @@ const ChallengeDetail: React.FC = () => {
               Participer au challenge
             </button>
           )}
+
         </div>
       </div>
 
       {/* ── Bloc participations ── */}
       <div className={`${styles.completionsBlock} neon-border-dual`}>
 
-        {/* Header avec titre + flèches desktop */}
         <div className={styles.completionsHeader}>
           <h2 className={styles.completionsTitle}>
             {challenge.participations.length ? "Ils ont relevé le challenge !" : "Sois le premier à relever ce challenge ! Prouve ta valeur, monte dans le classement."}
@@ -149,7 +161,6 @@ const ChallengeDetail: React.FC = () => {
           ) : null}
         </div>
 
-        {/* Grid scrollable */}
         <div className={styles.completionsGrid} ref={gridRef}>
           {challenge.participations.map((participation) => (
             <ParticipationCard
@@ -160,7 +171,6 @@ const ChallengeDetail: React.FC = () => {
           ))}
         </div>
 
-        {/* Points pagination — mobile uniquement */}
         {challenge.participations.length > 1 && (
           <div className={styles.dots}>
             {challenge.participations.map((_, i) => (
@@ -175,7 +185,6 @@ const ChallengeDetail: React.FC = () => {
         )}
       </div>
 
-      {/* ── Popups ── */}
       {showParticipate && (
         <ParticipateModal
           challengeId={challenge.id}
