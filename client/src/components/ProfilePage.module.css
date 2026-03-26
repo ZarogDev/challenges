@@ -285,6 +285,26 @@
   display: none;
 }
 
+.btnPrimary {
+  padding: 0.6rem 1.8rem;
+  border: 1px solid #4fc3f7;
+  background: transparent;
+  color: #c9d6e3;
+  font-size: 0.9rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btnPrimary:hover {
+  background: rgba(79, 195, 247, 0.15);
+  color: #ffffff;
+}
+
 /* ================================
    RESPONSIVE MOBILE
    ================================ */
