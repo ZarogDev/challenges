@@ -17,6 +17,13 @@ const ChallengeDetail: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0)
   const gridRef = useRef<HTMLDivElement>(null)
 
+  // a-t‑il déjà noté le challenge ?
+  const [hasRatedChallenge, setHasRatedChallenge] = useState(false)
+  // a-t‑il déjà noté chaque participation ? (clé = participationId)
+  const [ratedParticipations, setRatedParticipations] = useState<
+    Record<number, boolean>
+  >({})
+
   const { id } = useParams()
   const { isLoggedIn } = useAuth()
 
@@ -83,9 +90,14 @@ const ChallengeDetail: React.FC = () => {
             {isLoggedIn && (
               <button
                 className={styles.rateButton}
-                onClick={() => setShowRateChallenge(true)}
+                onClick={() => {
+                  if (!hasRatedChallenge) {
+                    setShowRateChallenge(true)
+                  }
+                }}
+                disabled={hasRatedChallenge}
               >
-                Noter le challenge
+                {hasRatedChallenge ? "Déjà noté" : "Noter le challenge"}
               </button>
             )}
           </div>
@@ -195,6 +207,7 @@ const ChallengeDetail: React.FC = () => {
         <RateChallengeModal
           challengeId={challenge.id}
           onClose={() => setShowRateChallenge(false)}
+          onRated={() => setHasRatedChallenge(true)}
         />
       )}
 
@@ -202,6 +215,13 @@ const ChallengeDetail: React.FC = () => {
         <RateParticipationModal
           participationId={participationToRate}
           onClose={() => setParticipationToRate(null)}
+          userHasRated={ratedParticipations[participationToRate] === true}
+          onRated={() =>
+            setRatedParticipations((prev) => ({
+              ...prev,
+              [participationToRate]: true,
+            }))
+          }
         />
       )}
     </section>
