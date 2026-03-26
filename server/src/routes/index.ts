@@ -6,6 +6,7 @@ import usersRoutes from "./users.routes.js";
 import participationsRoutes from "./participations.routes.js";
 import swaggerUi from "swagger-ui-express";
 import { spec } from "../../docs/swagger/index.js";
+import votesRoutes from "./votes.routes.js";
 // import votesRoutes from "./votes.routes.js";
 
 const router = Router();
@@ -30,5 +31,8 @@ router.use("/", participationsRoutes);
 
 // Documentation swagger
 router.use("/docs", swaggerUi.serve, swaggerUi.setup(spec));
+
+// vote (create vote + check if user already voted)
+router.use("/", votesRoutes);
 
 export default router;
