@@ -3,6 +3,7 @@ import ParticipationCard from "./ParticipationCard"
 import styles from "./ProfilePage.module.css"
 import { useAuth } from "../context/AuthContext";
 import type { UserWithParticipations } from "../@types";
+import { Link } from "react-router-dom";
 
 function Profile() {
     const [user, setUser] = useState<UserWithParticipations | undefined>(undefined);
@@ -63,7 +64,7 @@ function Profile() {
 
             <div className={styles.stats}>
                 <div className={styles.statCard}>
-                    <span className={styles.statLabel}>Rang</span>
+                    <span className={styles.statLabel}>{user?.rank ? `Rang: ${user.rank}` : "Pas encore classé ? Commencez à participer afin de grimper dans le classement et voir votre évolution !"}</span>
                 </div>
             </div>
 
@@ -75,8 +76,9 @@ function Profile() {
 
                 {/* Header titre + flèches desktop */}
                 <div className={styles.completionsHeader}>
-                    <h2 className={styles.completionsTitle}>Vos participations</h2>
-                    <div className={styles.desktopArrows}>
+                    <h2 className={styles.completionsTitle}>{user?.participations.length ? "Vos participations" : "Lancez-vous ! Participez à un challenge"}</h2>
+                    {user?.participations.length ? (
+                        <div className={styles.desktopArrows}>
                         <button
                             className={styles.arrowBtn}
                             onClick={() => {
@@ -96,13 +98,16 @@ function Profile() {
                             ›
                         </button>
                     </div>
+                    ) : null}
                 </div>
 
                 {/* Grid scrollable */}
                 <div className={styles.completionsGrid} ref={gridRef}>
-                    {user?.participations.map((p) => (
+                    {user?.participations.length ? user.participations.map((p) => (
                         <ParticipationCard key={p.id} participation={p} />
-                    ))}
+                    )) : (
+                        <Link to="/challenges" className={styles.btnPrimary}>Voir les challenges</Link>
+                    )}
                 </div>
 
                 {/* Points pagination — mobile uniquement */}
