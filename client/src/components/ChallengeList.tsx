@@ -62,10 +62,6 @@ const ChallengeList: React.FC = () => {
     setPage(1)
   }, [debouncedSearch]);
 
-  if (error) {
-    return <p>Erreur : {error}</p>
-  }
-
   return (
     <section className={styles.section}>
       <h2 className={styles.sectionTitle}>
@@ -99,7 +95,7 @@ const ChallengeList: React.FC = () => {
           </div>
         </div>
           
-        <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage}/>
+        {totalPages > 1 && <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage}/>}
 
         <div className={styles.carouselWrapper}>
           <div className={styles.grid}>

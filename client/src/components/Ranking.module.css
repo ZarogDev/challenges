@@ -152,6 +152,13 @@
   padding: 1rem 0;
 }
 
+.activeUser {
+  /* style pour montrer l'utilisateur actif dans le classement */
+  border-right: 4px solid var(--neon-blue);
+  width: fit-content;
+  padding-right: 1rem;
+}
+
 /* ================================
    RESPONSIVE MOBILE
    ================================ */

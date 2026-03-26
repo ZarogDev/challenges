@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Ranking.module.css";
+import { useAuth } from "../context/AuthContext";
 
 type Player = {
   rank: number;
@@ -47,9 +48,10 @@ const splitIntoColumns = (arr: Player[], cols: number) => {
 const Ranking: React.FC = () => {
   // joueurs du classement (plus de tableau en dur)
   const [players, setPlayers] = useState<Player[]>([]);
-
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const { isLoggedIn, username } = useAuth();
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
@@ -106,7 +108,7 @@ const Ranking: React.FC = () => {
                   if (p.rank === 3) rankClass = styles.rank3;
 
                   return (
-                    <div key={p.userId} className={styles.listItem}>
+                    <div key={p.userId} className={`${styles.listItem} ${isLoggedIn && username === p.username ? styles.activeUser : null}`}>
                       <div className={`${styles.rankBadge} ${rankClass}`}>
                         {p.rank}
                       </div>
