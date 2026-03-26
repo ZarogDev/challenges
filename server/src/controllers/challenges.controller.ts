@@ -6,11 +6,13 @@ import { parseIntFromParams } from "../lib/utils";
 
 // voir tous les challenges
 export async function getAllChallenges(req: Request, res: Response) {
-  const { limit } = req.query;
+  const { limit, page, search } = req.query;
   
   const parsedLimit = typeof limit === "string" ? parseInt(limit, 10) : undefined;
+  const parsedPage = typeof page === "string" ? parseInt(page, 10) : undefined;
+  const parsedSearch = search ? typeof search !== "string" ? search.toString() : search : undefined;
 
-  const challenges = await getChallenges(parsedLimit);
+  const challenges = await getChallenges(parsedPage, parsedLimit, parsedSearch);
 
   res.json(challenges);
 };

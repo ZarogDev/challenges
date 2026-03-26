@@ -14,9 +14,12 @@ const RecentChallenges: React.FC = () => {
     const fetchChallenges = async () => {
       try {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/challenges?limit=6`)
-        if (!res.ok) throw new Error("Erreur lors du chargement des challenges")
-        const data: Challenge[] = await res.json()
-        setChallenges(data)
+        if (!res.ok) {
+          throw new Error("Erreur lors du chargement des challenges")
+        }
+        const data = await res.json()
+        const challenges: Challenge[] = data.data;
+        setChallenges(challenges)
       } catch (err) {
         setError((err as Error).message)
       } finally {

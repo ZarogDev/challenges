@@ -1,21 +1,53 @@
 import { IChallengeCreation, IChallengeWithParticipations, IParticipationWithVotes } from '../@types/types';
+import { Prisma } from '../db/generated/prisma/client';
 import { prisma } from '../db/prisma';
 
-export async function getChallenges(limit?: number) {
+export async function getChallenges(page = 1, limit = 9, search = "") {
   try {
-    const challenges = await prisma.challenge.findMany({
-      orderBy: { createdAt: "desc" },
-      take: limit,
-      include: {
-        creator: {
-          select: {
-            username: true
+    const where: Prisma.ChallengeWhereInput | undefined = search
+      ? {
+          OR: [
+            {
+              title: {
+                contains: search,
+                mode: "insensitive",
+              },
+            },
+            {
+              gameTitle: {
+                contains: search,
+                mode: "insensitive",
+              },
+            },
+          ],
+        }
+      : undefined;
+
+    const [challenges, total] = await Promise.all([
+      prisma.challenge.findMany({
+        where,
+        orderBy: { createdAt: "desc" },
+        skip: (page - 1) * limit,
+        take: limit,
+        include: {
+          creator: {
+            select: {
+              username: true
+            }
           }
         }
-      }
-    });
+      }),
+      prisma.challenge.count({ where })
+    ]);
 
-    return challenges;
+    const totalPages = Math.ceil(total / limit);
+
+    return {
+      data: challenges,
+      page,
+      totalPages,
+      total
+    };
   } catch (error) {
     console.error("❌ Error fetching challenges :", error);
     return { error: "Internal server error" };
