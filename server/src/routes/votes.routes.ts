@@ -1,19 +1,10 @@
 import { Router } from "express";
+import { authenticate } from "../middlewares/auth.middleware";
+import { checkIfUserAlreadyVotedOnChallenge } from "../controllers/challenges.controller";
 
 const router = Router();
 
-// voter pour un challenge
-router.post("/challenges/:id/votes", (req, res) => {
-  res.json({
-    message: `vote for challenge ${req.params.id}`
-  });
-});
-
-// voter pour une participation
-router.post("/participations/:id/votes", (req, res) => {
-  res.json({
-    message: `vote for participation ${req.params.id}`
-  });
-});
+// vérifier si le user connecté a déjà voté pour un challenge
+router.get("/challenges/:id/votes/me", authenticate, checkIfUserAlreadyVotedOnChallenge);
 
 export default router;
