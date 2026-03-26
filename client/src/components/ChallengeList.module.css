@@ -16,7 +16,7 @@
   letter-spacing: 0.5px;
 }
 
-/* ── Bouton Créer un challenge ── */
+/* Bouton Créer un challenge */
 .createButton {
   display: inline-flex;
   align-items: center;
@@ -65,26 +65,31 @@
   width: 100%;
 }
 
-/* ── Header row ── */
+/* ── Header row : pagination à gauche + recherche à droite ── */
 .headerRow {
   display: flex;
-  justify-content: flex-start;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 20px;
+  gap: 1rem;
+}
+
+/* Pagination — à gauche */
+.paginationWrapper {
+  flex-shrink: 0;
+}
+
+/* Barre de recherche — à droite */
+.searchBarContainer {
+  position: relative;
+  width: 280px;
+  flex-shrink: 0;
 }
 
 .title {
   font-size: 1.1rem;
   color: var(--text-muted);
   font-weight: 600;
-}
-
-/* ── Barre de recherche ── */
-.searchBarContainer {
-  position: relative;
-  width: 100%;
-  max-width: 745px;
-  margin-left: 2rem;;
 }
 
 .searchBar {
@@ -96,7 +101,7 @@
   width: 100%;
   outline: none;
   font-family: 'Inter', sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   transition: border-color 0.2s ease;
   box-sizing: border-box;
 }
@@ -115,7 +120,6 @@
   top: 50%;
   transform: translateY(-50%);
   color: var(--text-muted);
-  font-size: 1rem;
   pointer-events: none;
 }
 
@@ -160,30 +164,36 @@
   }
 
   .sectionTitle {
-        font-size: 1rem;
-        margin-top: 1rem;
+    font-size: 1.2rem;
+    padding: 0 1rem;
   }
 
-  /* Bouton pleine largeur sur mobile */
   .createButton {
-    width: 50%;
-
+    width: 100%;
+    padding: 0.8rem;
   }
 
   .listContainer {
     padding: 12px;
   }
 
+  /* Header en colonne sur mobile */
   .headerRow {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .paginationWrapper {
+    width: 100%;
+    display: flex;
     justify-content: center;
-    margin-bottom: 0;
-    padding: 12px 0;
   }
 
   .searchBarContainer {
     width: 85%;
-    max-width: 340px;
-    margin-left: -5px;
+    max-width: 320px;
   }
 
   .searchBar {

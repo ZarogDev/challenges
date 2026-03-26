@@ -15,65 +15,59 @@ const ChallengeList: React.FC = () => {
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
-  const {isLoggedIn} = useAuth()
+  const { isLoggedIn } = useAuth()
 
   useEffect(() => {
     const fetchChallenges = async (page: number, search: string) => {
-      const url = new URL(`${import.meta.env.VITE_API_URL}/challenges`);
-
-      url.searchParams.append("page", page.toString());
-      url.searchParams.append("limit", "9");
-
-      if(search) {
-        url.searchParams.append("search", search);
-      }
-
-      const res = await fetch(url.toString());
-      return await res.json();
+      const url = new URL(`${import.meta.env.VITE_API_URL}/challenges`)
+      url.searchParams.append("page", page.toString())
+      url.searchParams.append("limit", "9")
+      if (search) url.searchParams.append("search", search)
+      const res = await fetch(url.toString())
+      return await res.json()
     }
 
     async function fetchData() {
-      setLoading(true);
-
+      setLoading(true)
       try {
-        const data = await fetchChallenges(page, debouncedSearch);
-
-        setChallenges(data.data);
-        setTotalPages(data.totalPages);
+        const data = await fetchChallenges(page, debouncedSearch)
+        setChallenges(data.data)
+        setTotalPages(data.totalPages)
       } catch (err) {
-        setError((err as Error).message);
+        setError((err as Error).message)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
     }
 
     fetchData()
-  }, [page, debouncedSearch]);
+  }, [page, debouncedSearch])
 
   useEffect(() => {
     const timeout = setTimeout(() => {
       setDebouncedSearch(searchTerm)
     }, 300)
-
     return () => clearTimeout(timeout)
   }, [searchTerm])
 
   useEffect(() => {
     setPage(1)
-  }, [debouncedSearch]);
+  }, [debouncedSearch])
 
   return (
     <section className={styles.section}>
       <h2 className={styles.sectionTitle}>
         Relève le défi, prouve ta valeur !
       </h2>
-      { isLoggedIn && <button
-        className={styles.createButton}
-        onClick={() => setShowCreateModal(true)}
-      >
-        Créer un challenge
-      </button>}
-      
+
+      {isLoggedIn && (
+        <button
+          className={styles.createButton}
+          onClick={() => setShowCreateModal(true)}
+        >
+          Créer un challenge
+        </button>
+      )}
 
       {showCreateModal && (
         <CreateChallengeModal
@@ -82,7 +76,22 @@ const ChallengeList: React.FC = () => {
       )}
 
       <div className={`${styles.listContainer} neon-border-dual`}>
+
+        {/* Header : pagination à gauche + recherche à droite */}
         <div className={styles.headerRow}>
+
+          {/* Pagination — à gauche */}
+          <div className={styles.paginationWrapper}>
+            {totalPages > 1 && (
+              <Pagination
+                currentPage={page}
+                totalPages={totalPages}
+                onPageChange={setPage}
+              />
+            )}
+          </div>
+
+          {/* Recherche — à droite */}
           <div className={styles.searchBarContainer}>
             <input
               type="text"
@@ -93,9 +102,8 @@ const ChallengeList: React.FC = () => {
             />
             <span className={styles.searchIcon}>🔍</span>
           </div>
+
         </div>
-          
-        {totalPages > 1 && <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage}/>}
 
         <div className={styles.carouselWrapper}>
           <div className={styles.grid}>
