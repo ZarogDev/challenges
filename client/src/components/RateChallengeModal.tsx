@@ -29,16 +29,37 @@ const RateChallengeModal: React.FC<Props> = ({
     setError(null)
 
     try {
-  const token = localStorage.getItem("token");
-  
-  await fetch(`http://localhost:3000/api/challenges/${challengeId}/votes`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`,
-    },
-    body: JSON.stringify({ rating: value }),
-  });
+      const token = localStorage.getItem("token")
+
+      const res = await fetch(
+        `http://localhost:3000/api/challenges/${challengeId}/votes`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token ? `Bearer ${token}` : "",
+          },
+          body: JSON.stringify({ rating: value }),
+        }
+      )
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => null)
+        throw new Error(data?.message || "Une erreur est survenue")
+      }
+
+      // marquer en localStorage que ce challenge est voté (front only)
+      const votedChallenges = JSON.parse(
+        localStorage.getItem("votedChallenges") || "[]"
+      ) as number[]
+      if (!votedChallenges.includes(challengeId)) {
+        votedChallenges.push(challengeId)
+        localStorage.setItem(
+          "votedChallenges",
+          JSON.stringify(votedChallenges)
+        )
+      }
+
       onRated()
       onClose()
     } catch (err) {
