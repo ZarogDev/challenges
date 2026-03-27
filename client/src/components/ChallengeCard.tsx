@@ -11,7 +11,7 @@ interface ChallengeCardProps {
 const ChallengeCard: React.FC<ChallengeCardProps> = ({
   challenge
 }) => {
-
+// bonjour
   const avatarBg = getAvatarColor(challenge.creator.username);
   const avatarBorder = getAvatarBorder(challenge.creator.username);
   const avatarColor = getInitialColor(challenge.creator.username);
