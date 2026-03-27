@@ -35,19 +35,19 @@ const RateParticipationModal: React.FC<Props> = ({
     setSubmitting(true)
     setError(null)
 
-   try {
-  const token = localStorage.getItem("token");
-  const res = await fetch(
-    `http://localhost:3000/api/participations/${participationId}/votes`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-      },
-      body: JSON.stringify({ rating: value }),
-    }
-  );
+    try {
+      const token = localStorage.getItem("token")
+      const res = await fetch(
+        `http://localhost:3000/api/participations/${participationId}/votes`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token ? `Bearer ${token}` : "",
+          },
+          body: JSON.stringify({ rating: value }),
+        }
+      )
 
       if (!res.ok) {
         const data = await res.json().catch(() => null)
@@ -57,6 +57,18 @@ const RateParticipationModal: React.FC<Props> = ({
         }
 
         throw new Error(data?.message || "Une erreur est survenue")
+      }
+
+      // FRONT ONLY : marquer cette participation comme votée
+      const votedParticipations = JSON.parse(
+        localStorage.getItem("votedParticipations") || "[]"
+      ) as number[]
+      if (!votedParticipations.includes(participationId)) {
+        votedParticipations.push(participationId)
+        localStorage.setItem(
+          "votedParticipations",
+          JSON.stringify(votedParticipations)
+        )
       }
 
       onRated?.()

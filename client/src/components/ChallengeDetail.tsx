@@ -10,47 +10,89 @@ import RateParticipationModal from "./RateParticipationModal"
 import ParticipationCard from "./ParticipationCard"
 
 const ChallengeDetail: React.FC = () => {
-  const [challenge, setChallenge] = useState<ChallengeWithParticipations | undefined>(undefined)
+  const [challenge, setChallenge] =
+    useState<ChallengeWithParticipations | undefined>(undefined)
   const [showParticipate, setShowParticipate] = useState(false)
   const [showRateChallenge, setShowRateChallenge] = useState(false)
   const [participationToRate, setParticipationToRate] = useState<number | null>(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const gridRef = useRef<HTMLDivElement>(null)
 
-  // a-t‑il déjà noté le challenge ?
   const [hasRatedChallenge, setHasRatedChallenge] = useState(false)
-  // a-t‑il déjà noté chaque participation ? (clé = participationId)
-  const [ratedParticipations, setRatedParticipations] = useState<
-    Record<number, boolean>
-  >({})
+  const [ratedParticipations, setRatedParticipations] =
+    useState<Record<number, boolean>>({})
 
   const { id } = useParams()
   const { isLoggedIn } = useAuth()
 
   useEffect(() => {
+    const controller = new AbortController()
+
     async function fetchChallenge() {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/challenges/${id}/participations`
+          `${import.meta.env.VITE_API_URL}/challenges/${id}/participations`,
+          { signal: controller.signal }
         )
         if (!response.ok) throw new Error("Failed to fetch challenge")
+
         const data: ChallengeWithParticipations = await response.json()
         setChallenge(data)
-      } catch (error) {
-        console.error("Error fetching challenge:", error)
+
+        // Vérifier si l'utilisateur a déjà voté ce challenge
+        try {
+          const token = localStorage.getItem("token")
+          const voteRes = await fetch(
+            `${import.meta.env.VITE_API_URL}/challenges/${id}/votes/me`,
+            {
+              signal: controller.signal,
+              headers: {
+                Authorization: token ? `Bearer ${token}` : "",
+              },
+            }
+          )
+
+          if (voteRes.ok) {
+            const voteData = await voteRes.json()
+            setHasRatedChallenge(Boolean(voteData.hasVoted))
+          }
+        } catch {
+          // Ne pas écraser l'état si le fetch échoue
+        }
+
+        // Participations déjà notées (localStorage)
+        const votedParticipations = JSON.parse(
+          localStorage.getItem("votedParticipations") || "[]"
+        ) as number[]
+        const initialRated: Record<number, boolean> = {}
+        data.participations.forEach((p) => {
+          if (votedParticipations.includes(p.id)) {
+            initialRated[p.id] = true
+          }
+        })
+        setRatedParticipations(initialRated)
+      } catch (error: unknown) {
+        if (error instanceof Error && error.name !== "AbortError") {
+          console.error("Error fetching challenge:", error)
+        }
       }
     }
+
     fetchChallenge()
+    return () => controller.abort()
   }, [id])
 
   useEffect(() => {
     const grid = gridRef.current
     if (!grid) return
+
+    const getCardWidth = () => grid.offsetWidth * 0.85 + 12
+
     const handleScroll = () => {
-      const cardWidth = grid.offsetWidth * 0.85 + 12
-      const index = Math.round(grid.scrollLeft / cardWidth)
+      const index = Math.round(grid.scrollLeft / getCardWidth())
       setActiveIndex(index)
     }
+
     grid.addEventListener("scroll", handleScroll, { passive: true })
     return () => grid.removeEventListener("scroll", handleScroll)
   }, [challenge])
@@ -67,7 +109,6 @@ const ChallengeDetail: React.FC = () => {
 
   return (
     <section className={styles.section}>
-
       {/* ── Bloc principal : image + infos ── */}
       <div className={styles.detailBlock}>
         <img
@@ -77,12 +118,10 @@ const ChallengeDetail: React.FC = () => {
         />
 
         <div className={styles.infoBlock}>
-
           <div className={styles.titleRow}>
             <h1 className={styles.title}>{challenge.title}</h1>
           </div>
 
-          {/* Étoiles + note à gauche — bouton noter à droite */}
           <div className={styles.ratingRow}>
             <div className={styles.starsGroup}>
               <StarRating rating={challenge.averageChallengeScore} readOnly />
@@ -91,9 +130,7 @@ const ChallengeDetail: React.FC = () => {
               <button
                 className={styles.rateButton}
                 onClick={() => {
-                  if (!hasRatedChallenge) {
-                    setShowRateChallenge(true)
-                  }
+                  if (!hasRatedChallenge) setShowRateChallenge(true)
                 }}
                 disabled={hasRatedChallenge}
               >
@@ -139,40 +176,34 @@ const ChallengeDetail: React.FC = () => {
               Participer au challenge
             </button>
           )}
-
         </div>
       </div>
 
       {/* ── Bloc participations ── */}
       <div className={`${styles.completionsBlock} neon-border-dual`}>
-
         <div className={styles.completionsHeader}>
           <h2 className={styles.completionsTitle}>
-            {challenge.participations.length ? "Ils ont relevé le challenge !" : "Sois le premier à relever ce challenge ! Prouve ta valeur, monte dans le classement."}
+            {challenge.participations.length
+              ? "Ils ont relevé le challenge !"
+              : "Sois le premier à relever ce challenge ! Prouve ta valeur, monte dans le classement."}
           </h2>
 
-          {challenge.participations.length ? (
+          {challenge.participations.length > 0 && (
             <div className={styles.desktopArrows}>
               <button
                 className={styles.arrowBtn}
-                onClick={() => {
-                  const grid = gridRef.current
-                  if (grid) grid.scrollBy({ left: -400, behavior: 'smooth' })
-                }}
+                onClick={() => gridRef.current?.scrollBy({ left: -400, behavior: "smooth" })}
               >
                 ‹
               </button>
               <button
                 className={styles.arrowBtn}
-                onClick={() => {
-                  const grid = gridRef.current
-                  if (grid) grid.scrollBy({ left: 400, behavior: 'smooth' })
-                }}
+                onClick={() => gridRef.current?.scrollBy({ left: 400, behavior: "smooth" })}
               >
                 ›
               </button>
-            </div> ) 
-            : null }
+            </div>
+          )}
         </div>
 
         <div className={styles.completionsGrid} ref={gridRef}>
@@ -180,7 +211,11 @@ const ChallengeDetail: React.FC = () => {
             <ParticipationCard
               key={participation.id}
               participation={participation}
-              setParticipationToRate={setParticipationToRate}
+              setParticipationToRate={
+                ratedParticipations[participation.id]
+                  ? undefined
+                  : setParticipationToRate
+              }
             />
           ))}
         </div>
@@ -190,7 +225,7 @@ const ChallengeDetail: React.FC = () => {
             {challenge.participations.map((_, i) => (
               <button
                 key={i}
-                className={`${styles.dot} ${i === activeIndex ? styles.dotActive : ''}`}
+                className={`${styles.dot} ${i === activeIndex ? styles.dotActive : ""}`}
                 onClick={() => goToIndex(i)}
                 aria-label={`Participation ${i + 1}`}
               />
@@ -219,12 +254,12 @@ const ChallengeDetail: React.FC = () => {
           participationId={participationToRate}
           onClose={() => setParticipationToRate(null)}
           userHasRated={ratedParticipations[participationToRate] === true}
-          onRated={() =>
+          onRated={() => {
             setRatedParticipations((prev) => ({
               ...prev,
               [participationToRate]: true,
             }))
-          }
+          }}
         />
       )}
     </section>
