@@ -2,7 +2,7 @@
  
 > Une plateforme communautaire où les joueurs créent, partagent et relèvent des défis sur leurs jeux vidéo préférés.
  
----
+--- 
  
 ## 📖 Présentation
  
