@@ -30,11 +30,13 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile.dev
-      args:
-        - VITE_API_URL=${VITE_API_URL}
-        - VITE_RAWG_API_KEY=${VITE_RAWG_API_KEY}
+      # args:
+      #   - VITE_API_URL=${VITE_API_URL}
+      #   - VITE_RAWG_API_KEY=${VITE_RAWG_API_KEY}
     environment:
       - CHOKIDAR_USEPOLLING=true
+      - VITE_API_URL=${VITE_API_URL}
+      - VITE_RAWG_API_KEY=${VITE_RAWG_API_KEY}
     ports:
       - 5173:5173
     depends_on:
