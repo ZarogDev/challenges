@@ -8,7 +8,7 @@
  *
  * 🟢 You can import this file directly.
  */
-import type * as runtime from "@prisma/client/runtime/library"
+import type * as runtime from "@prisma/client/runtime/client"
 import type * as $Enums from "../enums.js"
 import type * as Prisma from "../internal/prismaNamespace.js"
 
@@ -204,7 +204,7 @@ export type VoteParticipationGroupByOutputType = {
   _max: VoteParticipationMaxAggregateOutputType | null
 }
 
-type GetVoteParticipationGroupByPayload<T extends VoteParticipationGroupByArgs> = Prisma.PrismaPromise<
+export type GetVoteParticipationGroupByPayload<T extends VoteParticipationGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<VoteParticipationGroupByOutputType, T['by']> &
       {
@@ -1303,6 +1303,11 @@ export type VoteParticipationFindManyArgs<ExtArgs extends runtime.Types.Extensio
    * Skip the first `n` VoteParticipations.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of VoteParticipations.
+   */
   distinct?: Prisma.VoteParticipationScalarFieldEnum | Prisma.VoteParticipationScalarFieldEnum[]
 }
 
