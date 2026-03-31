@@ -6,10 +6,14 @@ import {
   createVoteOnChallenge
 } from "../../src/services/challenges.service";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { createMockChallenges, createMockChallengeWithParticipations, createMockParticipationWithVotes } from "./mocks";
+import { createMockChallenges, createMockChallengeWithParticipations, createMockParticipationWithVotes, createMockVoteChallenge } from "./mocks";
 import { prisma } from '../../src/db/prisma';
 
 // ici, uniquement des tests unitaires, qui vérifient la logique métier, en appelant un mock de prisma grâce à Vitest
+
+beforeEach(() => {
+  vi.restoreAllMocks();
+});
 
 describe("getAverageChallengeScore", () => {
   it("should return the correct average when there are votes", async () => {
@@ -79,11 +83,7 @@ describe("getAverageParticipationScore", () => {
   });
 });
 
-describe('getChallenges', () => {
-  beforeEach(() => {
-    vi.restoreAllMocks();
-  });
-
+describe("getChallenges", () => {
   it("should return paginated challenges", async () => {
     vi.spyOn(prisma.challenge, 'findMany').mockResolvedValue(createMockChallenges(10));
 
@@ -105,7 +105,7 @@ describe('getChallenges', () => {
     );
   });
 
-  it('should apply search filter correctly', async () => {
+  it("should apply search filter correctly", async () => {
     vi.spyOn(prisma.challenge, 'findMany').mockResolvedValue(createMockChallenges(1));
 
     vi.spyOn(prisma.challenge, 'count').mockResolvedValue(1);
@@ -136,11 +136,91 @@ describe('getChallenges', () => {
     );
   });
 
-  it('should handle Prisma errors', async () => {
+  it("should handle Prisma errors", async () => {
     vi.spyOn(prisma.challenge, 'findMany').mockRejectedValue(new Error());
 
     const result = await getChallenges();
 
     expect(result).toEqual({ error: 'Internal server error' });
+  });
+});
+
+describe("getFormattedChallenge", () => {
+  it("should format a challenge with participations and votes correctly", async () => {
+    const challenge = createMockChallengeWithParticipations([2, 5, 4], 5);
+
+    const result = await getFormattedChallenge(challenge);
+
+    expect(result.averageChallengeScore).toBe((2 + 5 + 4) / 3);
+
+    expect(result.participations).toHaveLength(5);
+
+    expect(result.participations[0]).toMatchObject({
+      id: 1,
+      participant: 'Username',
+      averageParticipationScore: (2 + 4 + 3) / 3,
+    });
+  });
+
+  it("should handle challenge with no votes or participations", async () => {
+    const challenge = createMockChallengeWithParticipations();
+
+    const result = await getFormattedChallenge(challenge);
+
+    expect(result.averageChallengeScore).toBeNull();
+    expect(result.participations).toEqual([]);
+  });
+
+  it("should handle participations with no votes", async () => {
+    const challenge = createMockChallengeWithParticipations(undefined, 2);
+
+    challenge.participations[0].voteParticipations = [];
+    challenge.participations[1].voteParticipations = [];
+
+    const result = await getFormattedChallenge(challenge);
+
+    expect(result.averageChallengeScore).toBeNull();
+    expect(result.participations[0].averageParticipationScore).toBeNull();
+    expect(result.participations[1].averageParticipationScore).toBeNull();
+  });
+});
+
+describe("createVoteOnChallenge", () => {
+  it("should return an error if user has already voted", async () => {
+    vi.spyOn(prisma.voteChallenge, 'findFirst').mockResolvedValue(createMockVoteChallenge([3])[0]);
+
+    const result = await createVoteOnChallenge(1, 1, 4);
+
+    expect(result.status).toEqual(409);
+    expect(result.success).toBeFalsy();
+    expect(result.error).toEqual("A user can only vote once for a challenge");
+  });
+
+  it("should create a new vote if user has not voted yet", async () => {
+    vi.spyOn(prisma.voteChallenge, 'findFirst').mockResolvedValue(null);
+    vi.spyOn(prisma.voteChallenge, 'create').mockResolvedValue(createMockVoteChallenge([2])[0]);
+
+    const result = await createVoteOnChallenge(1, 2, 4);
+
+    expect(result.status).toEqual(201);
+    expect(result.success).toBeTruthy();
+    expect(result.data).toEqual({
+      id: 1, 
+      challengeId: 1, 
+      userId: 1, 
+      rating: 2,
+      createdAt: result.data?.createdAt
+    });
+  });
+
+  it("should return internal server error if Prisma create fails", async () => {
+    vi.spyOn(prisma.voteChallenge, 'findFirst').mockResolvedValue(null);
+    vi.spyOn(prisma.voteChallenge, 'create').mockRejectedValue(new Error());
+
+    const result = await createVoteOnChallenge(1, 2, 4);
+
+    expect(result.status).toEqual(500);
+    expect(result.error).toEqual("Internal server error");
+    expect(result.success).toBeFalsy();
   });
 });
