@@ -13,7 +13,7 @@ app.use(helmet());
 // autorise le front local à appeler l'API
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "*",
   })
 );
 
