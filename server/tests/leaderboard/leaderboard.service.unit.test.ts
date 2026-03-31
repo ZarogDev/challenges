@@ -1,34 +1,53 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { getLeaderboardService } from "../src/services/leaderboard.service";
-import { prisma } from "../src/db/prisma";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { prisma } from "../../src/db/prisma.js";
+import { getLeaderboardService } from "../../src/services/leaderboard.service.js";
 
-// on remplace le vrai prisma par un faux prisma
-vi.mock("../../src/db/prisma", () => ({
-  prisma: {
-    voteParticipation: {
-      findMany: vi.fn(),
-    },
-  },
-}));
+// type simple pour représenter les votes utilisés dans nos tests
+type VoteWithUser = {
+  rating: number;
+  participation: {
+    user: {
+      id: number;
+      username: string;
+    };
+  };
+};
 
 describe("getLeaderboardService", () => {
   beforeEach(() => {
-    // remet les mocks à zéro avant chaque test
+    // on nettoie l'historique des mocks avant chaque test
     vi.clearAllMocks();
   });
 
+  afterEach(() => {
+    // on remet les spyOn à l'état normal après chaque test
+    vi.restoreAllMocks();
+  });
+
   it("should return an empty array when there are no votes", async () => {
-    // on simule une base vide
-    vi.mocked(prisma.voteParticipation.findMany).mockResolvedValue([] as any);
+    // on surveille la vraie méthode Prisma
+    const findManySpy = vi.spyOn(prisma.voteParticipation, "findMany");
+
+    // ici on simule aucun vote
+    const fakeVotes: VoteWithUser[] = [];
+
+    // on dit à Prisma de retourner notre faux tableau
+    findManySpy.mockResolvedValue(fakeVotes as never);
 
     const result = await getLeaderboardService();
 
+    // on vérifie que Prisma a bien été appelé
+    expect(findManySpy).toHaveBeenCalled();
+
+    // comme il n'y a aucun vote, le classement doit être vide
     expect(result).toEqual([]);
   });
 
   it("should calculate leaderboard for one player", async () => {
+    const findManySpy = vi.spyOn(prisma.voteParticipation, "findMany");
+
     // on simule 2 votes pour le même joueur
-    vi.mocked(prisma.voteParticipation.findMany).mockResolvedValue([
+    const fakeVotes: VoteWithUser[] = [
       {
         rating: 4,
         participation: {
@@ -47,36 +66,34 @@ describe("getLeaderboardService", () => {
           },
         },
       },
-    ] as any);
+    ];
+
+    findManySpy.mockResolvedValue(fakeVotes as never);
 
     const result = await getLeaderboardService();
 
-    // on vérifie qu'il y a bien 1 joueur dans le classement
+    expect(findManySpy).toHaveBeenCalled();
+
+    // il doit y avoir un seul joueur dans le classement
     expect(result).toHaveLength(1);
 
-    // totalScore = 4 + 5 = 9
-    expect(result[0].totalScore).toBe(9);
-
-    // 2 votes
-    expect(result[0].voteCount).toBe(2);
-
-    // moyenne = 9 / 2 = 4.5
-    expect(result[0].averageScore).toBe(4.5);
-
-    // weighted score = 4.5 * (2 / (2 + 5)) = 1.2857...
-    // arrondi à 2 décimales = 1.29
-    expect(result[0].weightedScore).toBe(1.29);
-
+    // vérification des calculs
     expect(result[0].rank).toBe(1);
     expect(result[0].userId).toBe(1);
     expect(result[0].username).toBe("alice");
+    expect(result[0].totalScore).toBe(9);
+    expect(result[0].voteCount).toBe(2);
+    expect(result[0].averageScore).toBe(4.5);
+    expect(result[0].weightedScore).toBe(1.29);
   });
 
   it("should rank players by weighted score", async () => {
-    // alice a une très bonne note mais peu de votes
-    // bob a une note un peu moins haute mais plus de votes
-    // avec ton calcul pondéré, bob doit passer devant
-    vi.mocked(prisma.voteParticipation.findMany).mockResolvedValue([
+    const findManySpy = vi.spyOn(prisma.voteParticipation, "findMany");
+
+    // alice a une meilleure moyenne mais peu de votes
+    // bob a un peu moins bien, mais plus de votes
+    // avec le score pondéré, bob doit passer devant
+    const fakeVotes: VoteWithUser[] = [
       {
         rating: 5,
         participation: {
@@ -86,38 +103,40 @@ describe("getLeaderboardService", () => {
           },
         },
       },
+      {
+        rating: 4,
+        participation: {
+          user: {
+            id: 2,
+            username: "bob",
+          },
+        },
+      },
+      {
+        rating: 4,
+        participation: {
+          user: {
+            id: 2,
+            username: "bob",
+          },
+        },
+      },
+      {
+        rating: 4,
+        participation: {
+          user: {
+            id: 2,
+            username: "bob",
+          },
+        },
+      },
+    ];
 
-      {
-        rating: 4,
-        participation: {
-          user: {
-            id: 2,
-            username: "bob",
-          },
-        },
-      },
-      {
-        rating: 4,
-        participation: {
-          user: {
-            id: 2,
-            username: "bob",
-          },
-        },
-      },
-      {
-        rating: 4,
-        participation: {
-          user: {
-            id: 2,
-            username: "bob",
-          },
-        },
-      },
-    ] as any);
+    findManySpy.mockResolvedValue(fakeVotes as never);
 
     const result = await getLeaderboardService();
 
+    expect(findManySpy).toHaveBeenCalled();
     expect(result).toHaveLength(2);
 
     // bob doit être premier
