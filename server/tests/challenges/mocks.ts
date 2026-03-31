@@ -1,6 +1,6 @@
 import { IChallenge, IChallengeWithParticipations, IParticipationWithVotes, IVoteChallenge, IVoteParticipation } from "../../src/@types/types";
 
-export function createMockChallengeWithParticipations(ratings: number[]): IChallengeWithParticipations {
+export function createMockChallengeWithParticipations(ratings?: number[], numberOfParticipations?: number): IChallengeWithParticipations {
   return {
     id: 1,
     title: "Title",
@@ -15,12 +15,12 @@ export function createMockChallengeWithParticipations(ratings: number[]): IChall
       id: 1, 
       username: "Username"
     },
-    participations: [],
-    voteChallenges: createMockVoteChallenge(ratings)
+    participations: createMockParticipations(numberOfParticipations),
+    voteChallenges: createMockVoteChallenge(ratings || [])
   };
 }
 
-function createMockVoteChallenge(ratings: number[]): IVoteChallenge[] {
+export function createMockVoteChallenge(ratings: number[]): IVoteChallenge[] {
   return ratings.map((rating, index) => ({
     id: index + 1,
     rating: rating,
@@ -46,7 +46,7 @@ export function createMockParticipationWithVotes(ratings: number[]): IParticipat
   }
 }
 
-function createMockVoteParticipation(ratings: number[]): IVoteParticipation[] {
+export function createMockVoteParticipation(ratings: number[]): IVoteParticipation[] {
   return ratings.map((rating, index) => ({
     id: index + 1,
     rating: rating,
@@ -68,4 +68,16 @@ export function createMockChallenges(numberOfChallenges: number): IChallenge[] {
     createdAt: new Date(),
     userId: index + 1
   }))
+}
+
+export function createMockParticipations(numberOfParticipations?: number): IParticipationWithVotes[] {
+  if(!numberOfParticipations) return [];
+
+  const result = [];
+
+  for(let i = 0; i < numberOfParticipations; i++) {
+    result.push(createMockParticipationWithVotes([2, 3, 4]));
+  }
+
+  return result;
 }
