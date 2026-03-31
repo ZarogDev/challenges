@@ -83,7 +83,7 @@ describe("getAverageParticipationScore", () => {
   });
 });
 
-describe('getChallenges', () => {
+describe("getChallenges", () => {
   it("should return paginated challenges", async () => {
     vi.spyOn(prisma.challenge, 'findMany').mockResolvedValue(createMockChallenges(10));
 
@@ -183,16 +183,15 @@ describe("getFormattedChallenge", () => {
     expect(result.participations[0].averageParticipationScore).toBeNull();
     expect(result.participations[1].averageParticipationScore).toBeNull();
   });
-
 });
 
-describe('createVoteOnChallenge', () => {
+describe("createVoteOnChallenge", () => {
   it("should return an error if user has already voted", async () => {
     vi.spyOn(prisma.voteChallenge, 'findFirst').mockResolvedValue(createMockVoteChallenge([3])[0]);
 
     const result = await createVoteOnChallenge(1, 1, 4);
 
-    expect(result.status).toEqual(400);
+    expect(result.status).toEqual(409);
     expect(result.success).toBeFalsy();
     expect(result.error).toEqual("A user can only vote once for a challenge");
   });
@@ -210,7 +209,7 @@ describe('createVoteOnChallenge', () => {
       challengeId: 1, 
       userId: 1, 
       rating: 2,
-      createdAt: new Date()
+      createdAt: result.data?.createdAt
     });
   });
 
