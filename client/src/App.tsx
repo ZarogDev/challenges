@@ -3,15 +3,15 @@ import Header from './components/Header';
 import Hero from './components/Hero';
 import ChallengeList from './components/ChallengeList';
 import Leaderboard from './components/Leaderboard';
-import ChallengeDetail from "./components/ChallengeDetail";
+import ChallengeDetail from './components/ChallengeDetail';
 import Ranking from './components/Ranking';
 import Footer from './components/Footer';
 import Sponsor from './components/Sponsor';
 import LegalPage from './components/LegalPage';
 import PrivacyPolicyPage from './components/PrivacyPolicyPage';
 import CGUPage from './components/CGUPage';
-import { Routes, Route } from "react-router-dom"
-import NotFound from "./components/NotFound"
+import { Routes, Route } from 'react-router-dom';
+import NotFound from './components/NotFound';
 import Login from './components/Login';
 import Register from './components/Register';
 import RecentChallenges from './components/RecentChallenges';
@@ -21,12 +21,14 @@ import ScrollToTop from './components/ScrollToTop';
 function App() {
   return (
     <>
+      <a href="#main-content" className="sr-only">
+        Aller au contenu principal
+      </a>
       <Header />
       <ScrollToTop />
       <div className="app-container">
-        <main className="main-content">
+        <main id="main-content" className="main-content" role="main">
           <Routes>
-            {/* page d'accueil */}
             <Route
               path="/"
               element={
@@ -43,54 +45,23 @@ function App() {
                 </>
               }
             />
-
-            {/* page liste de challenges */}
-            <Route
-              path="/challenges"
-              element={<ChallengeList />}
-            />
-
-            {/* page détail d'un challenges */}
-            <Route
-              path="/challenges/:id"
-              element={<ChallengeDetail />}
-            />
-
-            {/* page leaderboard */}
-            <Route
-              path="/leaderboard"
-              element={<Ranking />}
-            />
-            {/*Page profile*/}
-
-            <Route 
-            path="/profile"
-            element={<Profile/>}
-            />
-          {/* 404 */}
-          <Route path="*" element={<NotFound />} />
-        
-
-          {/* Login & Register*/}
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
-
-          {/* mentions légales */}
-          <Route path='/mentions-legales' element={<LegalPage />} />
-
-          {/* politique de confidentialité */}
-          <Route path='/confidentialite' element={<PrivacyPolicyPage />} />
-
-          {/* conditions générales d'utilisation */}
-          <Route path='/cgu' element={<CGUPage />} />
-        
-        </Routes>
-      </main>
+            <Route path="/challenges" element={<ChallengeList />} />
+            <Route path="/challenges/:id" element={<ChallengeDetail />} />
+            <Route path="/leaderboard" element={<Ranking />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/mentions-legales" element={<LegalPage />} />
+            <Route path="/confidentialite" element={<PrivacyPolicyPage />} />
+            <Route path="/cgu" element={<CGUPage />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
       </div>
       <Sponsor />
       <Footer />
     </>
   );
-};
+}
 
 export default App;
