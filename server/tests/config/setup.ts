@@ -6,7 +6,7 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
-   // Suppression dans l'ordre des dépendances
+  // Suppression dans l'ordre des dépendances
   await prisma.voteParticipation.deleteMany();
   await prisma.voteChallenge.deleteMany();
   await prisma.participation.deleteMany();
