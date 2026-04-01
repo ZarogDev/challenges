@@ -40,7 +40,7 @@ describe("getLeaderboardService", () => {
     expect(findManySpy).toHaveBeenCalled();
 
     // comme il n'y a aucun vote, le classement doit être vide
-    expect(result).toEqual([]);
+    expect(result.data).toEqual([]);
   });
 
   it("should calculate leaderboard for one player", async () => {
@@ -75,16 +75,16 @@ describe("getLeaderboardService", () => {
     expect(findManySpy).toHaveBeenCalled();
 
     // il doit y avoir un seul joueur dans le classement
-    expect(result).toHaveLength(1);
+    expect(result.data).toHaveLength(1);
 
     // vérification des calculs
-    expect(result[0].rank).toBe(1);
-    expect(result[0].userId).toBe(1);
-    expect(result[0].username).toBe("alice");
-    expect(result[0].totalScore).toBe(9);
-    expect(result[0].voteCount).toBe(2);
-    expect(result[0].averageScore).toBe(4.5);
-    expect(result[0].weightedScore).toBe(1.29);
+    expect(result.data[0].rank).toBe(1);
+    expect(result.data[0].userId).toBe(1);
+    expect(result.data[0].username).toBe("alice");
+    expect(result.data[0].totalScore).toBe(9);
+    expect(result.data[0].voteCount).toBe(2);
+    expect(result.data[0].averageScore).toBe(4.5);
+    expect(result.data[0].weightedScore).toBe(1.29);
   });
 
   it("should rank players by weighted score", async () => {
@@ -137,14 +137,14 @@ describe("getLeaderboardService", () => {
     const result = await getLeaderboardService();
 
     expect(findManySpy).toHaveBeenCalled();
-    expect(result).toHaveLength(2);
+    expect(result.data).toHaveLength(2);
 
     // bob doit être premier
-    expect(result[0].username).toBe("bob");
-    expect(result[0].rank).toBe(1);
+    expect(result.data[0].username).toBe("bob");
+    expect(result.data[0].rank).toBe(1);
 
     // alice doit être deuxième
-    expect(result[1].username).toBe("alice");
-    expect(result[1].rank).toBe(2);
+    expect(result.data[1].username).toBe("alice");
+    expect(result.data[1].rank).toBe(2);
   });
 });
