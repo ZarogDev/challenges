@@ -40,7 +40,8 @@ export default function AuthProvider({
   const navigate = useNavigate();
 
   const login = async (email: string, password: string) => {
-      const response = await fetch('http://localhost:3000/api/auth/login', {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -56,13 +57,19 @@ export default function AuthProvider({
         localStorage.setItem('user', data.username);
         localStorage.setItem('token', data.token);
 
-        return navigate("/");
+        return navigate("/", { replace: true });
       } else {
         setError('Erreur de connexion ! Vérifiez vos identifiants.');
         setIsLoggedIn(false);
         setToken(null);
         setUsername(null);
       }
+    } catch {
+      setError('Erreur lors de la tentative de connexion. Veuillez réessayer ultérieurement');
+      setIsLoggedIn(false);
+      setToken(null);
+      setUsername(null);
+    }
   };
 
   const logout = () => {
