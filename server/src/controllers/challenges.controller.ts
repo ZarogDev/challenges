@@ -14,7 +14,7 @@ export async function getAllChallenges(req: Request, res: Response) {
 
   const challenges = await getChallenges(parsedPage, parsedLimit, parsedSearch);
 
-  res.json(challenges);
+  res.status(200).json(challenges);
 };
 
 // voir un challenge avec son id
