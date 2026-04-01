@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Ranking.module.css";
 import { useAuth } from "../context/AuthContext";
+import Pagination from "./Pagination";
 
 type Player = {
   rank: number;
@@ -9,11 +10,6 @@ type Player = {
   totalScore: number;
   voteCount: number;
   averageScore: number;
-};
-
-type LeaderboardApiResponse = {
-  message: string;
-  data: Player[];
 };
 
 // avatar style (comme avant)
@@ -50,37 +46,41 @@ const Ranking: React.FC = () => {
   const [players, setPlayers] = useState<Player[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const { isLoggedIn, username } = useAuth();
 
   useEffect(() => {
-    const fetchLeaderboard = async () => {
+    const fetchLeaderboard = async (page: number) => {
+      const url = new URL(`${import.meta.env.VITE_API_URL}/leaderboard`)
+      url.searchParams.append("page", page.toString())
+      url.searchParams.append("limit", "24")
+      
+      const res = await fetch(url.toString())
+
+      if(!res.ok) throw new Error("Fetch failed");
+
+      return await res.json()
+    }
+
+    const fetchData = async () => {
       try {
         setLoading(true);
         setError("");
 
-        const API_URL = import.meta.env.VITE_API_URL;
-
-        const response = await fetch(`${API_URL}/leaderboard`);
-
-        if (!response.ok) {
-          throw new Error("fetch failed");
-        }
-
-        const result: LeaderboardApiResponse = await response.json();
-
-        // données réelles
-        setPlayers(result.data);
-      } catch (err) {
-        console.error(err);
-        setError("Erreur chargement");
+        const data = await fetchLeaderboard(page);
+        setPlayers(data.data);
+        setTotalPages(data.totalPages);
+      } catch {
+        setError("Erreur lors du chargement des données");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchLeaderboard();
-  }, []);
+    fetchData();
+  }, [page]);
 
   // organisation en colonnes
   const columns = splitIntoColumns(players, 3);
@@ -92,6 +92,7 @@ const Ranking: React.FC = () => {
       </h2>
 
       <div className={`${styles.leaderboard} neon-border-dual`}>
+        <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage}/>
         <h3 className={styles.title}>Classement des joueurs</h3>
 
         {loading && <p className={styles.infoMessage}>Chargement...</p>}
