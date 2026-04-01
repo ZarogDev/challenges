@@ -32,7 +32,7 @@ const RateChallengeModal: React.FC<Props> = ({
       const token = localStorage.getItem("token")
 
       const res = await fetch(
-        `http://localhost:3000/api/challenges/${challengeId}/votes`,
+        `${import.meta.env.VITE_API_URL}/challenges/${challengeId}/votes`,
         {
           method: "POST",
           headers: {
