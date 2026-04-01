@@ -38,7 +38,7 @@ const RateParticipationModal: React.FC<Props> = ({
     try {
       const token = localStorage.getItem("token")
       const res = await fetch(
-        `http://localhost:3000/api/participations/${participationId}/votes`,
+        `${import.meta.env.VITE_API_URL}/participations/${participationId}/votes`,
         {
           method: "POST",
           headers: {
