@@ -1,111 +1,134 @@
-// import { prisma } from '../prisma';
-// import argon2 from 'argon2';
-
-// async function main() {
-//   // Création des utilisateurs
-//   const users = await Promise.all([
-//     prisma.user.create({
-//       data: { email: 'alice@example.com', username: 'alice', password: await argon2.hash('password1'), birthdate: new Date('1990-01-01') },
-//     }),
-//     prisma.user.create({
-//       data: { email: 'bob@example.com', username: 'bob', password: await argon2.hash('password2'), birthdate: new Date('1992-05-12') },
-//     }),
-//     prisma.user.create({
-//       data: { email: 'carol@example.com', username: 'carol', password: await argon2.hash('password3'), birthdate: new Date('1988-07-23') },
-//     }),
-//     prisma.user.create({
-//       data: { email: 'dave@example.com', username: 'dave', password: await argon2.hash('password4'), birthdate: new Date('1995-03-15') },
-//     }),
-//     prisma.user.create({
-//       data: { email: 'eve@example.com', username: 'eve', password: await argon2.hash('password5'), birthdate: new Date('1991-11-30') },
-//     }),
-//   ]);
-
-//   // Création des challenges
-//   const challenges = await Promise.all([
-//     prisma.challenge.create({
-//       data: { title: 'Challenge 1', description: 'Description du challenge 1', conditions: 'Aucune', gameId: 101, gameTitle: "Vikings - Wolves of Midgard", gameThumbnail: "https://media.rawg.io/media/screenshots/d96/d968719f37eaba04920ba2cfe2b7813a.jpg", userId: users[0].id },
-//     }),
-//     prisma.challenge.create({
-//       data: { title: 'Challenge 2', description: 'Description du challenge 2', conditions: 'Règles strictes', gameId: 102, gameTitle: "Subway Surfers", gameThumbnail: "https://media.rawg.io/media/screenshots/fb5/fb554f480b9896b031d68ef5ef9937fa.jpeg", userId: users[1].id },
-//     }),
-//     prisma.challenge.create({
-//       data: { title: 'Challenge 3', description: 'Description du challenge 3', conditions: null, gameId: 103, gameTitle: "Trigger Fist", gameThumbnail: "https://media.rawg.io/media/screenshots/097/097898d5a9795ce259af94f8e5add71d_jBo7XvC.jpg", userId: users[2].id },
-//     }),
-//     prisma.challenge.create({
-//       data: { title: 'Challenge 4', description: 'Description du challenge 4', conditions: 'Doit être créatif', gameId: 104, gameTitle: "We Are The Dwarves", gameThumbnail: "https://media.rawg.io/media/screenshots/d2c/d2c7c465091722d1c13f8a5ae8f54bcf.jpg", userId: users[3].id },
-//     }),
-//   ]);
-
-//   // Création des participations (2 par challenge)
-//   const participations = [];
-//   for (const challenge of challenges) {
-//     const part1 = await prisma.participation.create({
-//       data: {
-//         description: `Participation 1 pour ${challenge.title}`,
-//         videoLink: `https://example.com/${challenge.title}-1.mp4`,
-//         userId: users[0].id,
-//         challengeId: challenge.id,
-//       },
-//     });
-//     const part2 = await prisma.participation.create({
-//       data: {
-//         description: `Participation 2 pour ${challenge.title}`,
-//         videoLink: `https://example.com/${challenge.title}-2.mp4`,
-//         userId: users[1].id,
-//         challengeId: challenge.id,
-//       },
-//     });
-//     participations.push(part1, part2);
-//   }
-
-//   // Votes sur challenges (chaque utilisateur vote pour chaque challenge)
-//   for (const user of users) {
-//     for (const challenge of challenges) {
-//       await prisma.voteChallenge.create({
-//         data: {
-//           rating: Math.floor(Math.random() * 5) + 1, // note aléatoire 1 à 5
-//           userId: user.id,
-//           challengeId: challenge.id,
-//         },
-//       });
-//     }
-//   }
-
-//   // Votes sur participations (chaque utilisateur vote pour chaque participation)
-//   for (const user of users) {
-//     for (const participation of participations) {
-//       await prisma.voteParticipation.create({
-//         data: {
-//           rating: Math.floor(Math.random() * 5) + 1,
-//           userId: user.id,
-//           participationId: participation.id,
-//         },
-//       });
-//     }
-//   }
-
-//   console.log('✅ Seed terminé !');
-// }
-
-// main()
-//   .catch((e) => {
-//     console.error(e);
-//     process.exit(1);
-//   })
-//   .finally(async () => {
-//     await prisma.$disconnect();
-//   });
-
 import { prisma } from '../prisma';
 import argon2 from 'argon2';
+import { faker } from "@faker-js/faker";
+import { fetchGame } from '../../services/rawgio';
 
-function randomInt(min: number, max: number) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+type User = {
+    id: number;
+    email: string;
+    username: string;
+    password: string;
+    birthdate: Date;
+    createdAt: Date;
 }
 
-function sample<T>(arr: T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)];
+async function createRandomUser() {
+  return {
+    email: faker.internet.email(),
+    username: faker.internet.username(),
+    password: await argon2.hash(faker.internet.password()),
+    birthdate: faker.date.birthdate()
+  }
+}
+
+async function createRandomChallenge(usersArray: User[]) {
+  const titles = [
+  'Terminer sans mourir',
+  'Speedrun',
+  '100% complétion',
+  'No damage',
+  'Only headshots',
+  'Sans équipement',
+  'Mode hardcore',
+  'Aucune amélioration',
+  'Run pacifiste',
+  'Sans utiliser de soins',
+  'Full stealth',
+  'Sans HUD',
+  'Mode réaliste',
+  'Armes de base uniquement',
+  'Sans checkpoints',
+  'Permadeath',
+  'Run aveugle',
+  'Sans compétences',
+  'Aucun tir manqué',
+  'Objectif secret uniquement',
+  'Run minimaliste',
+  'Aucune armure',
+  'Sans sprint',
+  'Un seul type d\'arme',
+  'No hit run',
+  'Temps limité',
+  'Run inversé',
+  'Sans carte',
+  'Sans sauvegarde',
+  'Run solo extrême',
+  'Aucune aide externe',
+  'Run en une seule session',
+  'Sans dégâts critiques',
+  'Mode survie extrême',
+  'Objectifs secondaires uniquement',
+  'Sans mourir en boss',
+  'Run aléatoire',
+  'Sans loot',
+  'Inventaire limité',
+  'Sans compétences actives',
+  'Run silencieux total',
+  'Mode chaos',
+  'Sans viser',
+  'Armes aléatoires',
+  'Sans interface',
+  'Run défi ultime',
+  'Sans amélioration d\'arme',
+  'Mode vitesse extrême',
+  'Sans esquive',
+  'Run expert'
+  ];
+
+  const { game } = await getValidGame();
+ 
+  return {
+    title: faker.helpers.arrayElement(titles),
+    description: faker.lorem.paragraph(),
+    conditions: faker.datatype.boolean()
+      ? `Difficulté ${faker.helpers.arrayElement(['facile', 'normale', 'hardcore'])}`
+      : null,
+    gameId: game.id,
+    gameTitle: game.name,
+    gameThumbnail: game.background_image || "",
+    userId: faker.helpers.arrayElement(usersArray).id
+  };
+}
+
+async function getValidGame(maxRetries = 10) {
+  let attempts = 0;
+
+  while (attempts < maxRetries) {
+    const fakeId = faker.number.int({ min: 1, max: 50000 });
+    const res = await fetchGame(fakeId);
+
+    if (res.ok && res.data) {
+      return { game: res.data };
+    }
+
+    attempts++;
+  }
+
+  throw new Error(`Impossible de récupérer un jeu valide après ${attempts} tentatives`);
+}
+
+async function getValidVideoUrl(gameTitle: string, maxResults = 1, index = 0) {
+  const apiKey = process.env.YOUTUBE_API_KEY;
+  const query = encodeURIComponent(`${gameTitle} gameplay`);
+  const url = `https://www.googleapis.com/youtube/v3/search?type=video&maxResults=${maxResults}&q=${query}&key=${apiKey}&order=viewCount`;
+
+  const res = await fetch(url);
+  const data = await res.json();
+
+  if (!data.items) return "https://www.youtube.com/watch?v=DJFm06njNS4";
+
+  return `https://www.youtube.com/watch?v=${data.items[index].id.videoId}`
+}
+
+async function createRandomParticipation(userId: number, challengeId: number, gameTitle: string, count: number, index: number) {
+  const videoLink = await getValidVideoUrl(gameTitle, count, index);
+
+  return {
+    description: faker.lorem.paragraph(),
+    videoLink,
+    userId,
+    challengeId
+  };
 }
 
 async function main() {
@@ -120,119 +143,76 @@ async function main() {
 
   console.log('🧹 Database cleaned');
 
-  // =====================
-  // USERS (~100)
-  // =====================
-  const users = [];
-
-  for (let i = 1; i <= 100; i++) {
-    const user = await prisma.user.create({
-      data: {
-        email: `user${i}@example.com`,
-        username: `user${i}`,
-        password: await argon2.hash('password'),
-        birthdate: new Date(1980 + (i % 30), i % 12, i % 28 + 1),
-      },
-    });
-
-    users.push(user);
-  }
-
+  // USERS (100)
+  const fakeUsers = await Promise.all(faker.helpers.multiple(createRandomUser, { count: 100 }));
+  const users = await prisma.user.createManyAndReturn({ data: fakeUsers });
   console.log('✅ Users:', users.length);
 
-  // =====================
-  // CHALLENGES (~50)
-  // =====================
-  const challenges = [];
-
-  for (let i = 1; i <= 50; i++) {
-    const challenge = await prisma.challenge.create({
-      data: {
-        title: `Challenge ${i}`,
-        description: `Description du challenge ${i}`,
-        conditions: Math.random() > 0.5 ? 'Conditions spéciales' : null,
-        gameId: 100 + i,
-        gameTitle: `Game ${i}`,
-        gameThumbnail: `https://picsum.photos/seed/${i}/300/200`,
-        userId: sample(users).id,
-      },
-    });
-
-    challenges.push(challenge);
-  }
-
+  // CHALLENGES (50)
+  const fakeChallenges = await Promise.all(faker.helpers.multiple(() => createRandomChallenge(users), { count: 50 }));
+  const challenges = await prisma.challenge.createManyAndReturn({ data: fakeChallenges });
   console.log('✅ Challenges:', challenges.length);
 
-  // =====================
-  // PARTICIPATIONS (1–20 / challenge)
-  // =====================
+  // PARTICIPATIONS (1 to 6 per challenge)
   const participations = [];
+  for(const challenge of challenges) {
+    const count = faker.number.int({ min: 1, max: 6 });
+    const shuffledUsers = [...users].sort(() => 0.5 - Math.random());
 
-  for (const challenge of challenges) {
-    const count = randomInt(1, 6);
-
-    // Shuffle users to avoid duplicates per challenge
-    const shuffled = [...users].sort(() => 0.5 - Math.random());
-
-    for (let i = 0; i < count; i++) {
+    for(let i = 0; i < count; i++) {
+      const fakeParticipation = await createRandomParticipation(shuffledUsers[i].id, challenge.id, challenge.gameTitle, count, i);
       const participation = await prisma.participation.create({
-        data: {
-          description: `Participation ${i + 1} pour ${challenge.title}`,
-          videoLink: `https://example.com/${challenge.id}-${i}.mp4`,
-          userId: shuffled[i].id,
-          challengeId: challenge.id,
-        },
+        data: fakeParticipation
       });
 
       participations.push(participation);
     }
   }
-
   console.log('✅ Participations:', participations.length);
 
-  // =====================
-  // VOTES CHALLENGE (unicité: 1 user = 1 vote / challenge)
-  // =====================
+  // CHALLENGES VOTES (1 user = 1 vote per challenge - max 10 votes per challenge)
+  const challengesVotes = [];
   for (const challenge of challenges) {
-    const voteCount = randomInt(1, 10);
+    const voteCount = faker.number.int({ min: 1, max: 10 });
 
     const shuffledUsers = [...users].sort(() => 0.5 - Math.random());
     const voters = shuffledUsers.slice(0, voteCount);
 
     for (const user of voters) {
-      await prisma.voteChallenge.create({
+      const vote = await prisma.voteChallenge.create({
         data: {
-          rating: randomInt(1, 5),
+          rating: faker.number.int({ min: 1, max: 5 }),
           userId: user.id,
           challengeId: challenge.id,
         },
       });
+
+      challengesVotes.push(vote);
     }
   }
+  console.log('✅ Challenges votes: ', challengesVotes.length);
 
-  console.log('✅ Votes Challenge done');
-
-  // =====================
-  // VOTES PARTICIPATION (unicité: 1 user = 1 vote / participation)
-  // =====================
+  // PARTICIPATIONS VOTES (1 user = 1 vote per participation - max 10 votes per participation)
+  const participationsVotes = [];
   for (const participation of participations) {
-    const voteCount = randomInt(1, 10);
+    const voteCount = faker.number.int({ min: 1, max: 10 });
 
     const shuffledUsers = [...users].sort(() => 0.5 - Math.random());
     const voters = shuffledUsers.slice(0, voteCount);
 
     for (const user of voters) {
-      await prisma.voteParticipation.create({
+      const vote = await prisma.voteParticipation.create({
         data: {
-          rating: randomInt(1, 5),
+          rating: faker.number.int({ min: 1, max: 5 }),
           userId: user.id,
           participationId: participation.id,
         },
       });
+
+      participationsVotes.push(vote);
     }
   }
-
-  console.log('✅ Votes Participation done');
+  console.log('✅ Participations votes: ', participationsVotes.length);
 
   console.log('🌱 Seed terminé !');
 }
