@@ -55,6 +55,8 @@ export default function AuthProvider({
 
         localStorage.setItem('user', data.username);
         localStorage.setItem('token', data.token);
+
+        return navigate("/");
       } else {
         setError('Erreur de connexion ! Vérifiez vos identifiants.');
         setIsLoggedIn(false);
