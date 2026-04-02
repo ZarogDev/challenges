@@ -2,16 +2,19 @@ import React, { useState, useEffect, useRef } from "react"
 import styles from "./RecentChallenges.module.css"
 import ChallengeCard from "./ChallengeCard"
 import type { Challenge } from "../@types"
+import Loader from "./Loader"
 
 const RecentChallenges: React.FC = () => {
   const [challenges, setChallenges] = useState<Challenge[]>([])
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const gridRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const fetchChallenges = async () => {
+      setLoading(true);
+
       try {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/challenges?limit=6`)
         if (!res.ok) {
@@ -24,7 +27,7 @@ const RecentChallenges: React.FC = () => {
         setError((err as Error).message)
       } finally {
         setLoading(false)
-      }
+      } 
     }
     fetchChallenges()
   }, [])
@@ -53,7 +56,6 @@ const RecentChallenges: React.FC = () => {
     setActiveIndex(index)
   }
 
-  if (loading) return <p>Chargement des Challenges...</p>
   if (error) return <p>Erreur : {error}</p>
 
   return (
@@ -62,25 +64,31 @@ const RecentChallenges: React.FC = () => {
         <div className={styles.title}>Nos derniers challenges</div>
       </div>
 
-      <div className={styles.carouselWrapper}>
-        <div className={styles.grid} ref={gridRef}>
-          {challenges.map((c) => (
-            <ChallengeCard key={c.id} challenge={c} />
-          ))}
-        </div>
-      </div>
+      {loading ? (
+          <Loader />
+        ) : (
+          <>
+            <div className={styles.carouselWrapper}>
+              <div className={styles.grid} ref={gridRef}>
+                {challenges.map((c) => (
+                  <ChallengeCard key={c.id} challenge={c} />
+                ))}
+              </div>
+            </div>
 
-      {/* Points de pagination — visibles uniquement sur mobile */}
-      <div className={styles.dots}>
-        {challenges.map((_, i) => (
-          <button
-            key={i}
-            className={`${styles.dot} ${i === activeIndex ? styles.dotActive : ''}`}
-            onClick={() => goToIndex(i)}
-            aria-label={`Challenge ${i + 1}`}
-          />
-        ))}
-      </div>
+            {/* Points de pagination — visibles uniquement sur mobile */}
+            <div className={styles.dots}>
+              {challenges.map((_, i) => (
+                <button
+                  key={i}
+                  className={`${styles.dot} ${i === activeIndex ? styles.dotActive : ''}`}
+                  onClick={() => goToIndex(i)}
+                  aria-label={`Challenge ${i + 1}`}
+                />
+              ))}
+            </div>
+          </>
+      )}
     </div>
   )
 }

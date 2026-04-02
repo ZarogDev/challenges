@@ -5,6 +5,7 @@
   gap: 32px;
   margin-top: 60px;
   padding: 0 20px;
+  align-items: center;
 }
 
 /* ── Bloc principal ── */
@@ -12,6 +13,7 @@
   display: flex;
   gap: 40px;
   align-items: center; /* ← centre l'image verticalement */
+  width: 100%;
 }
 
 .mainImage {
@@ -29,6 +31,13 @@
   gap: 12px;
   flex: 1;
   align-self: flex-start; /* ← le texte reste en haut */
+}
+
+.infoMessage {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 1rem 0;
 }
 
 .titleRow {

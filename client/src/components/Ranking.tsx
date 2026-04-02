@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./Ranking.module.css";
 import { useAuth } from "../context/AuthContext";
 import Pagination from "./Pagination";
+import Loader from "./Loader";
 
 type Player = {
   rank: number;
@@ -65,10 +66,10 @@ const Ranking: React.FC = () => {
     }
 
     const fetchData = async () => {
-      try {
-        setLoading(true);
-        setError("");
+      setLoading(true);
+      setError("");
 
+      try {
         const data = await fetchLeaderboard(page);
         setPlayers(data.data);
         setTotalPages(data.totalPages);
@@ -95,10 +96,11 @@ const Ranking: React.FC = () => {
         <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage}/>
         <h3 className={styles.title}>Classement des joueurs</h3>
 
-        {loading && <p className={styles.infoMessage}>Chargement...</p>}
-        {error && <p className={styles.infoMessage}>{error}</p>}
-
-        {!loading && !error && (
+        {loading ? (
+          <Loader />
+        ) : error ? (
+          <p className={styles.infoMessage}>{error}</p>
+        ) : (
           <div className={styles.columnsWrapper}>
             {columns.map((col, colIndex) => (
               <div key={colIndex} className={styles.column}>
