@@ -11,9 +11,10 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
-    "types": ["node"]
+    "types": ["node"],
+    "rootDir": "./src",
+    "outDir": "./dist",
   },
   "include": ["**/*.ts", "**/*.js"],
-  "exclude": ["node_modules", "src/db/reset/generated"]
+  "exclude": ["node_modules", "src/db/reset/generated", "tests", "**/*.config.ts"]
 }

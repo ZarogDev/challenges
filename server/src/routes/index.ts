@@ -5,7 +5,7 @@ import leaderboardRoutes from "./leaderboard.routes.js";
 import usersRoutes from "./users.routes.js";
 import participationsRoutes from "./participations.routes.js";
 import swaggerUi from "swagger-ui-express";
-import { spec } from "../../docs/swagger/index.js";
+import { spec } from "../docs/swagger/index.js";
 import votesRoutes from "./votes.routes.js";
 
 
