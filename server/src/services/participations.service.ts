@@ -1,4 +1,4 @@
-import { prisma } from "../db/prisma";
+import { prisma } from "../db/prisma.js";
 
 export async function createVoteOnParticipation(participationId: number, userId: number, rating: number) {
   const existingVoteOnParticipation = await prisma.voteParticipation.findFirst({

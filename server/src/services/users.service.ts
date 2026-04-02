@@ -1,4 +1,4 @@
-import { prisma } from "../db/prisma";
+import { prisma } from "../db/prisma.js";
 
 // note : ici je fais le service qui va chercher le user en base
 export const getUserByIdService = async (id: number) => {

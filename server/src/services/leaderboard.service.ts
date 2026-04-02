@@ -1,4 +1,4 @@
-import { prisma } from "../db/prisma";
+import { prisma } from "../db/prisma.js";
 
 // je récupère les votes sur les participations
 // puis je fais le classement des joueurs

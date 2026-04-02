@@ -1,9 +1,9 @@
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
-import routes from "./routes/index";
-import { globalErrorHandler } from "./middlewares/error-handler.middleware";
-import { sanitizeXss } from "./middlewares/xss.middleware";
+import routes from "./routes/index.js";
+import { globalErrorHandler } from "./middlewares/error-handler.middleware.js";
+import { sanitizeXss } from "./middlewares/xss.middleware.js";
 
 const app = express();
 

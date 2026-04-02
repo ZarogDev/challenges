@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { authenticate } from "../middlewares/auth.middleware";
-import { checkIfUserAlreadyVotedOnChallenge } from "../controllers/challenges.controller";
+import { authenticate } from "../middlewares/auth.middleware.js";
+import { checkIfUserAlreadyVotedOnChallenge } from "../controllers/challenges.controller.js";
 
 const router = Router();
 

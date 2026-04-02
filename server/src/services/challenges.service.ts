@@ -1,6 +1,6 @@
-import { IChallengeCreation, IChallengeWithParticipations, IParticipationWithVotes } from '../@types/types';
-import { Prisma } from '../db/generated/prisma/client';
-import { prisma } from '../db/prisma';
+import { IChallengeCreation, IChallengeWithParticipations, IParticipationWithVotes } from '../@types/types.js';
+import { Prisma } from '../db/generated/prisma/client.js';
+import { prisma } from '../db/prisma.js';
 
 export async function getChallenges(page = 1, limit = 9, search = "") {
   try {

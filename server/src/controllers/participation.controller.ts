@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { createParticipationSchema } from "../validators/participation.validator";
-import { prisma } from "../db/prisma";
-import { parseIntFromParams } from "../lib/utils";
-import { createVoteOnParticipation } from "../services/participations.service";
+import { createParticipationSchema } from "../validators/participation.validator.js";
+import { prisma } from "../db/prisma.js";
+import { parseIntFromParams } from "../lib/utils.js";
+import { createVoteOnParticipation } from "../services/participations.service.js";
 
 export const createParticipation = async (req: Request, res: Response) => {
   try {

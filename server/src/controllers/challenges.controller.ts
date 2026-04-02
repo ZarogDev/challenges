@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { prisma } from '../db/prisma';
-import { fetchGame } from "../services/rawgio";
-import { create, createVoteOnChallenge, getChallenges, getChallengeWithParticipations, getFormattedChallenge } from "../services/challenges.service";
-import { parseIntFromParams } from "../lib/utils";
+import { prisma } from '../db/prisma.js';
+import { fetchGame } from "../services/rawgio/index.js";
+import { create, createVoteOnChallenge, getChallenges, getChallengeWithParticipations, getFormattedChallenge } from "../services/challenges.service.js";
+import { parseIntFromParams } from "../lib/utils.js";
 
 // voir tous les challenges
 export async function getAllChallenges(req: Request, res: Response) {

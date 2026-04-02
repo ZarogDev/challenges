@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { prisma } from "../db/prisma";
-import { getUserByIdService } from "../services/users.service";
+import { prisma } from "../db/prisma.js";
+import { getUserByIdService } from "../services/users.service.js";
 import { getLeaderboardService } from "../services/leaderboard.service.js";
 
 // récupérer un user par son id

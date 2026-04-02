@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
-import { prisma } from '../db/prisma';
-import { validateBody } from './common.middleware';
-import { loginSchema, registerSchema } from '../validators/auth.validator';
+import { prisma } from '../db/prisma.js';
+import { validateBody } from './common.middleware.js';
+import { loginSchema, registerSchema } from '../validators/auth.validator.js';
 import argon2 from "argon2";
 import jwt, { JwtPayload } from 'jsonwebtoken';
 

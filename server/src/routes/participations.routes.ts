@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { createParticipation, getChallengeParticipations, voteOnParticipation } from "../controllers/participation.controller";
-import { authenticate } from "../middlewares/auth.middleware";
-import { validateVoteBody } from "../middlewares/common.middleware";
-import { checkIfUserAlreadyVotedOnParticipation } from "../controllers/participation.controller";
+import { createParticipation, getChallengeParticipations, voteOnParticipation } from "../controllers/participation.controller.js";
+import { authenticate } from "../middlewares/auth.middleware.js";
+import { validateVoteBody } from "../middlewares/common.middleware.js";
+import { checkIfUserAlreadyVotedOnParticipation } from "../controllers/participation.controller.js";
 const router = Router();
 
 // créer une participation pour un challenge

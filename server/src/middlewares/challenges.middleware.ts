@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { validateBody } from "./common.middleware";
+import { validateBody } from "./common.middleware.js";
 import z from "zod";
 
 export async function validateCreationBody(req: Request, res: Response, next: NextFunction) {

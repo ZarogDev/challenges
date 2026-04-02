@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import z from "zod";
-import { HttpClientError } from "../lib/errors";
+import { HttpClientError } from "../lib/errors.js";
 
 // eslint-disable-next-line
 export function globalErrorHandler(error: Error, req: Request, res: Response, next: NextFunction) {
