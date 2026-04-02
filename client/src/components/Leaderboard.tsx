@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Leaderboard.module.css";
+import Loader from "./Loader";
 
 type Player = {
   rank: number;
@@ -37,14 +38,15 @@ const getAvatarColor = (name: string): string => {
 
 const Leaderboard: React.FC = () => {
   const [players, setPlayers] = useState<Player[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
+      setLoading(true);
+      setError("");
+
       try {
-        setLoading(true);
-        setError("");
         const API_URL = import.meta.env.VITE_API_URL;
         const response = await fetch(`${API_URL}/leaderboard`);
         if (!response.ok) throw new Error("fetch failed");
@@ -57,6 +59,7 @@ const Leaderboard: React.FC = () => {
         setLoading(false);
       }
     };
+
     fetchLeaderboard();
   }, []);
 
@@ -66,10 +69,11 @@ const Leaderboard: React.FC = () => {
     <div className={`${styles.leaderboard} neon-border-dual`}>
       <h2 className={styles.title}>Les 5 meilleurs joueurs</h2>
 
-      {loading && <p className={styles.infoMessage}>Chargement...</p>}
-      {error && <p className={styles.infoMessage}>{error}</p>}
-
-      {!loading && !error && (
+      {loading ? (
+        <Loader />
+      ) : error ? (
+        <p className={styles.infoMessage}>{error}</p>
+      ) : (
         <div className={styles.list}>
           {topPlayers.map((p) => {
             let rankClass = styles.rankOther;

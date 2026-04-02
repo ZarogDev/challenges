@@ -5,6 +5,7 @@ import type { Challenge } from "../@types"
 import CreateChallengeModal from "./CreateChallengeModal"
 import { useAuth } from "../context/AuthContext"
 import Pagination from "./Pagination"
+import Loader from "./Loader"
 
 const ChallengeList: React.FC = () => {
   const [challenges, setChallenges] = useState<Challenge[]>([])
@@ -30,6 +31,7 @@ const ChallengeList: React.FC = () => {
 
     async function fetchData() {
       setLoading(true)
+
       try {
         const data = await fetchChallenges(page, debouncedSearch)
         setChallenges(data.data)
@@ -103,12 +105,15 @@ const ChallengeList: React.FC = () => {
             />
             <span className={styles.searchIcon}>🔍</span>
           </div>
-
         </div>
 
         <div className={styles.carouselWrapper}>
           <div className={styles.grid}>
-            {loading ? "Chargement..." : error ? error : challenges.map((c) => (
+            {loading ? (
+              <Loader />
+            ) : error ? (
+              error
+            ) : challenges.map((c) => (
               <ChallengeCard key={c.id} challenge={c} />
             ))}
           </div>
