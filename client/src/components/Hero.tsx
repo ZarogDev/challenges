@@ -41,7 +41,7 @@ const Hero = () => {
           </p>
           <div className={styles.mobileActions}>
             <Link to="/challenges" className={styles.btnPrimary}>Voir les challenges</Link>
-            <Link to="/register" className={styles.btnSecondary}>Inscription</Link>
+            {!isLoggedIn && <Link to="/register" className={styles.btnSecondary}>Inscription</Link>}
           </div>
         </div>
       </div>
