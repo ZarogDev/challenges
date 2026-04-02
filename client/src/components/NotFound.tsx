@@ -12,7 +12,7 @@ function NotFound() {
 
           {/* Image gaming */}
           <div className={styles.imageWrapper}>
-            <img src="/404.png" alt="404 Zone inexistante" className={styles.image} />
+            <img src="/404.webp" alt="404 Zone inexistante" className={styles.image} />
             <div className={styles.imageFadeBottom} />
           </div>
 

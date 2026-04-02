@@ -1,3 +1,4 @@
+// App.tsx
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 
@@ -37,42 +38,30 @@ function HomePage() {
 
 function App() {
   return (
-    <>
+    <div className="app-shell">
       <a href="#main-content" className="sr-only">
         Aller au contenu principal
       </a>
+
       <Header />
       <ScrollToTop />
 
       <div className="app-container">
         <main id="main-content" className="main-content" role="main">
           <Routes>
-            {/* Accueil */}
             <Route path="/" element={<HomePage />} />
-
-            {/* Challenges */}
             <Route path="/challenges" element={<ChallengeList />} />
             <Route path="/challenges/:id" element={<ChallengeDetail />} />
-
-            {/* Classement */}
             <Route path="/leaderboard" element={<Ranking />} />
-
-            {/* Profil */}
             <Route path="/profile" element={<Profile />} />
-
-            {/* Auth */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-
-            {/* Pages légales */}
             <Route path="/mentions-legales" element={<LegalPage />} />
             <Route path="/cgu" element={<CGUPage />} />
             <Route
               path="/politique-confidentialite"
               element={<PrivacyPolicyPage />}
             />
-
-            {/* 404 */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
@@ -80,7 +69,7 @@ function App() {
 
       <Sponsor />
       <Footer />
-    </>
+    </div>
   );
 }
 

@@ -27,7 +27,7 @@
   color: white;
   width: 250px;
   outline: none;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .searchIcon {
@@ -60,7 +60,7 @@
   flex: 1;
 }
 
-/* ✅ Nouveaux styles */
+/* Section */
 .section {
   display: flex;
   flex-direction: column;
@@ -76,8 +76,112 @@
   margin: 0;
   letter-spacing: 0.5px;
 }
-@media (max-width: 768px) {
 
+/* Points cachés par défaut */
+.dots {
+  display: none;
+}
+
+/* ================================
+   TABLET (768px–1024px)
+   ================================ */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .section {
+    margin-top: 40px;
+    gap: 20px;
+  }
+
+  .sectionTitle {
+    font-size: 1.4rem;
+    padding: 0 1.5rem;
+  }
+
+  .listContainer {
+    padding: 16px;
+  }
+
+  .headerRow {
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .title {
+    font-size: 1rem;
+  }
+
+  .searchBarContainer {
+    width: auto;
+  }
+
+  .searchBar {
+    width: 220px;
+    font-size: 0.9rem;
+  }
+
+  .carouselWrapper {
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .arrow {
+    font-size: 1.25rem;
+    padding: 4px;
+    margin-top: 4px;
+  }
+
+  /* Tablette = grille 2 colonnes + scroll vertical */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    flex: 1;
+    max-height: 720px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 6px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 210, 255, 0.55) rgba(255, 255, 255, 0.05);
+  }
+
+  .grid::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .grid::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 999px;
+  }
+
+  .grid::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 58, 58, 0.7),
+      rgba(0, 210, 255, 0.7)
+    );
+    border-radius: 999px;
+  }
+
+  .grid::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 58, 58, 0.95),
+      rgba(0, 210, 255, 0.95)
+    );
+  }
+
+  .grid > * {
+    min-width: 0;
+  }
+
+  .dots {
+    display: none;
+  }
+}
+
+/* ================================
+   MOBILE
+   ================================ */
+@media (max-width: 768px) {
   .section {
     margin-top: 30px;
     gap: 16px;
@@ -99,16 +203,15 @@
     margin-bottom: 14px;
   }
 
+  .searchBarContainer {
+    width: 100%;
+  }
+
   .searchBar {
     width: 100%;
     font-size: 0.85rem;
   }
 
-  .searchBarContainer {
-    width: 100%;
-  }
-
-  /* Carousel : 1 carte visible + scroll horizontal */
   .carouselWrapper {
     gap: 4px;
   }
@@ -119,38 +222,31 @@
     flex-shrink: 0;
   }
 
-  /* La grille devient un scroll horizontal — 1 carte visible */
+  /* Mobile = scroll horizontal */
   .grid {
     display: flex;
     flex-direction: row;
     overflow-x: auto;
+    overflow-y: hidden;
     scroll-snap-type: x mandatory;
     gap: 12px;
     padding-bottom: 8px;
-    /* Cache la scrollbar */
+    flex: 1;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    max-height: none;
   }
 
   .grid::-webkit-scrollbar {
     display: none;
   }
 
-  /* Chaque carte prend toute la largeur visible */
   .grid > * {
     flex: 0 0 100%;
     scroll-snap-align: start;
     min-width: 0;
   }
-}
-/* Points de pagination — cachés sur desktop */
-.dots {
-  display: none;
-}
 
-@media (max-width: 768px) {
-
-  /* Affiche les points sur mobile */
   .dots {
     display: flex;
     justify-content: center;
@@ -172,7 +268,7 @@
   }
 
   .dotActive {
-    width: 20px;          /* ← s'étire pour indiquer la carte active */
+    width: 20px;
     border-radius: 3px;
     background: var(--neon-blue, #00d2ff);
     box-shadow: 0 0 6px rgba(0, 210, 255, 0.6);
