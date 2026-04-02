@@ -114,9 +114,37 @@ const Header: React.FC = () => {
         </button>
       </header>
 
-      {/* SVG desktop */}
-      {/* (inchangé) */}
-      {/* ... ton SVG ici ... */}
+       {/* SVG desktop */}
+      <svg
+        className={styles.bottomBorderSvg}
+        preserveAspectRatio="none"
+        viewBox="0 0 1500 35"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <linearGradient id="neonGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#FF3A3A" />
+            <stop offset="15%" stopColor="#FF3A3A" />
+            <stop offset="35%" stopColor="#00D2FF" />
+            <stop offset="100%" stopColor="#00D2FF" />
+          </linearGradient>
+          <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+          </filter>
+        </defs>
+        <path
+          d="M 0 0 L 1500 0 L 1500 5 L 390 5 Q 370 5, 355 10 L 345 20 Q 330 30, 310 30 L 0 30 Z"
+          fill="var(--panel-bg)"
+        />
+        <path
+          d="M 0 30 L 310 30 Q 330 30, 345 20 L 355 10 Q 370 5, 390 5 L 1500 5"
+          fill="none"
+          stroke="url(#neonGradient)"
+          strokeWidth="2.5"
+          filter="url(#glow)"
+        />
+      </svg>
 
       {/* Menu mobile plein écran */}
       <nav
@@ -125,7 +153,36 @@ const Header: React.FC = () => {
         aria-label="Navigation principale mobile"
       >
         {/* SVG dans le menu */}
-        {/* ... ton SVG ici ... */}
+        <svg
+          className={styles.menuSvg}
+          preserveAspectRatio="none"
+          viewBox="0 0 1500 35"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <linearGradient id="neonGradientMenu" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#FF3A3A" />
+              <stop offset="15%" stopColor="#FF3A3A" />
+              <stop offset="35%" stopColor="#00D2FF" />
+              <stop offset="100%" stopColor="#00D2FF" />
+            </linearGradient>
+            <filter id="glowMenu" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="3" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+          </defs>
+          <path
+            d="M 0 0 L 1500 0 L 1500 5 L 390 5 Q 370 5, 355 10 L 345 20 Q 330 30, 310 30 L 0 30 Z"
+            fill="var(--panel-bg)"
+          />
+          <path
+            d="M 0 30 L 310 30 Q 330 30, 345 20 L 355 10 Q 370 5, 390 5 L 1500 5"
+            fill="none"
+            stroke="url(#neonGradientMenu)"
+            strokeWidth="2.5"
+            filter="url(#glowMenu)"
+          />
+        </svg>
 
         {/* Liens mobile */}
         <NavLink
