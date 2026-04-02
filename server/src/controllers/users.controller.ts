@@ -99,7 +99,7 @@ export const getMe = async (req: Request, res: Response) => {
     const leaderboard = await getLeaderboardService();
 
     // on cherche la ligne du user connecté dans le classement
-    const currentUserInLeaderboard = leaderboard.find(
+    const currentUserInLeaderboard = leaderboard.data.find(
       (player) => player.userId === user.id
     );
 

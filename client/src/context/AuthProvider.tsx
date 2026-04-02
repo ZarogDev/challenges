@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function AuthProvider({
   children,
@@ -12,35 +12,12 @@ export default function AuthProvider({
   const [username, setUsername] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    async function fetchUser() {
-      const localToken = localStorage.getItem('token');
-
-      if(!localToken) return;
-
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/me`, {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${localToken}`
-        }
-      });
-
-      // gestion d'erreurs à faire ici
-      if(!response.ok) return;
-
-      const data = await response.json();
-      setUsername(data.username);
-      setToken(localToken);
-      setIsLoggedIn(true);
-    }
-    
-    fetchUser();
-  }, []);
-
   const navigate = useNavigate();
+  const location = useLocation();
 
   const login = async (email: string, password: string) => {
-      const response = await fetch('http://localhost:3000/api/auth/login', {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -55,12 +32,20 @@ export default function AuthProvider({
 
         localStorage.setItem('user', data.username);
         localStorage.setItem('token', data.token);
+
+        return navigate("/", { replace: true });
       } else {
         setError('Erreur de connexion ! Vérifiez vos identifiants.');
         setIsLoggedIn(false);
         setToken(null);
         setUsername(null);
       }
+    } catch {
+      setError('Erreur lors de la tentative de connexion. Veuillez réessayer ultérieurement');
+      setIsLoggedIn(false);
+      setToken(null);
+      setUsername(null);
+    }
   };
 
   const logout = () => {
@@ -83,6 +68,47 @@ export default function AuthProvider({
     login,
     logout,
   };
+
+  useEffect(() => {
+    async function fetchUser() {
+      const localToken = localStorage.getItem('token');
+
+      if(!localToken) {
+        setUsername(null);
+        setToken(null);
+        setIsLoggedIn(false);
+
+        return;
+      }
+
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/me`, {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localToken}`
+        }
+      });
+
+      console.log(response);
+
+      if(!response.ok) {
+        setUsername(null);
+        setToken(null);
+        setIsLoggedIn(false);
+
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+
+        return;
+      }
+
+      const data = await response.json();
+      setUsername(data.username);
+      setToken(localToken);
+      setIsLoggedIn(true);
+    }
+    
+    fetchUser();
+  }, [location.pathname]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

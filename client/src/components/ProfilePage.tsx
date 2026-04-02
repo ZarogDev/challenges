@@ -68,9 +68,10 @@ function Profile() {
                 </div>
             </div>
 
-            <div className={styles.actions}>
+            {/* TODO */}
+            {/* <div className={styles.actions}>
                 <button className={styles.primaryButton}>Modifier le profil</button>
-            </div>
+            </div> */}
 
             <div className={`${styles.completionsBlock} neon-border-dual`}>
 

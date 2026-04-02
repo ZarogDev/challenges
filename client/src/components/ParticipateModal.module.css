@@ -158,7 +158,7 @@
 
 .field input::placeholder,
 .field textarea::placeholder {
-  color: rgba(255, 255, 255, 0.2);
+  color: white;
 }
 
 .field input:focus,

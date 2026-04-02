@@ -24,6 +24,7 @@ const ChallengeList: React.FC = () => {
       url.searchParams.append("limit", "9")
       if (search) url.searchParams.append("search", search)
       const res = await fetch(url.toString())
+      if(!res.ok) throw new Error("Fetch failed");
       return await res.json()
     }
 
@@ -33,8 +34,8 @@ const ChallengeList: React.FC = () => {
         const data = await fetchChallenges(page, debouncedSearch)
         setChallenges(data.data)
         setTotalPages(data.totalPages)
-      } catch (err) {
-        setError((err as Error).message)
+      } catch {
+        setError("Erreur lors du chargement des données");
       } finally {
         setLoading(false)
       }

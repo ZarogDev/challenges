@@ -153,7 +153,7 @@ export async function createVoteOnChallenge(challengeId: number, userId: number,
   });
 
   if(existingVoteOnChallenge) {
-    return { success: false, error: "A user can only vote once for a challenge", status: 400 }
+    return { success: false, error: "A user can only vote once for a challenge", status: 409 }
   }
   
   try {

@@ -2,7 +2,7 @@ import { prisma } from "../db/prisma";
 
 // je récupère les votes sur les participations
 // puis je fais le classement des joueurs
-export const getLeaderboardService = async () => {
+export const getLeaderboardService = async (page = 1, limit = 24) => {
   const votes = await prisma.voteParticipation.findMany({
     include: {
       participation: {
@@ -64,7 +64,7 @@ export const getLeaderboardService = async () => {
   });
 
   // j'ajoute le rang + infos
-  return leaderboard.map((player, index) => {
+  const formattedLeaderboard = leaderboard.map((player, index) => {
 
     const average = player.voteCount === 0
       ? 0
@@ -87,4 +87,17 @@ export const getLeaderboardService = async () => {
       weightedScore: Number(weightedScore.toFixed(2))
     };
   });
+
+  const start = (page - 1) * limit;
+  const end = start + limit;
+
+  const paginatedLeaderboard = formattedLeaderboard.slice(start, end);
+  const totalPages = Math.ceil(formattedLeaderboard.length / limit);
+
+  return {
+    data: paginatedLeaderboard,
+    page,
+    totalPages,
+    total: formattedLeaderboard.length
+  }
 };

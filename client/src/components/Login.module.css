@@ -112,7 +112,7 @@
 }
 
 .input::placeholder {
-  color: rgba(255, 255, 255, 0.2);
+  color: rgb(255, 255, 255);
 }
 
 .input:focus {
@@ -132,7 +132,7 @@
 }
 
 .input[type="date"]:not(:valid) {
-  color: rgba(255, 255, 255, 0.2);
+  color: white;
 }
 
 .input[type="date"]:valid {
@@ -280,4 +280,260 @@
 .link:hover {
   color: #ffffff;
   text-shadow: 0 0 8px rgba(0, 210, 255, 0.6);
+}
+
+/* Wrapper pour l'input + l'icône de validation */
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputWrapper .input {
+  width: 100%;
+  padding-right: 2.2rem; /* espace pour l'indicateur */
+}
+
+/* Indicateur ✓ / ✗ */
+.fieldIndicator {
+  position: absolute;
+  right: 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  pointer-events: none;
+  user-select: none;
+}
+
+.indicatorValid  { color: #27ae60; }
+.indicatorInvalid { color: #e74c3c; }
+
+/* Bordure verte sur input valide */
+.inputValid {
+  border-color: #27ae60 !important;
+}
+
+/* Message d'erreur inline sous le champ */
+.fieldError {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.78rem;
+  color: #e74c3c;
+}
+
+/* Barre de force du mot de passe */
+.strengthBar {
+  margin-top: 0.4rem;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.strengthFill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.strengthLabel {
+  display: block;
+  font-size: 0.72rem;
+  margin-top: 0.2rem;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+/* ── Validation en temps réel ─────────────────────────────────────────────── */
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputWrapper .input {
+  width: 100%;
+  padding-right: 2.2rem;
+}
+
+.fieldIndicator {
+  position: absolute;
+  right: 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  pointer-events: none;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+.indicatorValid {
+  color: #27ae60;
+}
+
+.indicatorInvalid {
+  color: #e74c3c;
+}
+
+.inputValid {
+  border-color: #27ae60 !important;
+}
+
+.fieldError {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.78rem;
+  color: #e74c3c;
+}
+
+/* ── Barre de force du mot de passe ───────────────────────────────────────── */
+
+.strengthBar {
+  margin-top: 0.4rem;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: visible;
+}
+
+.strengthFill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.strengthLabel {
+  display: block;
+  font-size: 0.72rem;
+  margin-top: 0.25rem;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+/* ── Checkbox CGU ─────────────────────────────────────────────────────────── */
+
+.checkboxRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  position: relative;
+}
+
+.checkboxText {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text-muted, #8a9baa);
+}
+
+.checkbox {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  margin-top: 0.15rem;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 210, 255, 0.35);
+  background: rgba(255, 255, 255, 0.02);
+  box-shadow:
+    0 0 6px rgba(0, 210, 255, 0.2),
+    inset 0 0 4px rgba(0, 0, 0, 0.55);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease,
+    transform 0.1s ease,
+    opacity 0.2s ease;
+  flex-shrink: 0;
+}
+
+.checkbox:hover {
+  border-color: var(--neon-blue, #00d2ff);
+  box-shadow:
+    0 0 10px rgba(0, 210, 255, 0.35),
+    inset 0 0 4px rgba(0, 0, 0, 0.7);
+}
+
+.checkbox:checked {
+  background: radial-gradient(
+    circle at 30% 20%,
+    #ffffff 0,
+    #00d2ff 40%,
+    #0088aa 100%
+  );
+  border-color: var(--neon-blue, #00d2ff);
+  box-shadow:
+    0 0 12px rgba(0, 210, 255, 0.55),
+    0 0 20px rgba(0, 210, 255, 0.25);
+}
+
+.checkbox::after {
+  content: "";
+  width: 8px;
+  height: 5px;
+  border-left: 2px solid rgba(10, 16, 35, 0.95);
+  border-bottom: 2px solid rgba(10, 16, 35, 0.95);
+  transform: scale(0) rotate(-45deg);
+  transform-origin: center;
+  transition: transform 0.15s ease-out;
+}
+
+.checkbox:checked::after {
+  transform: scale(1) rotate(-45deg);
+}
+
+.checkbox:focus-visible {
+  outline: 2px solid var(--neon-blue, #00d2ff);
+  outline-offset: 2px;
+}
+
+.inlineLegalLink {
+  color: var(--neon-blue, #00d2ff);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.inlineLegalLink:hover {
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(0, 210, 255, 0.6);
+}
+
+.inlineLegalLink:focus-visible {
+  outline: 1px solid var(--neon-blue, #00d2ff);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* État désactivé du bouton */
+.btnSubmit:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+  transform: none;
+  box-shadow: none;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 58, 58, 0.06) 0%,
+    rgba(0, 210, 255, 0.06) 100%
+  );
+  border-image: none;
+  border-color: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* État actif du bouton */
+.btnSubmit:not(:disabled) {
+  opacity: 1;
+}
+
+.btnSubmit:not(:disabled):hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 58, 58, 0.28) 0%,
+    rgba(0, 210, 255, 0.28) 100%
+  );
+  box-shadow:
+    0 0 30px rgba(0, 210, 255, 0.25),
+    0 0 30px rgba(255, 58, 58, 0.2);
+  transform: translateY(-2px);
 }
