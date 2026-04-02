@@ -3,14 +3,14 @@ import type { Request, Response } from "express";
 import { prisma } from "../../src/db/prisma.js";
 import { checkIfUserAlreadyVotedOnParticipation } from "../../src/controllers/participation.controller.js";
 
-// petit type pour avoir req.user dans le test
+// type simple pour ajouter req.user dans nos faux req
 type AuthenticatedRequest = Request & {
   user?: {
     id: string;
   };
 };
 
-// petite fonction pour créer un faux res express
+// petite fonction pour simuler un res Express
 function createMockResponse(): Response {
   const res = {
     status: vi.fn().mockReturnThis(),
@@ -32,10 +32,10 @@ describe("checkIfUserAlreadyVotedOnParticipation", () => {
   });
 
   it("should return 401 when user is not authenticated", async () => {
-    // faux req sans user connecté
+    // faux req sans utilisateur connecté
     const req = {
       params: { id: "12" },
-    } as AuthenticatedRequest;
+    } as unknown as AuthenticatedRequest;
 
     const res = createMockResponse();
 
@@ -52,11 +52,11 @@ describe("checkIfUserAlreadyVotedOnParticipation", () => {
     const req = {
       user: { id: "1" },
       params: { id: "12" },
-    } as AuthenticatedRequest;
+    } as unknown as AuthenticatedRequest;
 
     const res = createMockResponse();
 
-    // on surveille Prisma et on simule : aucun vote trouvé
+    // on espionne Prisma et on simule : aucun vote trouvé
     const findFirstSpy = vi.spyOn(prisma.voteParticipation, "findFirst");
     findFirstSpy.mockResolvedValue(null as never);
 
@@ -73,11 +73,11 @@ describe("checkIfUserAlreadyVotedOnParticipation", () => {
     const req = {
       user: { id: "1" },
       params: { id: "12" },
-    } as AuthenticatedRequest;
+    } as unknown as AuthenticatedRequest;
 
     const res = createMockResponse();
 
-    // faux vote trouvé en base
+    // faux vote trouvé
     const fakeVote = {
       id: 1,
       userId: 1,
@@ -100,7 +100,7 @@ describe("checkIfUserAlreadyVotedOnParticipation", () => {
     const req = {
       user: { id: "1" },
       params: { id: "12" },
-    } as AuthenticatedRequest;
+    } as unknown as AuthenticatedRequest;
 
     const res = createMockResponse();
 
