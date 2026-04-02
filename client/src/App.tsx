@@ -38,11 +38,14 @@ function HomePage() {
 function App() {
   return (
     <>
+      <a href="#main-content" className="sr-only">
+        Aller au contenu principal
+      </a>
       <Header />
       <ScrollToTop />
 
       <div className="app-container">
-        <main className="main-content">
+        <main id="main-content" className="main-content" role="main">
           <Routes>
             {/* Accueil */}
             <Route path="/" element={<HomePage />} />

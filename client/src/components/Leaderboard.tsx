@@ -64,7 +64,7 @@ const Leaderboard: React.FC = () => {
 
   return (
     <div className={`${styles.leaderboard} neon-border-dual`}>
-      <h3 className={styles.title}>Les 5 meilleurs joueurs</h3>
+      <h2 className={styles.title}>Les 5 meilleurs joueurs</h2>
 
       {loading && <p className={styles.infoMessage}>Chargement...</p>}
       {error && <p className={styles.infoMessage}>{error}</p>}
