@@ -5,7 +5,6 @@ export default function Loader() {
     <div className={styles.overlay}>
       <div className={styles.loaderWrapper}>
 
-        {/* Image de la manette */}
         <div className={styles.controllerContainer}>
           <img
             src="/loader-controller.png"
@@ -14,7 +13,6 @@ export default function Loader() {
           />
         </div>
 
-        {/* Texte "CHARGEMENT" lettre par lettre */}
         <div className={styles.loadingText}>
           {"CHARGEMENT".split("").map((letter, i) => (
             <span key={i} style={{ animationDelay: `${i * 0.08}s` }}>
@@ -23,7 +21,6 @@ export default function Loader() {
           ))}
         </div>
 
-        {/* Barre de progression */}
         <div className={styles.progressBar}>
           <div className={styles.progressFill} />
         </div>

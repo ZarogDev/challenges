@@ -1,4 +1,3 @@
-// App.tsx
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 
@@ -19,6 +18,7 @@ import Register from "./components/Register";
 import RecentChallenges from "./components/RecentChallenges";
 import Profile from "./components/ProfilePage";
 import ScrollToTop from "./components/ScrollToTop";
+import LoaderWrapper from "./components/LoarderWrapper";
 
 function HomePage() {
   return (
@@ -42,6 +42,9 @@ function App() {
       <a href="#main-content" className="sr-only">
         Aller au contenu principal
       </a>
+
+      {/* Loader actif sur toutes les pages */}
+      <LoaderWrapper />
 
       <Header />
       <ScrollToTop />
