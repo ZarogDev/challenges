@@ -1,0 +1,170 @@
+/* ================================
+   OVERLAY PLEIN ÉCRAN
+   ================================ */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: #050508;
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(255, 58, 58, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 50%, rgba(0, 210, 255, 0.06) 0%, transparent 60%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay::before,
+.overlay::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: ambientPulse 4s ease-in-out infinite;
+}
+
+.overlay::before {
+  width: 350px;
+  height: 350px;
+  top: -100px;
+  left: -100px;
+  background: radial-gradient(circle, rgba(255, 58, 58, 0.07) 0%, transparent 70%);
+  animation-delay: 0s;
+}
+
+.overlay::after {
+  width: 350px;
+  height: 350px;
+  bottom: -100px;
+  right: -100px;
+  background: radial-gradient(circle, rgba(0, 210, 255, 0.07) 0%, transparent 70%);
+  animation-delay: 2s;
+}
+
+@keyframes ambientPulse {
+  0%, 100% { transform: scale(1);   opacity: 0.5; }
+  50%       { transform: scale(1.5); opacity: 1;   }
+}
+
+/* ================================
+   WRAPPER CENTRÉ
+   ================================ */
+.loaderWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* ================================
+   CONTAINER MANETTE
+   ================================ */
+.controllerContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ================================
+   IMAGE MANETTE
+   ================================ */
+.controllerImage {
+  width: 240px;
+  height: auto;
+  object-fit: contain;
+  animation: floatController 3s ease-in-out infinite;
+  filter:
+    drop-shadow(0 0 14px rgba(255, 58, 58, 0.5))
+    drop-shadow(0 0 28px rgba(0, 210, 255, 0.3));
+}
+
+@keyframes floatController {
+  0%, 100% {
+    transform: translateY(0px);
+    filter:
+      drop-shadow(0 0 14px rgba(255, 58, 58, 0.5))
+      drop-shadow(0 0 28px rgba(0, 210, 255, 0.3));
+  }
+  50% {
+    transform: translateY(-10px);
+    filter:
+      drop-shadow(0 0 24px rgba(255, 58, 58, 0.75))
+      drop-shadow(0 0 45px rgba(0, 210, 255, 0.5));
+  }
+}
+
+/* ================================
+   TEXTE "CHARGEMENT"
+   ================================ */
+.loadingText {
+  display: flex;
+  gap: 0.15rem;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.loadingText span {
+  display: inline-block;
+  background: linear-gradient(135deg, #FF3A3A, #00D2FF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: letterPop 1.6s ease-in-out infinite;
+}
+
+@keyframes letterPop {
+  0%, 100% { transform: translateY(0);    opacity: 0.35; }
+  30%       { transform: translateY(-6px); opacity: 1;    }
+  60%       { transform: translateY(0);    opacity: 0.6;  }
+}
+
+/* ================================
+   BARRE DE PROGRESSION
+   ================================ */
+.progressBar {
+  width: 260px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  width: 40%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #FF3A3A, #00D2FF);
+  box-shadow:
+    0 0 8px rgba(255, 58, 58, 0.7),
+    0 0 16px rgba(0, 210, 255, 0.5);
+  animation: progressSlide 2.5s ease-in-out infinite;
+}
+
+@keyframes progressSlide {
+  0%   { transform: translateX(-100%); opacity: 0; }
+  20%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { transform: translateX(650%);  opacity: 0; }
+}
+
+/* ================================
+   RESPONSIVE MOBILE
+   ================================ */
+@media (max-width: 768px) {
+  .controllerImage {
+    width: 180px;
+  }
+
+  .loadingText {
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+  }
+
+  .progressBar {
+    width: 180px;
+  }
+}

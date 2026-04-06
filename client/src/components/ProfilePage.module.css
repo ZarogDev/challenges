@@ -1,0 +1,380 @@
+.profile {
+  width: 100%;
+  padding-top: 1.5rem; 
+  padding-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  min-height: calc(100vh - 300px);
+}
+
+/* En-tête */
+.header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  background: var(--panel-bg, rgba(10, 16, 35, 0.95));
+  border-radius: 12px;
+  border: 1px solid rgba(0, 210, 255, 0.2);
+  box-shadow:
+    0 0 30px rgba(0, 210, 255, 0.06),
+    0 0 30px rgba(255, 58, 58, 0.04);
+    margin-top: 50px;
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--neon-blue, #00d2ff) 40%,
+    var(--neon-red, #ff3a3a) 60%,
+    transparent
+  );
+  box-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
+  border-radius: 2px;
+}
+
+.avatarInitial {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  font-weight: 700;
+  font-family: 'Rajdhani', sans-serif;
+  flex-shrink: 0;
+  background: rgba(0, 210, 255, 0.12);
+  border: 2px solid var(--neon-blue, #00d2ff);
+  color: var(--neon-blue, #00d2ff);
+  box-shadow:
+    0 0 12px rgba(0, 210, 255, 0.4),
+    0 0 24px rgba(0, 210, 255, 0.2);
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.username {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 0.3rem;
+}
+
+.email {
+  font-size: 0.85rem;
+  color: var(--text-muted, #8a9baa);
+  margin: 0;
+}
+
+/* Stats */
+.stats {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.statCard {
+  position: relative;
+  flex: 1;
+  min-width: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.5rem 1rem;
+  background: var(--panel-bg, rgba(10, 16, 35, 0.95));
+  border: 1px solid rgba(0, 210, 255, 0.15);
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 210, 255, 0.05);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.statCard:hover {
+  border-color: rgba(0, 210, 255, 0.35);
+  box-shadow: 0 0 20px rgba(0, 210, 255, 0.12);
+}
+
+.statCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--neon-blue, #00d2ff),
+    transparent
+  );
+}
+
+.statLabel {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted, #8a9baa);
+}
+
+.statValue {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--neon-blue, #00d2ff);
+  text-shadow: 0 0 10px rgba(0, 210, 255, 0.4);
+}
+
+/* Boutons */
+.actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.primaryButton {
+  flex: 1;
+  min-width: 160px;
+  padding: 0.8rem 1.5rem;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 58, 58, 0.15) 0%,
+    rgba(0, 210, 255, 0.15) 100%
+  );
+  border: 1.5px solid;
+  border-image: linear-gradient(
+    135deg,
+    var(--neon-red, #ff3a3a),
+    var(--neon-blue, #00d2ff)
+  ) 1;
+  color: #ffffff;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 0 20px rgba(0, 210, 255, 0.08),
+    0 0 20px rgba(255, 58, 58, 0.08);
+}
+
+.primaryButton:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 58, 58, 0.28) 0%,
+    rgba(0, 210, 255, 0.28) 100%
+  );
+  box-shadow:
+    0 0 30px rgba(0, 210, 255, 0.2),
+    0 0 30px rgba(255, 58, 58, 0.15);
+  transform: translateY(-2px);
+}
+
+/* ── Bloc completions ── */
+.completionsBlock {
+  padding: 24px;
+  border-radius: 12px;
+}
+
+/* Header titre + flèches */
+.completionsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.completionsTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+}
+
+/* Flèches desktop */
+.desktopArrows {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.arrowBtn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 210, 255, 0.08);
+  border: 1px solid rgba(0, 210, 255, 0.3);
+  border-radius: 8px;
+  color: var(--neon-blue, #00d2ff);
+  font-size: 1.6rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1;
+  padding-bottom: 2px;
+}
+
+.arrowBtn:hover {
+  background: rgba(0, 210, 255, 0.18);
+  border-color: var(--neon-blue, #00d2ff);
+  box-shadow: 0 0 10px rgba(0, 210, 255, 0.25);
+  transform: scale(1.05);
+}
+
+/* Grid scrollable horizontalement */
+.completionsGrid {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 16px;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    black 88%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    black 88%,
+    transparent 100%
+  );
+}
+
+.completionsGrid::-webkit-scrollbar {
+  height: 3px;
+}
+
+.completionsGrid::-webkit-scrollbar-thumb {
+  background: rgba(0, 210, 255, 0.3);
+  border-radius: 4px;
+}
+
+.completionsGrid > * {
+  flex: 0 0 380px;
+  scroll-snap-align: start;
+  min-width: 0;
+}
+
+/* Points de pagination — cachés sur desktop */
+.dots {
+  display: none;
+}
+
+.btnPrimary {
+  padding: 0.6rem 1.8rem;
+  border: 1px solid #4fc3f7;
+  background: transparent;
+  color: #c9d6e3;
+  font-size: 0.9rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btnPrimary:hover {
+  background: rgba(79, 195, 247, 0.15);
+  color: #ffffff;
+}
+
+/* ================================
+   RESPONSIVE MOBILE
+   ================================ */
+@media (max-width: 768px) {
+
+  .profile {
+    padding-top: 1rem;
+  }
+
+  .header {
+    margin-top: 50px;
+  }
+
+  .avatarInitial {
+    width: 70px;
+    height: 70px;
+    font-size: 1.8rem;
+    flex-shrink: 0;
+  }
+
+  .username {
+    font-size: 1.2rem;
+  }
+
+  .email {
+    font-size: 0.78rem;
+  }
+
+  .completionsBlock {
+    padding: 16px 12px;
+  }
+
+  /* Cache les flèches sur mobile */
+  .desktopArrows {
+    display: none;
+  }
+
+  .completionsHeader {
+    justify-content: center;
+  }
+
+  .completionsTitle {
+    text-align: center;
+    font-size: 1rem;
+  } 
+}
+/* Points de pagination */
+  .dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 0 4px;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.25s ease;
+    flex-shrink: 0;
+  }
+
+  .dotActive {
+    width: 20px;
+    border-radius: 3px;
+    background: var(--neon-blue, #00d2ff);
+    box-shadow: 0 0 6px rgba(0, 210, 255, 0.6);
+  }
+

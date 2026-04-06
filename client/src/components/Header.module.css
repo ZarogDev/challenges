@@ -1,0 +1,430 @@
+.headerContainer {
+  position: sticky;
+  width: 100%;
+  margin-top: 0;
+  top: 0;
+  z-index: 20;
+}
+
+.headerContent {
+  display: grid;
+  grid-template-columns: 280px 1fr 200px;
+  align-items: center;
+  background-color: var(--panel-bg);
+  padding: 1rem 2rem 0 2rem;
+  position: relative;
+  z-index: 21;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 280px;
+}
+
+.logoImage {
+  height: 100px;
+  width: auto;
+  filter: drop-shadow(0 0 10px rgba(255, 58, 58, 0.5));
+  margin-left: 115px;
+  margin-top: 10px;
+}
+
+.nav {
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+}
+
+.navLink {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 5px;
+  transition: color 0.3s ease;
+}
+
+.navLink:hover,
+.navLinkActive {
+  color: var(--text-light);
+}
+
+.navLinkActive::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--neon-blue);
+  box-shadow: 0 0 8px var(--neon-blue);
+}
+
+.authDesktop {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btnConnexion {
+  background: linear-gradient(135deg, rgba(255, 58, 58, 0.15) 0%, rgba(0, 210, 255, 0.15) 100%);
+  color: var(--text-light);
+  padding: 0.7rem 2rem;
+  border-radius: 12px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  border: 1.5px solid;
+  border-image: linear-gradient(135deg, var(--neon-red), var(--neon-blue)) 1;
+  z-index: 1;
+  box-shadow:
+    0 0 20px rgba(0, 210, 255, 0.15),
+    0 0 20px rgba(255, 58, 58, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.btnConnexion:hover {
+  background: linear-gradient(135deg, rgba(255, 58, 58, 0.25) 0%, rgba(0, 210, 255, 0.25) 100%);
+  box-shadow:
+    0 0 30px rgba(0, 210, 255, 0.3),
+    0 0 30px rgba(255, 58, 58, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+/* ================================
+   BURGER
+   ================================ */
+.burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 22;
+}
+
+.burger span {
+  display: block;
+  height: 2px;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.burger span:nth-child(1) {
+  width: 26px;
+  background: #FF3A3A;
+  box-shadow: 0 0 6px rgba(255, 58, 58, 0.7);
+}
+
+.burger span:nth-child(2) {
+  width: 20px;
+  background: linear-gradient(to right, #FF3A3A, #00D2FF);
+}
+
+.burger span:nth-child(3) {
+  width: 26px;
+  background: #00D2FF;
+  box-shadow: 0 0 6px rgba(0, 210, 255, 0.7);
+}
+
+.burgerOpen span:nth-child(1) {
+  width: 26px;
+  transform: translateY(7px) rotate(45deg);
+  background: #FF3A3A;
+  box-shadow: 0 0 8px rgba(255, 58, 58, 0.9);
+}
+
+.burgerOpen span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.burgerOpen span:nth-child(3) {
+  width: 26px;
+  transform: translateY(-7px) rotate(-45deg);
+  background: #FF3A3A;
+  box-shadow: 0 0 8px rgba(255, 58, 58, 0.9);
+}
+
+/* ================================
+   SVG DESKTOP
+   ================================ */
+.bottomBorderSvg {
+  display: block;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 35px;
+  pointer-events: none;
+  z-index: 22;
+}
+
+/* ================================
+   MENU MOBILE PLEIN ÉCRAN
+   ================================ */
+.mobileMenu {
+  display: none;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 18;
+  overflow: hidden;
+  background-color: var(--bg-page);
+  background-image: url('/background.png');
+  background-size: cover;
+  background-position: center;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Overlay sombre par dessus le circuit */
+.mobileMenu::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.mobileMenuOpen {
+  transform: translateX(0);
+}
+
+.mobileMenu > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* ================================
+   SVG DANS LE MENU MOBILE
+   ================================ */
+.menuSvg {
+  position: absolute;
+  top: 55px;
+  left: 0;
+  width: 100%;
+  height: 35px;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0;
+  clip-path: inset(0 100% 0 0);
+  transition:
+    opacity 0.3s ease 0.2s,
+    clip-path 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
+}
+
+/* SVG animé quand le menu est ouvert */
+.mobileMenuOpen .menuSvg {
+  opacity: 1;
+  clip-path: inset(0 0% 0 0);
+}
+
+/* ================================
+   LIENS DU MENU
+   ================================ */
+.mobileLink {
+  padding: 1.2rem 2rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  border-left: 3px solid transparent;
+  transition: all 0.2s ease;
+}
+
+/* Décalé pour laisser place au SVG */
+.mobileLink:first-of-type {
+  margin-top: 105px;
+}
+
+.mobileLink:hover,
+.mobileLinkActive {
+  color: #ffffff;
+  border-left-color: var(--neon-blue, #00d2ff);
+  background: rgba(0, 210, 255, 0.07);
+}
+
+/* ================================
+   BOUTON EN BAS
+   ================================ */
+.mobileBottom {
+  position: relative;
+  z-index: 2;
+  margin-top: auto;
+  padding-bottom: 2.5rem;
+}
+
+.mobileDivider {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    rgba(255, 58, 58, 0.4),
+    rgba(0, 210, 255, 0.4)
+  );
+  margin: 0 2rem 1rem 2rem;
+}
+
+.mobileBtnConnexion {
+  display: block;
+  margin: 0 2rem;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 58, 58, 0.15) 0%,
+    rgba(0, 210, 255, 0.15) 100%
+  );
+  border: 1.5px solid;
+  border-image: linear-gradient(
+    135deg,
+    var(--neon-red, #ff3a3a),
+    var(--neon-blue, #00d2ff)
+  ) 1;
+  color: #ffffff;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  width: calc(100% - 4rem);
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.mobileBtnConnexion:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 58, 58, 0.28) 0%,
+    rgba(0, 210, 255, 0.28) 100%
+  );
+}
+
+/* ================================
+   RESPONSIVE TABLET (768px–1024px)
+   ================================ */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .headerContent {
+    grid-template-columns: 220px 1fr auto;
+    padding: 0.75rem 1.5rem 0 1.5rem;
+    align-items: center;
+    column-gap: 1.5rem;
+  }
+
+  .logoContainer {
+    width: 220px;
+    justify-content: flex-start;
+  }
+
+  .logoImage {
+    height: 70px;
+    width: auto;
+    margin-left: 24px;
+    margin-top: 4px;
+    margin-bottom: -6px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 8px rgba(255, 58, 58, 0.45));
+  }
+
+  .nav {
+    gap: 1.8rem;
+    justify-content: center;
+  }
+
+  .navLink {
+    font-size: 1.05rem;
+    padding-bottom: 4px;
+  }
+
+  .authDesktop {
+    justify-content: flex-end;
+  }
+
+  .btnConnexion {
+    padding: 0.55rem 1.7rem;
+    font-size: 1rem;
+    border-radius: 10px;
+  }
+
+  /* Sur tablette on garde le header “desktop”, pas de burger */
+  .burger {
+    display: none;
+  }
+
+  .mobileMenu {
+    display: none;
+  }
+
+  .bottomBorderSvg {
+    height: 30px;
+  }
+}
+
+/* ================================
+   RESPONSIVE MOBILE
+   ================================ */
+@media (max-width: 768px) {
+
+   .headerContent {
+    grid-template-columns: 1fr auto;
+    padding: 0.5rem 1rem;
+    align-items: center;
+    min-height: 56px; /* ← hauteur minimale du header */
+    overflow: visible; /* ← permet au logo de ne pas être coupé */
+  }
+
+   .logoContainer {
+    width: auto;
+    overflow: visible;
+    display: flex;
+    align-items: center;
+  }
+
+   .logoImage {
+
+       height: 35px;
+        width: auto;
+        margin-left: -4px;
+        margin-top: 0px;
+        margin-bottom: -12px;
+        object-fit: contain;
+    }
+  
+   .nav,
+  .authDesktop {
+    display: none;
+  }
+
+  .burger {
+    display: flex;
+  }
+
+  .mobileMenu {
+    display: flex;
+  }
+
+  .menuOverlay {
+    display: none !important;
+  }
+}

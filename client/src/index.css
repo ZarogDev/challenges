@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@700;800&family=Orbitron:wght@500;700&family=Rajdhani:wght@500;600;700&display=swap');
+html, body 
+:root {
+  --bg-page: #0D1117;
+  --panel-bg: #161C24;
+  --neon-red: #FF3A3A;
+  --neon-blue: #00D2FF;
+  --text-light: #FFFFFF;
+  --text-muted: #9AA0A6;
+  --gold: #FFD700;
+  --silver: #C0C0C0;
+  --bronze: #CD7732;
+  height: 100%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Rajdhani', sans-serif;
+  background-color: var(--bg-page);
+  background-image: url('/background.webp');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: var(--text-light);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.neon-border-dual {
+  position: relative;
+  border-radius: 12px;
+  background-color: var(--panel-bg);
+  box-shadow: -4px 0 15px rgba(255, 58, 58, 0.25), 4px 0 15px rgba(0, 210, 255, 0.25);
+  z-index: 1;
+  width: 100%;           /* ← FIX principal */
+  box-sizing: border-box;
+}
+
+.neon-border-dual::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  padding: 2px;
+  background: linear-gradient(to right, var(--neon-red), var(--neon-blue));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 2;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}

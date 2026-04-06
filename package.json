@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "docker:dev:up": "docker compose --env-file .env.docker.dev -f docker-compose.dev.yml up --build",
+    "docker:dev:down": "docker compose --env-file .env.docker.dev -f docker-compose.dev.yml down -v",
+    "docker:dev:stop": "docker compose --env-file .env.docker.dev -f docker-compose.dev.yml stop",
+    "docker:dev:start": "docker compose --env-file .env.docker.dev -f docker-compose.dev.yml start"
+  },
+  "devDependencies": {
+    "@types/next": "^8.0.7"
+  }
+}

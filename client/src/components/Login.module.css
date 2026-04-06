@@ -1,0 +1,539 @@
+.pageWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 200px);
+  padding: 3rem 1rem;
+}
+
+/* Carte centrale */
+.card {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  background: var(--panel-bg, rgba(10, 16, 35, 0.95));
+  border: 1px solid rgba(0, 210, 255, 0.2);
+  border-radius: 12px;
+  padding: 2.5rem;
+  box-shadow:
+    0 0 40px rgba(0, 210, 255, 0.08),
+    0 0 40px rgba(255, 58, 58, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* Ligne décorative néon en haut de la carte */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--neon-blue, #00d2ff) 40%,
+    var(--neon-red, #ff3a3a) 60%,
+    transparent
+  );
+  border-radius: 2px;
+  box-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
+}
+
+/* En-tête */
+.cardHeader {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 0.4rem;
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted, #8a9baa);
+  margin: 0;
+}
+
+/* Formulaire */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  flex: 1;
+}
+
+/* Grille pour 2 mots de passe côte à côte */
+.gridRow {
+  display: flex;
+  gap: 1rem;
+}
+
+@media (max-width: 480px) {
+  .gridRow {
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+}
+
+.label {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted, #8a9baa);
+}
+
+.input {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(0, 210, 255, 0.2);
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 0.92rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.input::placeholder {
+  color: rgb(255, 255, 255);
+}
+
+.input:focus {
+  border-color: var(--neon-blue, #00d2ff);
+  box-shadow: 0 0 12px rgba(0, 210, 255, 0.2);
+  background: rgba(0, 210, 255, 0.04);
+}
+
+.invalid {
+  border-color: var(--neon-red, #ff3a3a) !important;
+}
+
+/* ── Champ date stylisé ── */
+.input[type="date"] {
+  color-scheme: dark;
+  cursor: pointer;
+}
+
+.input[type="date"]:not(:valid) {
+  color: white;
+}
+
+.input[type="date"]:valid {
+  color: #ffffff;
+}
+
+/* Icône calendrier en cyan */
+.input::-webkit-calendar-picker-indicator {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2300d2ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Cline x1='16' y1='2' x2='16' y2='6'%3E%3C/line%3E%3Cline x1='8' y1='2' x2='8' y2='6'%3E%3C/line%3E%3Cline x1='3' y1='10' x2='21' y2='10'%3E%3C/line%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: 16px;
+  background-position: center;
+  width: 20px;
+  height: 20px;
+  opacity: 1;
+  filter: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.input::-webkit-calendar-picker-indicator:hover {
+  opacity: 0.7;
+}
+
+/* Message d'erreur */
+.errorBox {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1rem;
+  background: rgba(255, 58, 58, 0.1);
+  border: 1px solid rgba(255, 58, 58, 0.35);
+  border-radius: 6px;
+  color: #ff8a80;
+  font-size: 0.85rem;
+}
+
+.errorItem {
+  width: 100%;
+}
+
+/* Bouton principal */
+.btnSubmit {
+  width: 100%;
+  padding: 0.8rem;
+  margin-top: 0.5rem;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 58, 58, 0.15) 0%,
+    rgba(0, 210, 255, 0.15) 100%
+  );
+  border: 1.5px solid;
+  border-image: linear-gradient(
+    135deg,
+    var(--neon-red, #ff3a3a),
+    var(--neon-blue, #00d2ff)
+  ) 1;
+  color: #ffffff;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 0 20px rgba(0, 210, 255, 0.1),
+    0 0 20px rgba(255, 58, 58, 0.1);
+}
+
+.btnSubmit:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 58, 58, 0.28) 0%,
+    rgba(0, 210, 255, 0.28) 100%
+  );
+  box-shadow:
+    0 0 30px rgba(0, 210, 255, 0.25),
+    0 0 30px rgba(255, 58, 58, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Section redirection */
+.registerSection {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.registerText {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-muted, #8a9baa);
+}
+
+/* Bouton secondaire CTA */
+.btnSecondary {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0.75rem;
+  background: transparent;
+  border: 1px solid var(--neon-blue, #00d2ff);
+  color: var(--neon-blue, #00d2ff);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btnSecondary:hover {
+  background: rgba(0, 210, 255, 0.1);
+  color: #ffffff;
+  box-shadow: 0 0 15px rgba(0, 210, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Lien texte */
+.registerLink {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--text-muted, #8a9baa);
+}
+
+.link {
+  color: var(--neon-blue, #00d2ff);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.link:hover {
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(0, 210, 255, 0.6);
+}
+
+/* Wrapper pour l'input + l'icône de validation */
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputWrapper .input {
+  width: 100%;
+  padding-right: 2.2rem; /* espace pour l'indicateur */
+}
+
+/* Indicateur ✓ / ✗ */
+.fieldIndicator {
+  position: absolute;
+  right: 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  pointer-events: none;
+  user-select: none;
+}
+
+.indicatorValid  { color: #27ae60; }
+.indicatorInvalid { color: #e74c3c; }
+
+/* Bordure verte sur input valide */
+.inputValid {
+  border-color: #27ae60 !important;
+}
+
+/* Message d'erreur inline sous le champ */
+.fieldError {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.78rem;
+  color: #e74c3c;
+}
+
+/* Barre de force du mot de passe */
+.strengthBar {
+  margin-top: 0.4rem;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.strengthFill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.strengthLabel {
+  display: block;
+  font-size: 0.72rem;
+  margin-top: 0.2rem;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+/* ── Validation en temps réel ─────────────────────────────────────────────── */
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputWrapper .input {
+  width: 100%;
+  padding-right: 2.2rem;
+}
+
+.fieldIndicator {
+  position: absolute;
+  right: 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  pointer-events: none;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+.indicatorValid {
+  color: #27ae60;
+}
+
+.indicatorInvalid {
+  color: #e74c3c;
+}
+
+.inputValid {
+  border-color: #27ae60 !important;
+}
+
+.fieldError {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.78rem;
+  color: #e74c3c;
+}
+
+/* ── Barre de force du mot de passe ───────────────────────────────────────── */
+
+.strengthBar {
+  margin-top: 0.4rem;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: visible;
+}
+
+.strengthFill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.strengthLabel {
+  display: block;
+  font-size: 0.72rem;
+  margin-top: 0.25rem;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+/* ── Checkbox CGU ─────────────────────────────────────────────────────────── */
+
+.checkboxRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  position: relative;
+}
+
+.checkboxText {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text-muted, #8a9baa);
+}
+
+.checkbox {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  margin-top: 0.15rem;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 210, 255, 0.35);
+  background: rgba(255, 255, 255, 0.02);
+  box-shadow:
+    0 0 6px rgba(0, 210, 255, 0.2),
+    inset 0 0 4px rgba(0, 0, 0, 0.55);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease,
+    transform 0.1s ease,
+    opacity 0.2s ease;
+  flex-shrink: 0;
+}
+
+.checkbox:hover {
+  border-color: var(--neon-blue, #00d2ff);
+  box-shadow:
+    0 0 10px rgba(0, 210, 255, 0.35),
+    inset 0 0 4px rgba(0, 0, 0, 0.7);
+}
+
+.checkbox:checked {
+  background: radial-gradient(
+    circle at 30% 20%,
+    #ffffff 0,
+    #00d2ff 40%,
+    #0088aa 100%
+  );
+  border-color: var(--neon-blue, #00d2ff);
+  box-shadow:
+    0 0 12px rgba(0, 210, 255, 0.55),
+    0 0 20px rgba(0, 210, 255, 0.25);
+}
+
+.checkbox::after {
+  content: "";
+  width: 8px;
+  height: 5px;
+  border-left: 2px solid rgba(10, 16, 35, 0.95);
+  border-bottom: 2px solid rgba(10, 16, 35, 0.95);
+  transform: scale(0) rotate(-45deg);
+  transform-origin: center;
+  transition: transform 0.15s ease-out;
+}
+
+.checkbox:checked::after {
+  transform: scale(1) rotate(-45deg);
+}
+
+.checkbox:focus-visible {
+  outline: 2px solid var(--neon-blue, #00d2ff);
+  outline-offset: 2px;
+}
+
+.inlineLegalLink {
+  color: var(--neon-blue, #00d2ff);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.inlineLegalLink:hover {
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(0, 210, 255, 0.6);
+}
+
+.inlineLegalLink:focus-visible {
+  outline: 1px solid var(--neon-blue, #00d2ff);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* État désactivé du bouton */
+.btnSubmit:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+  transform: none;
+  box-shadow: none;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 58, 58, 0.06) 0%,
+    rgba(0, 210, 255, 0.06) 100%
+  );
+  border-image: none;
+  border-color: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* État actif du bouton */
+.btnSubmit:not(:disabled) {
+  opacity: 1;
+}
+
+.btnSubmit:not(:disabled):hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 58, 58, 0.28) 0%,
+    rgba(0, 210, 255, 0.28) 100%
+  );
+  box-shadow:
+    0 0 30px rgba(0, 210, 255, 0.25),
+    0 0 30px rgba(255, 58, 58, 0.2);
+  transform: translateY(-2px);
+}

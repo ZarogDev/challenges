@@ -1,0 +1,114 @@
+.cardWrapper {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  text-decoration: none;
+}
+
+.cardWrapper:hover {
+  transform: translateY(-3px);
+}
+
+.cardImage {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.cardTitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1;
+  color: #ffffff;
+}
+
+.cardGameTitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.creatorRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.avatarInitial {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  flex-shrink: 0;
+}
+
+.creator {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.btnInscrire {
+  background: transparent;
+  color: var(--neon-blue);
+  border: 1px solid var(--neon-blue);
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  white-space: nowrap;
+}
+
+.btnInscrire:hover {
+  background: rgba(0, 210, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+  .cardWrapper {
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .cardImage {
+    height: 120px;
+  }
+
+  .cardTitle {
+    font-size: 0.95rem;
+  }
+
+  .cardGameTitle {
+    font-size: 0.72rem;
+  }
+
+  .cardFooter {
+    margin-top: 10px;
+  }
+
+  .creator {
+    font-size: 0.7rem;
+  }
+
+  .btnInscrire {
+    padding: 4px 10px;
+    font-size: 0.75rem;
+  }
+}
